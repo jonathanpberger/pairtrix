@@ -1,0 +1,11 @@
+%h3 Employees
+
+= link_to 'New Employee', new_employee_path
+
+%table.table.table-striped.table-condensed.table-bordered
+  %tr
+    %th
+      Name
+    %th
+      Action
+= render(partial: 'employee_row', collection: @employees, as: 'employee')

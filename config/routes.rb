@@ -8,6 +8,7 @@ Pairtrix::Application.routes.draw do
 
   resources :sessions
   resources :users
+  resources :employees
 
   root :to => 'pages#home'
 

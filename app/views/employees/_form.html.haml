@@ -1,0 +1,5 @@
+= simple_form_for @employee do |f|
+  = error_messages_for(@employee)
+  = f.input :first_name
+  = f.input :last_name
+  = f.button :wrapped, cancel: employees_url
