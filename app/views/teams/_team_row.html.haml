@@ -1,0 +1,6 @@
+%tr
+  %td
+    = link_to team.name, team
+  %td
+    = link_to 'Edit', edit_team_path(team)
+    = link_to 'Destroy', team, data: { confirm: 'Are you sure?' }, :method => :delete

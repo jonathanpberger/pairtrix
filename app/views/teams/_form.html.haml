@@ -1,0 +1,4 @@
+= simple_form_for @team do |f|
+  = error_messages_for(@team)
+  = f.input :name
+  = f.button :wrapped, cancel: teams_url

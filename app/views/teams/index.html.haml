@@ -1,0 +1,11 @@
+%h3 Teams
+
+= link_to 'New Team', new_team_path
+
+%table.table.table-striped.table-condensed.table-bordered
+  %tr
+    %th
+      Name
+    %th
+      Action
+= render(partial: 'team_row', collection: @teams, as: 'team')

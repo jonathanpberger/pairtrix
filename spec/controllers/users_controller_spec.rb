@@ -6,7 +6,7 @@ describe UsersController do
     it "returns http success" do
       user = FactoryGirl.create(:user)
       controller.stub(:authenticate_user!).and_return(true)
-      controller.should_receive(:current_user).and_return(user)
+      controller.stub(:current_user).and_return(user)
       get 'dashboard'
       response.should be_success
     end
