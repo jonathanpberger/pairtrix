@@ -1,5 +1,0 @@
-load 'config/deploy/settings.rb'
-load 'config/deploy/symlinks.rb'
-load 'config/deploy/passenger.rb'
-load 'config/deploy/git.rb'
-load 'config/deploy/bundler.rb'
