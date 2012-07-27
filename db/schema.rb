@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 3) do
+ActiveRecord::Schema.define(:version => 20120726194308) do
 
   create_table "employees", :force => true do |t|
     t.string   "first_name"
@@ -21,6 +21,18 @@ ActiveRecord::Schema.define(:version => 3) do
   end
 
   add_index "employees", ["last_name", "first_name"], :name => "index_employees_on_last_name_and_first_name", :unique => true
+
+  create_table "team_memberships", :force => true do |t|
+    t.integer  "team_id"
+    t.integer  "employee_id"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "team_memberships", ["employee_id"], :name => "index_team_memberships_on_employee_id"
+  add_index "team_memberships", ["team_id"], :name => "index_team_memberships_on_team_id"
 
   create_table "teams", :force => true do |t|
     t.string   "name"

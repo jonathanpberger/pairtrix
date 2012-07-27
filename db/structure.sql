@@ -70,6 +70,40 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: team_memberships; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE team_memberships (
+    id integer NOT NULL,
+    team_id integer,
+    employee_id integer,
+    start_date date,
+    end_date date,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: team_memberships_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE team_memberships_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: team_memberships_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE team_memberships_id_seq OWNED BY team_memberships.id;
+
+
+--
 -- Name: teams; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -146,6 +180,13 @@ ALTER TABLE ONLY employees ALTER COLUMN id SET DEFAULT nextval('employees_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY team_memberships ALTER COLUMN id SET DEFAULT nextval('team_memberships_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY teams ALTER COLUMN id SET DEFAULT nextval('teams_id_seq'::regclass);
 
 
@@ -162,6 +203,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 ALTER TABLE ONLY employees
     ADD CONSTRAINT employees_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: team_memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY team_memberships
+    ADD CONSTRAINT team_memberships_pkey PRIMARY KEY (id);
 
 
 --
@@ -185,6 +234,20 @@ ALTER TABLE ONLY users
 --
 
 CREATE UNIQUE INDEX index_employees_on_last_name_and_first_name ON employees USING btree (last_name, first_name);
+
+
+--
+-- Name: index_team_memberships_on_employee_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_team_memberships_on_employee_id ON team_memberships USING btree (employee_id);
+
+
+--
+-- Name: index_team_memberships_on_team_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_team_memberships_on_team_id ON team_memberships USING btree (team_id);
 
 
 --
@@ -222,5 +285,7 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 INSERT INTO schema_migrations (version) VALUES ('1');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
+
+INSERT INTO schema_migrations (version) VALUES ('20120726194308');
 
 INSERT INTO schema_migrations (version) VALUES ('3');

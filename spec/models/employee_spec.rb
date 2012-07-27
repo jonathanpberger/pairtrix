@@ -48,6 +48,55 @@ describe Employee do
     end
   end
 
+  describe ".available" do
+    subject { Employee.available }
+    let!(:team_membership) { FactoryGirl.create(:team_membership)  }
+    let!(:other_team_membership) { FactoryGirl.create(:team_membership)  }
+    let!(:team) { team_membership.team }
+    let(:employee) { team_membership.employee }
+    let(:other_employee) { other_team_membership.employee }
+
+    context "with no available employees" do
+      it { should == [] }
+    end
+
+    context "with available employees" do
+      context "when the employee has no memberships" do
+        let(:available_employee) { FactoryGirl.create(:employee) }
+
+        it { should include(available_employee) }
+        it { should_not include(employee) }
+        it { should_not include(other_employee) }
+      end
+
+      context "when employee has expired memberships" do
+        let!(:completed_membership) do
+          FactoryGirl.create(:team_membership,
+                             team: team,
+                             start_date: Date.parse("12/31/1999"),
+                             end_date: Date.parse("1/1/2012"))
+        end
+        let(:available_employee) { completed_membership.employee }
+
+        context "for the current team" do
+          it { should include(available_employee) }
+          it { should_not include(employee) }
+          it { should_not include(other_employee) }
+        end
+
+        context "for a different team" do
+          let(:team) { FactoryGirl.create(:team) }
+
+          it { should include(available_employee) }
+          it { should_not include(employee) }
+          it { should_not include(other_employee) }
+        end
+      end
+
+
+    end
+  end
+
   describe "#name" do
     let(:employee) { FactoryGirl.build(:employee) }
     let(:full_name) { [employee.last_name, employee.first_name].join(", ") }
