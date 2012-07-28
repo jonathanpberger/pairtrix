@@ -41,3 +41,11 @@ body, html {
   border-top: none;
 }
 
+.faded {
+  opacity:0.25;
+}
+
+.table tbody tr:hover td {
+  background-color: #C0FBE8;
+}
+

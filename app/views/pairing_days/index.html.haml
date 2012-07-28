@@ -1,0 +1,12 @@
+%h3 Pairing Days
+
+= link_to 'New pairing day', new_team_pairing_day_path
+
+%table.table.table-striped.table-condensed.table-bordered
+  %tr
+    %th
+      Pairing Date
+    %th
+      Action
+  = render(partial: "pairing_day_row", collection: @pairing_days, as: 'pairing_day')
+

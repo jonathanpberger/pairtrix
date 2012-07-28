@@ -1,0 +1,14 @@
+%h3
+  = @pairing_day.pairing_date
+%br
+
+.tabbable.tabs-left
+  %ul.nav.nav-tabs
+    %li.active
+      = link_to("Pairs", "#pairs", data: { toggle: 'tab' })
+  .tab-content
+    #pairs.tab-pane.active
+      = render(partial: 'pairs', locals: { pairing_day: @pairing_day })
+
+%br
+= link_to("Back", team_url(@pairing_day.team))

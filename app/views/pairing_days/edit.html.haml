@@ -1,0 +1,4 @@
+%h3 Edit #{@pairing_day.pairing_date}
+
+= simple_form_for @pairing_day do |f|
+  = render(partial: "form", locals: { form: f, pairing_day: @pairing_day })

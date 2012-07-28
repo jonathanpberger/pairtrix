@@ -11,6 +11,9 @@ Pairtrix::Application.routes.draw do
   resources :employees
   resources :teams, shallow: true do
     resources :team_memberships
+    resources :pairing_days do
+      resources :pairs
+    end
   end
 
   root :to => 'pages#home'

@@ -1,0 +1,4 @@
+= error_messages_for(pairing_day)
+= form.input :pairing_date, as: :string, input_html: { class: "datepicker", value: pairing_day.pairing_date }
+
+= form.button :wrapped, cancel: team_url(pairing_day.team)

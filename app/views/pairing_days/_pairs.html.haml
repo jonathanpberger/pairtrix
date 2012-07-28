@@ -1,0 +1,11 @@
+%p
+  = link_to 'New pair', new_pairing_day_pair_path(pairing_day.team, pairing_day)
+
+%table.table.table-striped.table-condensed.table-bordered
+  %tr
+    %th
+      Name
+    %th
+      Action
+  = render(partial: "pairs/pair_row", collection: pairing_day.pairs, as: 'pair')
+

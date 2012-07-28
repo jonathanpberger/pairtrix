@@ -1,18 +1,16 @@
 %h3
   = @team.name
 %br
-= link_to 'New Team Membership', new_team_team_membership_path(@team)
 
-%table.table.table-striped.table-condensed.table-bordered
-  %tr
-    %th
-      Employee Name
-    %th
-      Start date
-    %th
-      End date
-    %th
-      Action
-  = render(partial: 'team_memberships/team_membership_row', collection: @team.team_memberships, as: 'team_membership')
-
+.tabbable.tabs-left
+  %ul.nav.nav-tabs
+    %li.active
+      = link_to("Pairing days", "#pairing-days", data: { toggle: 'tab' })
+    %li
+      = link_to("Team memberships", "#team-memberships", data: { toggle: 'tab' })
+  .tab-content
+    #pairing-days.tab-pane.active
+      = render(partial: 'pairing_days', locals: { team: @team })
+    #team-memberships.tab-pane
+      = render(partial: 'team_memberships', locals: { team: @team })
 = link_to("Back", teams_url)
