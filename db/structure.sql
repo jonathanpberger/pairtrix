@@ -61,6 +61,101 @@ ALTER SEQUENCE employees_id_seq OWNED BY employees.id;
 
 
 --
+-- Name: pair_memberships; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE pair_memberships (
+    id integer NOT NULL,
+    pair_id integer,
+    team_membership_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: pair_memberships_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE pair_memberships_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: pair_memberships_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE pair_memberships_id_seq OWNED BY pair_memberships.id;
+
+
+--
+-- Name: pairing_days; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE pairing_days (
+    id integer NOT NULL,
+    team_id integer,
+    pairing_date date,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: pairing_days_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE pairing_days_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: pairing_days_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE pairing_days_id_seq OWNED BY pairing_days.id;
+
+
+--
+-- Name: pairs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE pairs (
+    id integer NOT NULL,
+    pairing_day_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: pairs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE pairs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: pairs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE pairs_id_seq OWNED BY pairs.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -180,6 +275,27 @@ ALTER TABLE ONLY employees ALTER COLUMN id SET DEFAULT nextval('employees_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY pair_memberships ALTER COLUMN id SET DEFAULT nextval('pair_memberships_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY pairing_days ALTER COLUMN id SET DEFAULT nextval('pairing_days_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY pairs ALTER COLUMN id SET DEFAULT nextval('pairs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY team_memberships ALTER COLUMN id SET DEFAULT nextval('team_memberships_id_seq'::regclass);
 
 
@@ -203,6 +319,30 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 ALTER TABLE ONLY employees
     ADD CONSTRAINT employees_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pair_memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY pair_memberships
+    ADD CONSTRAINT pair_memberships_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pairing_days_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY pairing_days
+    ADD CONSTRAINT pairing_days_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pairs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY pairs
+    ADD CONSTRAINT pairs_pkey PRIMARY KEY (id);
 
 
 --
@@ -234,6 +374,34 @@ ALTER TABLE ONLY users
 --
 
 CREATE UNIQUE INDEX index_employees_on_last_name_and_first_name ON employees USING btree (last_name, first_name);
+
+
+--
+-- Name: index_pair_memberships_on_pair_id_and_team_membership_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_pair_memberships_on_pair_id_and_team_membership_id ON pair_memberships USING btree (pair_id, team_membership_id);
+
+
+--
+-- Name: index_pairing_days_on_pairing_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_pairing_days_on_pairing_date ON pairing_days USING btree (pairing_date DESC);
+
+
+--
+-- Name: index_pairing_days_on_team_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_pairing_days_on_team_id ON pairing_days USING btree (team_id);
+
+
+--
+-- Name: index_pairs_on_pairing_day_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_pairs_on_pairing_day_id ON pairs USING btree (pairing_day_id);
 
 
 --
@@ -287,5 +455,11 @@ INSERT INTO schema_migrations (version) VALUES ('1');
 INSERT INTO schema_migrations (version) VALUES ('2');
 
 INSERT INTO schema_migrations (version) VALUES ('20120726194308');
+
+INSERT INTO schema_migrations (version) VALUES ('20120727224000');
+
+INSERT INTO schema_migrations (version) VALUES ('20120727234900');
+
+INSERT INTO schema_migrations (version) VALUES ('20120727235000');
 
 INSERT INTO schema_migrations (version) VALUES ('3');

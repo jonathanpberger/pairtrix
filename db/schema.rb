@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120726194308) do
+ActiveRecord::Schema.define(:version => 20120727235000) do
 
   create_table "employees", :force => true do |t|
     t.string   "first_name"
@@ -21,6 +21,33 @@ ActiveRecord::Schema.define(:version => 20120726194308) do
   end
 
   add_index "employees", ["last_name", "first_name"], :name => "index_employees_on_last_name_and_first_name", :unique => true
+
+  create_table "pair_memberships", :force => true do |t|
+    t.integer  "pair_id"
+    t.integer  "team_membership_id"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  add_index "pair_memberships", ["pair_id", "team_membership_id"], :name => "index_pair_memberships_on_pair_id_and_team_membership_id"
+
+  create_table "pairing_days", :force => true do |t|
+    t.integer  "team_id"
+    t.date     "pairing_date"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "pairing_days", ["pairing_date"], :name => "index_pairing_days_on_pairing_date", :order => {"pairing_date"=>:desc}
+  add_index "pairing_days", ["team_id"], :name => "index_pairing_days_on_team_id"
+
+  create_table "pairs", :force => true do |t|
+    t.integer  "pairing_day_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "pairs", ["pairing_day_id"], :name => "index_pairs_on_pairing_day_id"
 
   create_table "team_memberships", :force => true do |t|
     t.integer  "team_id"
