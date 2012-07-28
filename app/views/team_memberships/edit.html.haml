@@ -1,0 +1,5 @@
+%h3 Edit #{@team_membership.employee.name}
+
+= simple_form_for @team_membership do |f|
+  = render(partial: 'form', locals: { form: f, team_membership: @team_membership } )
+

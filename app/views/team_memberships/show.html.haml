@@ -1,0 +1,9 @@
+%h3
+  = @team_membership.employee.name
+%br
+= @team_membership.start_date
+%br
+= @team_membership.end_date
+%br
+%br
+= link_to("Back", team_url(@team_membership.team))

@@ -1,0 +1,10 @@
+%tr
+  %td
+    = team_membership.employee.name
+  %td
+    = team_membership.start_date
+  %td
+    = team_membership.end_date
+  %td
+    = link_to 'Edit', edit_team_membership_path(team_membership)
+    = link_to 'Destroy', team_membership, data: { confirm: 'Are you sure?' }, :method => :delete

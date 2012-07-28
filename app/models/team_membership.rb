@@ -1,4 +1,5 @@
 class TeamMembership < ActiveRecord::Base
+  attr_accessible :team_id, :employee_id, :start_date, :end_date
 
   belongs_to :team
   belongs_to :employee

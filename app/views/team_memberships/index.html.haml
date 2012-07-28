@@ -1,0 +1,16 @@
+%h3 Team Memberships
+
+= link_to 'New Team Membership', new_team_team_membership_path
+
+%table.table.table-striped.table-condensed.table-bordered
+  %tr
+    %th
+      Employee name
+    %th
+      Start date
+    %th
+      End date
+    %th
+      Action
+
+  = render(partial: 'team_membership_row', collection: @team_memberships, as: 'team_membership')

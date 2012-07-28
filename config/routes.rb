@@ -9,7 +9,9 @@ Pairtrix::Application.routes.draw do
   resources :sessions
   resources :users
   resources :employees
-  resources :teams
+  resources :teams, shallow: true do
+    resources :team_memberships
+  end
 
   root :to => 'pages#home'
 
