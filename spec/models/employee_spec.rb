@@ -58,13 +58,43 @@ describe Employee do
 
     context "with no available employees" do
       it { should == [] }
+
+      context "with an employee with an active end_dated membership" do
+        let!(:active_membership) do
+          FactoryGirl.create(:team_membership,
+                             team: team,
+                             start_date: Date.parse("12/31/1999"),
+                             end_date: Date.current+5.days)
+        end
+        let(:unavailable_employee) { active_membership.employee }
+
+        it { should_not include(unavailable_employee) }
+        it { should_not include(employee) }
+        it { should_not include(other_employee) }
+      end
+
+      context "and a current active membership" do
+        let!(:completed_membership) do
+          FactoryGirl.create(:team_membership,
+                             start_date: Date.parse("12/31/1999"),
+                             end_date: Date.parse("1/1/2012"))
+        end
+        let!(:active_membership) do
+          FactoryGirl.create(:team_membership, employee: unavailable_employee)
+        end
+        let(:unavailable_employee) { completed_membership.employee }
+
+        it { should_not include(unavailable_employee) }
+        it { should_not include(employee) }
+        it { should_not include(other_employee) }
+      end
     end
 
     context "with available employees" do
       context "when the employee has no memberships" do
-        let(:available_employee) { FactoryGirl.create(:employee) }
+        let!(:no_membership_employee) { FactoryGirl.create(:employee) }
 
-        it { should include(available_employee) }
+        it { should include(no_membership_employee) }
         it { should_not include(employee) }
         it { should_not include(other_employee) }
       end
@@ -92,8 +122,6 @@ describe Employee do
           it { should_not include(other_employee) }
         end
       end
-
-
     end
   end
 

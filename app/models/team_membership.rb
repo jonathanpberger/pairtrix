@@ -5,4 +5,8 @@ class TeamMembership < ActiveRecord::Base
 
   validates_presence_of :team_id, :employee_id, :start_date
 
+  def active?
+    end_date.nil? || end_date > Date.current
+  end
+
 end

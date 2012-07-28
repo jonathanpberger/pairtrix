@@ -17,8 +17,11 @@ class Employee < ActiveRecord::Base
     end
 
     def available
-      joins("LEFT OUTER JOIN team_memberships ON team_memberships.employee_id = employees.id").
-      where("team_memberships.end_date <= ? OR team_memberships.id IS NULL", Date.current)
+      employees = Employee.all
+      employees.map do |employee|
+        employee if employee.team_memberships.empty? ||
+          employee.team_memberships.none? { |team_membership| team_membership.active? }
+      end.compact
     end
   end
 
