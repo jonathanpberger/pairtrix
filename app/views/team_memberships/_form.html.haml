@@ -1,5 +1,6 @@
 = error_messages_for(team_membership)
-= form.input :employee_id, label: "Employee", collection: Employee.available, include_blank: false
+- if team_membership.new_record?
+  = form.input :employee_id, label: "Employee", collection: Employee.available, include_blank: false
 = form.input :start_date, as: :string, input_html: { class: "datepicker", value: team_membership.start_date }
 = form.input :end_date, as: :string, input_html: { class: "datepicker", value: team_membership.end_date }
 = form.button :wrapped, cancel: team_url(team_membership.team)
