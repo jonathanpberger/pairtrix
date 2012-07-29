@@ -1,4 +1,4 @@
 = error_messages_for(pair)
-= form.input :team_membership_ids, collection: pair.available_team_memberships, as: :check_boxes, label: "Pair members", input_html: { checked: false }
+= form.input :team_membership_ids, collection: pair.pairing_day.available_team_memberships, as: :check_boxes, label: "Pair members", input_html: { checked: false }
 
 = form.button :wrapped, cancel: pairing_day_url(pair.pairing_day)
