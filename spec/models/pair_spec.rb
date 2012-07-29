@@ -16,7 +16,7 @@ describe Pair do
   end
 
   describe "#name" do
-    let(:pair) { FactoryGirl.create(:pair) }
+    let(:pair) { FactoryGirl.create(:pair_with_memberships) }
 
     it "returns the team_membership names joined by dashes" do
       pair.name.should include(pair.pair_memberships[0].name)
@@ -26,14 +26,14 @@ describe Pair do
 
   describe "#employee_one" do
     subject { pair.employee_one }
-    let(:pair) { FactoryGirl.create(:pair) }
+    let(:pair) { FactoryGirl.create(:pair_with_memberships) }
 
     it { should == pair.pair_memberships[0].name }
   end
 
   describe "#employee_two" do
     subject { pair.employee_two }
-    let(:pair) { FactoryGirl.create(:pair) }
+    let(:pair) { FactoryGirl.create(:pair_with_memberships) }
 
     it { should == pair.pair_memberships[1].name }
   end

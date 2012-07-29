@@ -70,7 +70,7 @@ describe PairingDay do
       let!(:unavailable_team_membership) { FactoryGirl.create(:team_membership, team: team)  }
       let!(:other_team_membership) { FactoryGirl.create(:team_membership)  }
       let!(:existing_pair) { FactoryGirl.create(:pair,
-                                                team_membership_ids: [unavailable_team_membership.id],
+                                                team_membership_ids: unavailable_team_membership.id,
                                                 pairing_day: pairing_day) }
 
       it { should include(available_team_membership) }
