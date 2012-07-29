@@ -1,5 +1,6 @@
-%p
-  = link_to 'New Team Membership', new_team_team_membership_path(team)
+- if Employee.available.any?
+  %p
+    = link_to 'New Team Membership', new_team_team_membership_path(team)
 
 %table.table.table-striped.table-condensed.table-bordered
   %tr
