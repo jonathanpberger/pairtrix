@@ -26,7 +26,7 @@ class PairsController < ApplicationController
         pair_membership.save!
       end
 
-      redirect_url = @pair.available_team_memberships.any? ? new_pairing_day_pair_url(@pair.pairing_day) : pairing_day_url(@pair.pairing_day)
+      redirect_url = @pair.available_team_memberships.length > 2 ? new_pairing_day_pair_url(@pair.pairing_day) : pairing_day_url(@pair.pairing_day)
       redirect_to redirect_url, flash: { success: 'Pair was successfully created.' }
     else
       render action: "new"

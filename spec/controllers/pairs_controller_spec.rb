@@ -80,7 +80,7 @@ describe PairsController do
 
       context "with available team_memberships" do
         before do
-          Pair.any_instance.should_receive(:available_team_memberships).and_return([double])
+          Pair.any_instance.should_receive(:available_team_memberships).and_return([double, double, double])
         end
 
         it "redirects to create new pair" do
@@ -91,7 +91,7 @@ describe PairsController do
 
       context "without available team_memberships" do
         before do
-          Pair.any_instance.should_receive(:available_team_memberships).and_return([])
+          Pair.any_instance.should_receive(:available_team_memberships).and_return([double, double])
         end
 
         it "redirects to pairing_day show page" do
