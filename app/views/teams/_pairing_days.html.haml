@@ -7,4 +7,4 @@
       Pairing date
     %th
       Action
-  = render(partial: 'pairing_days/pairing_day_row', collection: team.pairing_days, as: 'pairing_day')
+  = render(partial: 'pairing_days/pairing_day_row', collection: team.pairing_days.order("pairing_date DESC"), as: 'pairing_day')

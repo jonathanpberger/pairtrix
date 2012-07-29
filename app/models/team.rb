@@ -8,4 +8,6 @@ class Team < ActiveRecord::Base
   has_many :employees, through: :team_memberships
 
   has_many :pairing_days, dependent: :destroy
+  has_many :pairs, through: :pairing_days
+
 end

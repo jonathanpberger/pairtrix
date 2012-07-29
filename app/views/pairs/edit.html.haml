@@ -1,0 +1,4 @@
+%h3 Edit #{@pair.name}
+
+= simple_form_for @pair do |f|
+  = render(partial: "form", locals: { form: f, pair: @pair })

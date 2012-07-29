@@ -1,0 +1,14 @@
+%p
+  = link_to 'New Team Membership', new_team_team_membership_path(team)
+
+%table.table.table-striped.table-condensed.table-bordered
+  %tr
+    %th
+      Employee Name
+    %th
+      Start date
+    %th
+      End date
+    %th
+      Action
+  = render(partial: 'team_memberships/team_membership_row', collection: team.team_memberships.sorted, as: 'team_membership')

@@ -1,0 +1,6 @@
+%tr
+  %td
+    = link_to pair.name, pair
+  %td
+    = link_to 'Edit', edit_pair_path(pair)
+    = link_to 'Destroy', pair, data: { confirm: 'Are you sure?' }, :method => :delete

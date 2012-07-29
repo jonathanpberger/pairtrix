@@ -1,0 +1,4 @@
+%h3 New Pair
+
+= simple_form_for [@pair.pairing_day, @pair] do |f|
+  = render(partial: "form", locals: { form: f, pair: @pair })
