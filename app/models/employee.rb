@@ -34,11 +34,15 @@ class Employee < ActiveRecord::Base
   end
 
   def solo_employee?
-    id == Employee.solo_employee.id
+    id == Employee.solo_employee.try(:id)
   end
 
   def out_of_office_employee?
-    id == Employee.out_of_office_employee.id
+    id == Employee.out_of_office_employee.try(:id)
+  end
+
+  def hide?
+    solo_employee? || out_of_office_employee?
   end
 
   def name

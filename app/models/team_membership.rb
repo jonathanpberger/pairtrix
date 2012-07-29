@@ -24,7 +24,7 @@ class TeamMembership < ActiveRecord::Base
   end
 
   def hide?
-    employee.solo_employee? || employee.out_of_office_employee?
+    employee.hide?
   end
 
 end
