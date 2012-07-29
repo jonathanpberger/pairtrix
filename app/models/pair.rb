@@ -21,4 +21,8 @@ class Pair < ActiveRecord::Base
   def employee_two
     pair_memberships[1].name
   end
+
+  def memberships_current?
+    team_memberships.all? { |team_membership| team_membership.current? }
+  end
 end

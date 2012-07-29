@@ -12,6 +12,12 @@ class Team < ActiveRecord::Base
 
   after_commit :add_default_team_memberships
 
+  def current_membership_pairs
+    pairing_days.where("pairing_date >= ?", 1.month.ago.to_date).map do |pairing_day|
+      pairing_day.pairs.select { |pair| pair.memberships_current? }
+    end.compact.flatten
+  end
+
   private
 
   # we want to make sure the solo and out of office employees exist on every team
