@@ -23,6 +23,22 @@ class Employee < ActiveRecord::Base
           employee.team_memberships.none? { |team_membership| team_membership.active? }
       end.compact
     end
+
+    def solo_employee
+      where(last_name: "Solo").first
+    end
+
+    def out_of_office_employee
+      where(last_name: "Office").first
+    end
+  end
+
+  def solo_employee?
+    id == Employee.solo_employee.id
+  end
+
+  def out_of_office_employee?
+    id == Employee.out_of_office_employee.id
   end
 
   def name

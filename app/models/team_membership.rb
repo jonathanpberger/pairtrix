@@ -23,4 +23,8 @@ class TeamMembership < ActiveRecord::Base
     end_date.nil? || end_date > Date.current
   end
 
+  def hide?
+    employee.solo_employee? || employee.out_of_office_employee?
+  end
+
 end
