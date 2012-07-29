@@ -23,8 +23,8 @@ describe TeamMembership do
     end
   end
 
-  describe "#active?" do
-    subject { team_membership.active? }
+  describe "#current?" do
+    subject { team_membership.current? }
     let(:team_membership) { FactoryGirl.build(:team_membership,
                                               start_date: Date.parse("12/31/1999"),
                                               end_date: end_date) }

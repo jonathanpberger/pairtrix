@@ -20,7 +20,7 @@ class Employee < ActiveRecord::Base
       employees = Employee.all
       employees.map do |employee|
         employee if (employee.team_memberships.empty? ||
-          employee.team_memberships.none? { |team_membership| team_membership.active? }) &&
+          employee.team_memberships.none? { |team_membership| team_membership.current? }) &&
           !employee.hide?
       end.compact
     end

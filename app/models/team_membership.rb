@@ -19,7 +19,7 @@ class TeamMembership < ActiveRecord::Base
     end
   end
 
-  def active?
+  def current?
     end_date.nil? || end_date > Date.current
   end
 

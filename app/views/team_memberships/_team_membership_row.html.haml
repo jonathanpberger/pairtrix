@@ -1,5 +1,5 @@
 - if !team_membership.hide?
-  %tr{class: ("faded" if !team_membership.active?) }
+  %tr{class: ("faded" if !team_membership.current?) }
     %td
       = team_membership.employee.name
     %td
