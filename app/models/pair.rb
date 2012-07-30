@@ -25,4 +25,12 @@ class Pair < ActiveRecord::Base
   def memberships_current?
     team_memberships.all? { |team_membership| team_membership.current? }
   end
+
+  def has_membership?(membership)
+    team_memberships.detect { |team_membership| team_membership.id == membership.id }
+  end
+
+  def other_membership(membership)
+    team_memberships.detect { |team_membership| team_membership.id != membership.id }
+  end
 end

@@ -56,4 +56,40 @@ describe Pair do
       it { should be_false }
     end
   end
+
+  describe "#has_membership?" do
+    subject { pair.has_membership?(membership) }
+
+    let!(:pair) { FactoryGirl.create(:pair_with_memberships) }
+    let(:membership_one) { pair.team_memberships[0] }
+    let(:membership_two) { pair.team_memberships[1] }
+
+    context "when the pair has the membership" do
+      let(:membership) { membership_one }
+      it { should be_true }
+    end
+
+    context "when the pair doesn't have the membership" do
+      let(:membership) { FactoryGirl.create(:team_membership) }
+      it { should be_false }
+    end
+  end
+
+  describe "#other_membership" do
+    subject { pair.other_membership(membership) }
+
+    let!(:pair) { FactoryGirl.create(:pair_with_memberships) }
+    let(:membership_one) { pair.team_memberships[0] }
+    let(:membership_two) { pair.team_memberships[1] }
+
+    context "when membership is the first one" do
+      let(:membership) { membership_one }
+      it { should == membership_two }
+    end
+
+    context "when membership is the second one" do
+      let(:membership) { membership_two }
+      it { should == membership_one }
+    end
+  end
 end
