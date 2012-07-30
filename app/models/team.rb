@@ -18,6 +18,14 @@ class Team < ActiveRecord::Base
     end.compact.flatten
   end
 
+  def membership_hash
+    @membership_hash ||= PairMatrixCalculator.new(current_membership_pairs, team_memberships.current).complete_pair_hash
+  end
+
+  def times_paired(left, top)
+    membership_hash[left.id].has_key?(top.id) ? membership_hash[left.id][top.id] : 0
+  end
+
   private
 
   # we want to make sure the solo and out of office employees exist on every team

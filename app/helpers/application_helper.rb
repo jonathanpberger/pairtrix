@@ -39,4 +39,15 @@ module ApplicationHelper
   def yes_no(bool)
     bool ? "Yes" : "No"
   end
+
+  def pairing_count_warning(times_paired)
+    case
+    when times_paired == 3
+      "pairing-count-notice"
+    when times_paired > 3
+      "pairing-count-warning"
+    else
+      ""
+    end
+  end
 end
