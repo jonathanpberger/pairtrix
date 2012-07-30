@@ -49,3 +49,26 @@ body, html {
   background-color: #C0FBE8;
 }
 
+.matrix-table {
+  thead td {
+    text-align: center;
+  }
+  .matrix-row-name {
+    text-align: right;
+  }
+  .matrix-row-paired-count {
+    text-align: center;
+  }
+  .pairing-count-notice {
+    color: $red !important;
+    background: $white !important;
+    font-weight: bold;
+  }
+  .pairing-count-warning {
+    color: $white !important;
+    background: $red !important;
+    font-weight: bold;
+  }
+}
+
+
