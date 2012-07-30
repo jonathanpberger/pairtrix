@@ -59,16 +59,23 @@ describe PairingDay do
     subject { pairing_day.available_team_memberships }
 
     let!(:team) { FactoryGirl.create(:team) }
-    let!(:pairing_day) { FactoryGirl.create(:pairing_day, team: team)  }
+    let!(:pairing_day) { FactoryGirl.create(:pairing_day, team: team, pairing_date: pairing_date) }
+    let(:pairing_date) { 5.days.ago }
 
     context "with no available team memberships" do
       it { should == [] }
     end
 
     context "with available team memberships" do
-      let!(:available_team_membership) { FactoryGirl.create(:team_membership, team: team)  }
-      let!(:unavailable_team_membership) { FactoryGirl.create(:team_membership, team: team)  }
-      let!(:other_team_membership) { FactoryGirl.create(:team_membership)  }
+      let!(:available_team_membership) { FactoryGirl.create(:team_membership,
+                                                            team: team,
+                                                            start_date: pairing_date - 5.days) }
+      let!(:unavailable_team_membership) { FactoryGirl.create(:team_membership,
+                                                              team: team,
+                                                              start_date: pairing_date - 5.days) }
+      let!(:too_recent_team_membership) { FactoryGirl.create(:team_membership,
+                                                             team: team) }
+      let!(:other_team_membership) { FactoryGirl.create(:team_membership) }
       let!(:existing_pair) { FactoryGirl.create(:pair,
                                                 team_membership_ids: unavailable_team_membership.id,
                                                 pairing_day: pairing_day) }
@@ -76,6 +83,7 @@ describe PairingDay do
       it { should include(available_team_membership) }
       it { should_not include(unavailable_team_membership) }
       it { should_not include(other_team_membership) }
+      it { should_not include(too_recent_team_membership) }
     end
   end
 end

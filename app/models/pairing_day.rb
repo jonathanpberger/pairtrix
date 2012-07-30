@@ -17,6 +17,7 @@ class PairingDay < ActiveRecord::Base
     available_team_memberships = TeamMembership.current.
       where(team_membership_table[:id].not_in(paired_team_membership_ids)).
       where(team_membership_table[:team_id].eq(team.id)).
+      where(team_membership_table[:start_date].lteq(pairing_date)).
       joins(:employee).order("employees.last_name ASC")
     [solo_membership, out_of_office_membership, available_team_memberships].flatten.uniq
   end
