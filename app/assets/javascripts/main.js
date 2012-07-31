@@ -18,4 +18,13 @@ $(function() {
    // make sure we accept javascript for ajax requests
   jQuery.ajaxSetup({'beforeSend': function(xhr) {xhr.setRequestHeader("Accept", "text/javascript");}});
 
+  $(".matrix-row-paired-count").click(function() {
+    var pair = $(this).data("pair");
+    $(this).html("changed:"+pair);
+    // plan to add some form of ajax call that creates a new pair for the day
+    // and returns the total pair count.
+    $(this).siblings().addClass("faded");
+  });
+
+
 });

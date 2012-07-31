@@ -15,6 +15,6 @@
           = left_membership.name
         - memberships.slice(index+1, memberships.length-1).each do |top_membership|
           - times_paired = team.times_paired(left_membership, top_membership)
-          %td.matrix-row-paired-count{class: pairing_count_warning(times_paired) }
+          %td.matrix-row-paired-count{class: pairing_count_warning(times_paired), data: { pair: "#{left_membership.id},#{top_membership.id}" } }
             = times_paired
 
