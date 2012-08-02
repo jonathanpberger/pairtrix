@@ -2,3 +2,7 @@
 
 = simple_form_for [@pair.pairing_day, @pair] do |f|
   = render(partial: "form", locals: { form: f, pair: @pair })
+
+= render(partial: "pair_table", locals: { pairs: @pairing_day.pairs.all })
+
+= render(partial: 'teams/matrix', locals: { team: @pairing_day.team })

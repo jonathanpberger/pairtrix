@@ -2,19 +2,10 @@
   = @team.name
 %br
 
-.tabbable.tabs-left
-  %ul.nav.nav-tabs
-    %li.active
-      = link_to("Pairing Days", "#pairing-days", data: { toggle: 'tab' })
-    %li
-      = link_to("Team Memberships", "#team-memberships", data: { toggle: 'tab' })
-    %li
-      = link_to("Matrix", "#matrix", data: { toggle: 'tab' })
-  .tab-content
-    #pairing-days.tab-pane.active
-      = render(partial: 'pairing_days', locals: { team: @team })
-    #team-memberships.tab-pane
-      = render(partial: 'team_memberships', locals: { team: @team })
-    #matrix.tab-pane
-      = render(partial: 'matrix', locals: { team: @team })
+#pairing-days.tab-pane
+  = render(partial: 'pairing_days', locals: { team: @team })
+#team-memberships.tab-pane
+  = render(partial: 'team_memberships', locals: { team: @team })
+#matrix.tab-pane
+  = render(partial: 'matrix', locals: { team: @team })
 = link_to("Back", teams_url)

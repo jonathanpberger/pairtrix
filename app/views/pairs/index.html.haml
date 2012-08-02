@@ -2,11 +2,4 @@
 
 = link_to 'New pair', new_pairing_day_pair_path
 
-%table.table.table-striped.table-condensed.table-bordered
-  %tr
-    %th
-      Name
-    %th
-      Action
-  = render(partial: "pair_row", collection: @pairs, as: 'pair')
-
+= render(partial: "pair_table", locals: { pairs: @pairs })
