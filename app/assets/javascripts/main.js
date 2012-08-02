@@ -20,7 +20,7 @@ $(function() {
 
   $(".matrix-row-paired-count").click(function() {
     var pair = $(this).data("pair");
-    $(this).html("changed:"+pair);
+    // $(this).html("changed:"+pair);
     // plan to add some form of ajax call that creates a new pair for the day
     // and returns the total pair count.
     $(this).siblings().addClass("faded");
