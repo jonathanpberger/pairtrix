@@ -37,7 +37,8 @@ CREATE TABLE employees (
     first_name character varying(255),
     last_name character varying(255),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    avatar character varying(255)
 );
 
 
@@ -461,5 +462,7 @@ INSERT INTO schema_migrations (version) VALUES ('20120727224000');
 INSERT INTO schema_migrations (version) VALUES ('20120727234900');
 
 INSERT INTO schema_migrations (version) VALUES ('20120727235000');
+
+INSERT INTO schema_migrations (version) VALUES ('20120807024858');
 
 INSERT INTO schema_migrations (version) VALUES ('3');

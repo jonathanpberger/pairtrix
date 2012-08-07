@@ -2,4 +2,17 @@
   = error_messages_for(@employee)
   = f.input :first_name
   = f.input :last_name
+  = f.input :avatar, as: :file
+  = f.hidden_field :avatar_cache
+
+  = f.input :remote_avatar_url, label: "Or Image URL:"
+
+  = f.input :remove_avatar, as: :boolean, inline_label: "Delete Avatar", label: false
+
+  - if @employee.avatar?
+    .control-group
+      = f.label :avatar_image
+      .controls
+        = image_tag(@employee.avatar_url)
+
   = f.button :wrapped, cancel: employees_url

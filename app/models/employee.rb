@@ -1,5 +1,8 @@
 class Employee < ActiveRecord::Base
+  mount_uploader :avatar, AvatarUploader
+
   attr_accessible :first_name, :last_name
+  attr_accessible :avatar, :remote_avatar_url, :avatar_cache, :remove_avatar
 
   validates_presence_of :first_name, :last_name
   validates_uniqueness_of :first_name, scope: :last_name
