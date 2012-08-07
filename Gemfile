@@ -24,9 +24,11 @@ gem "american_date"
 gem "unicorn"
 
 gem 'carrierwave'
+gem "rmagick", require: 'RMagick'
+gem "fog"
 
 group :test do
-  gem "cucumber-rails", :require => false
+  gem "cucumber-rails", require: false
 end
 
 group :development, :test do
