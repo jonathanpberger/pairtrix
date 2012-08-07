@@ -65,6 +65,14 @@ module Pairtrix
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
+    #Needs to be false on Heroku
+    config.assets.initialize_on_precompile = false
+
+    # Serving static assets and setting cache headers
+    # which will be used by cloudfront as well
+    config.serve_static_assets = true
+    config.static_cache_control = "public, max-age=31536000"
+
     config.logger = Logger.new(STDOUT)
   end
 end

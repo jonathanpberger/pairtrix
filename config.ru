@@ -2,5 +2,6 @@
 
 require ::File.expand_path('../config/environment',  __FILE__)
 use Rack::Static, :urls => ['/uploads'], :root => 'tmp'
+use Rack::Deflater
 
 run Pairtrix::Application
