@@ -8,12 +8,12 @@
         %td
         - memberships.slice(1, memberships.length-1).each do |membership|
           %td
-            = membership.name
+            = avatar_for(membership.employee)
     %tbody
       - memberships.slice(0, memberships.length-1).each_with_index do |left_membership, index|
         %tr
           %td.matrix-row-name{colspan: index+1}
-            = left_membership.name
+            = avatar_for(left_membership.employee)
           - memberships.slice(index+1, memberships.length-1).each do |top_membership|
             - times_paired = team.times_paired(left_membership, top_membership)
             %td.matrix-row-paired-count{class: pairing_count_warning(times_paired), data: { pair: "#{left_membership.id},#{top_membership.id}" } }
