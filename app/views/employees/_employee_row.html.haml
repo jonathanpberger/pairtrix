@@ -1,6 +1,7 @@
 - if !employee.hide?
   %tr
     %td
+      = avatar_for(employee)
       = link_to employee.name, employee
     %td
       = link_to 'Edit', edit_employee_path(employee)
