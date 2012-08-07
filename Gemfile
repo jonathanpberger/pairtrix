@@ -21,6 +21,10 @@ gem "capistrano"
 gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "american_date"
+gem "unicorn"
+
+gem 'carrierwave'
+
 group :test do
   gem "cucumber-rails", :require => false
 end
