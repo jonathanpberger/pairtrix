@@ -58,6 +58,8 @@ body, html {
   }
   .matrix-row-paired-count {
     text-align: center;
+    vertical-align: middle;
+    font-size: 36px;
   }
   .pairing-count-notice {
     color: $red !important;
