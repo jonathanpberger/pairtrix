@@ -1,6 +1,6 @@
 %h3
   Pairing matrix since #{1.month.ago.to_date}
-- memberships = team.team_memberships.current.joins(:employee).order("employees.last_name ASC")
+- memberships = team.team_memberships.current.joins(:employee).order("employees.id DESC")
 - if memberships.any?
   %table.table.table-striped.table-condensed.table-bordered.matrix-table
     %thead
