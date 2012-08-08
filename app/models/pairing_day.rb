@@ -19,11 +19,11 @@ class PairingDay < ActiveRecord::Base
       where(team_membership_table[:team_id].eq(team.id)).
       where(team_membership_table[:start_date].lteq(pairing_date)).
       joins(:employee).order("employees.last_name ASC")
-    [solo_membership, out_of_office_membership, available_team_memberships].flatten.uniq
+    [out_of_office_membership, available_team_memberships].flatten.uniq
   end
 
   def available_team_memberships?
-    available_team_memberships.length > 2
+    available_team_memberships.length > 1
   end
 
   private
