@@ -55,4 +55,25 @@ module ApplicationHelper
     image_url = employee.avatar? ? employee.avatar_url : "layout/avatar.png"
     image_tag(image_url, title: employee.name, alt: employee.name)
   end
+
+  def pair_cell(pair_group)
+    content_tag(:td,
+                times_paired(pair_group),
+                class: pair_cell_css_classes(pair_group),
+                data: { pair: pair_group.ids })
+  end
+
+  private
+
+  def pair_cell_css_classes(pair_group)
+    klasses = ["matrix-row-paired-count"]
+    klasses << pairing_count_warning(times_paired(pair_group))
+    klasses << "member-#{pair_group.left_membership.id}"
+    klasses << "member-#{pair_group.top_membership.id}"
+    klasses.join(" ")
+  end
+
+  def times_paired(pair_group)
+    pair_group.team.times_paired(pair_group.left_membership, pair_group.top_membership)
+  end
 end

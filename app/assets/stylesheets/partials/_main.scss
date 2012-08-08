@@ -60,16 +60,29 @@ body, html {
     text-align: center;
     vertical-align: middle;
     font-size: 36px;
+    cursor: pointer;
+    &:hover {
+      background: $green !important;
+    }
+  }
+  .created-pair {
+    background: $green !important;
+    cursor: default;
   }
   .pairing-count-notice {
     color: $red !important;
-    background: $white !important;
+    background: $white;
     font-weight: bold;
   }
   .pairing-count-warning {
     color: $white !important;
-    background: $red !important;
+    background: $red;
     font-weight: bold;
+  }
+
+  tbody tr:hover td,
+  tbody tr:hover th {
+    background-color: transparent;
   }
 }
 
