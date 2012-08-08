@@ -16,7 +16,7 @@ describe PairsController do
   end
 
   describe "GET index" do
-    let!(:pair) { FactoryGirl.create(:pair) }
+    let!(:pair) { FactoryGirl.create(:pair_with_memberships) }
     let(:pairing_day) { pair.pairing_day }
 
     it "assigns all pairs as @pairs" do
@@ -26,7 +26,7 @@ describe PairsController do
   end
 
   describe "GET show" do
-    let!(:pair) { FactoryGirl.create(:pair) }
+    let!(:pair) { FactoryGirl.create(:pair_with_memberships) }
     let(:pairing_day) { pair.pairing_day }
 
     it "assigns the requested pair as @pair" do
@@ -46,7 +46,7 @@ describe PairsController do
   end
 
   describe "GET edit" do
-    let!(:pair) { FactoryGirl.create(:pair) }
+    let!(:pair) { FactoryGirl.create(:pair_with_memberships) }
     let(:pairing_day) { pair.pairing_day }
 
     it "assigns the requested pair as @pair" do
@@ -59,6 +59,8 @@ describe PairsController do
   describe "POST create" do
     let!(:pairing_day) { FactoryGirl.create(:pairing_day) }
     let!(:team_membership) { FactoryGirl.create(:team_membership) }
+    let(:team) { team_membership.team }
+    let!(:team_membership_1) { FactoryGirl.create(:team_membership, team: team) }
 
     before do
       mock_admin
@@ -68,12 +70,12 @@ describe PairsController do
 
       it "creates a new Pair" do
         expect {
-          post :create, { pairing_day_id: pairing_day.to_param, pair: valid_attributes.merge!(team_membership_ids: team_membership.id) }, valid_session
+          post :create, { pairing_day_id: pairing_day.to_param, pair: valid_attributes.merge!(team_membership_ids: [team_membership.id, team_membership_1.id]) }, valid_session
         }.to change(Pair, :count).by(1)
       end
 
       it "assigns a newly created pair as @pair" do
-        post :create, { pairing_day_id: pairing_day.to_param, pair: valid_attributes.merge!(team_membership_ids: team_membership.id) }, valid_session
+        post :create, { pairing_day_id: pairing_day.to_param, pair: valid_attributes.merge!(team_membership_ids: [team_membership.id, team_membership_1.id]) }, valid_session
         assigns(:pair).should be_an(Pair)
         assigns(:pair).should be_persisted
       end
@@ -84,7 +86,7 @@ describe PairsController do
         end
 
         it "redirects to create new pair" do
-          post :create, { pairing_day_id: pairing_day.to_param, pair: valid_attributes.merge!(team_membership_ids: team_membership.id) }, valid_session
+          post :create, { pairing_day_id: pairing_day.to_param, pair: valid_attributes.merge!(team_membership_ids: [team_membership.id, team_membership_1.id]) }, valid_session
           response.should redirect_to(new_pairing_day_pair_url(pairing_day))
         end
       end
@@ -95,7 +97,7 @@ describe PairsController do
         end
 
         it "redirects to pairing_day show page" do
-          post :create, { pairing_day_id: pairing_day.to_param, pair: valid_attributes.merge!(team_membership_ids: team_membership.id) }, valid_session
+          post :create, { pairing_day_id: pairing_day.to_param, pair: valid_attributes.merge!(team_membership_ids: [team_membership.id, team_membership_1.id]) }, valid_session
           response.should redirect_to(pairing_day_url(pairing_day))
         end
       end
@@ -120,7 +122,7 @@ describe PairsController do
   end
 
   describe "PUT update" do
-    let!(:pair) { FactoryGirl.create(:pair) }
+    let!(:pair) { FactoryGirl.create(:pair_with_memberships) }
     let(:pairing_day) { pair.pairing_day }
 
     before do
@@ -162,7 +164,7 @@ describe PairsController do
   end
 
   describe "DELETE destroy" do
-    let!(:pair) { FactoryGirl.create(:pair) }
+    let!(:pair) { FactoryGirl.create(:pair_with_memberships) }
     let(:pairing_day) { pair.pairing_day }
 
     before do

@@ -10,6 +10,12 @@ class Pair < ActiveRecord::Base
 
   validates_presence_of :pairing_day_id
 
+  validate :validate_team_membership_count
+
+  def validate_team_membership_count
+    errors.add(:base, "You must include two team members.") if team_memberships.size < 2
+  end
+
   def name
     pair_memberships.map(&:name).join("-")
   end

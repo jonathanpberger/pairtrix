@@ -13,6 +13,19 @@ describe Pair do
       describe "pairing_day_id"
       it { should have(1).error_on(:pairing_day_id) }
     end
+
+    describe "pair membership count" do
+      context "with two members" do
+        let(:pair) { FactoryGirl.build(:pair_with_memberships) }
+
+        it { should have(0).errors_on(:base) }
+      end
+
+      context "with less than two members" do
+        it { should have(1).error_on(:base) }
+      end
+
+    end
   end
 
   describe "#name" do

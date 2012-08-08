@@ -69,18 +69,26 @@ describe Team do
                                                           team: team,
                                                           start_date: Date.parse("12/31/1999"))
       }
+      let!(:current_team_membership_1) { FactoryGirl.create(:team_membership,
+                                                            team: team,
+                                                            start_date: Date.parse("12/31/1999"))
+      }
       let!(:current_pair) { FactoryGirl.create(:pair,
                                                pairing_day: pairing_day,
-                                               team_membership_ids: current_team_membership.id) }
+                                               team_membership_ids: [current_team_membership.id, current_team_membership_1.id]) }
 
       context "that have a pair with membership that is not current" do
         let!(:expired_team_membership) { FactoryGirl.create(:team_membership,
                                                             team: team,
                                                             start_date: Date.parse("12/31/1999"),
                                                             end_date: pairing_date-5.days) }
+        let!(:expired_team_membership_1) { FactoryGirl.create(:team_membership,
+                                                              team: team,
+                                                              start_date: Date.parse("12/31/1999"),
+                                                              end_date: pairing_date-5.days) }
         let!(:expired_pair) { FactoryGirl.create(:pair,
                                                  pairing_day: pairing_day,
-                                                 team_membership_ids: expired_team_membership.id) }
+                                                 team_membership_ids: [expired_team_membership.id, expired_team_membership_1.id]) }
 
         it "should have valid pairs" do
           team.pairs.size.should == 2
@@ -90,11 +98,14 @@ describe Team do
 
       context "that have pairs with all memberships that are current" do
         let!(:other_current_team_membership) { FactoryGirl.create(:team_membership,
-                                                            team: team,
-                                                            start_date: Date.parse("12/31/1999")) }
+                                                                  team: team,
+                                                                  start_date: Date.parse("12/31/1999")) }
+        let!(:other_current_team_membership_1) { FactoryGirl.create(:team_membership,
+                                                                    team: team,
+                                                                    start_date: Date.parse("12/31/1999")) }
         let!(:other_current_pair) { FactoryGirl.create(:pair,
-                                                 pairing_day: pairing_day,
-                                                 team_membership_ids: other_current_team_membership.id) }
+                                                       pairing_day: pairing_day,
+                                                       team_membership_ids: [other_current_team_membership.id, other_current_team_membership_1.id]) }
         it "should have valid pairs" do
           team.pairs.size.should == 2
         end
