@@ -6,6 +6,8 @@ Pairtrix::Application.routes.draw do
   match "/sign_in", to: "sessions#new", :as => "sign_in"
   match "/dashboard", to: "users#dashboard", :as => "dashboard"
 
+  match "/pairs/ajax_create", to: "pairs#create"
+
   resources :sessions
   resources :users
   resources :employees

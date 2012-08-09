@@ -26,8 +26,16 @@ class PairsController < ApplicationController
         pair_membership.save!
       end
 
-      redirect_url = @pairing_day.available_team_memberships? ? new_pairing_day_pair_url(@pairing_day) : pairing_day_url(@pairing_day)
-      redirect_to redirect_url, flash: { success: 'Pair was successfully created.' }
+      respond_to do |format|
+        format.html do
+          redirect_url = @pairing_day.available_team_memberships? ? new_pairing_day_pair_url(@pairing_day) : pairing_day_url(@pairing_day)
+          redirect_to redirect_url, flash: { success: 'Pair was successfully created.' }
+        end
+
+        format.json do
+          render(json: { success: true, pairId: @pair.id })
+        end
+      end
     else
       render action: "new"
     end
@@ -43,7 +51,10 @@ class PairsController < ApplicationController
 
   def destroy
     @pair.destroy
-    redirect_to pairing_day_url(@pair.pairing_day)
+    respond_to do |format|
+      format.html { redirect_to pairing_day_url(@pair.pairing_day) }
+      format.json { render json: { success: true } }
+    end
   end
 
   private
@@ -53,6 +64,13 @@ class PairsController < ApplicationController
   end
 
   def load_pairing_day
-    @pairing_day = PairingDay.find(params[:pairing_day_id])
+    if params[:pairing_day_id]
+      @pairing_day = PairingDay.find(params[:pairing_day_id])
+    elsif params[:team_id]
+      team = Team.find(params[:team_id])
+      if (!@pairing_day = team.pairing_days.where(pairing_date: Date.current).first)
+        @pairing_day = team.pairing_days.create(pairing_date: Date.current)
+      end
+    end
   end
 end
