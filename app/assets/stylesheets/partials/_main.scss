@@ -41,8 +41,12 @@ body, html {
   border-top: none;
 }
 
-.faded {
+.matrix-table .matrix-row-paired-count.faded {
   opacity:0.1;
+  &:hover {
+    cursor: default;
+    background: $white !important;
+  }
 }
 
 .table tbody tr:hover td {
