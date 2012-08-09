@@ -63,6 +63,14 @@ module ApplicationHelper
                 data: { pair: pair_group.ids })
   end
 
+  def currently_paired_membership_ids(team)
+    if (current_pairing_day = team.pairing_days.today.first)
+      current_pairing_day.paired_membership_ids
+    else
+      []
+    end
+  end
+
   private
 
   def pair_cell_css_classes(pair_group)

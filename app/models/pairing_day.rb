@@ -10,7 +10,7 @@ class PairingDay < ActiveRecord::Base
 
   class << self
     def today
-      where(pairing_date: Date.current).first
+      where(pairing_date: Date.current)
     end
   end
 
