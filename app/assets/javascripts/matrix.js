@@ -27,6 +27,11 @@ $(function() {
     modifyPairMemberCells();
   }
 
+  function updateCellCount(clickedCell, difference) {
+    var count = parseInt(clickedCell.text()) + difference;
+    clickedCell.text(count);
+  }
+
   $(".matrix-row-paired-count").click(function() {
     var clickedCell = $(this);
     if (!clickedCell.hasClass("faded")) {
@@ -35,9 +40,11 @@ $(function() {
       var pairedMembershipIds = $(".matrix-table").data("paired-memberships");
 
       if (clickedCell.hasClass("created-pair")) {
+        updateCellCount(clickedCell, -1);
         updatePairedMemberships(removePairIds(pairedMembershipIds, pairMemberIds));
         clickedCell.removeClass("created-pair").removeClass("faded");
       } else {
+        updateCellCount(clickedCell, 1);
         updatePairedMemberships(pairedMembershipIds.concat(pairMemberIds));
         clickedCell.addClass("created-pair").removeClass("faded");
       }
