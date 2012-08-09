@@ -2,7 +2,7 @@
   Pairing matrix since #{1.month.ago.to_date}
 - memberships = team.team_memberships.current.joins(:employee).order("employees.id DESC")
 - if memberships.any?
-  %table.table.table-condensed.table-bordered.matrix-table
+  %table.table.table-condensed.table-bordered.matrix-table{data: { "paired-memberships" => team.pairing_days.today.paired_membership_ids.to_json } }
     %thead
       %tr
         %td

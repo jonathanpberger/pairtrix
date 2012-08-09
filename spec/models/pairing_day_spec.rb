@@ -55,7 +55,7 @@ describe PairingDay do
     it { should == "#{pairing_day.id}-1999-12-31" }
   end
 
-  describe ".available_team_memberships" do
+  describe "#available_team_memberships" do
     subject { pairing_day.available_team_memberships }
 
     let!(:team) { FactoryGirl.create(:team) }
@@ -74,8 +74,8 @@ describe PairingDay do
                                                               team: team,
                                                               start_date: pairing_date - 5.days) }
       let!(:unavailable_team_membership_1) { FactoryGirl.create(:team_membership,
-                                                              team: team,
-                                                              start_date: pairing_date - 5.days) }
+                                                                team: team,
+                                                                start_date: pairing_date - 5.days) }
       let!(:too_recent_team_membership) { FactoryGirl.create(:team_membership,
                                                              team: team) }
       let!(:other_team_membership) { FactoryGirl.create(:team_membership) }
@@ -87,6 +87,25 @@ describe PairingDay do
       it { should_not include(unavailable_team_membership) }
       it { should_not include(other_team_membership) }
       it { should_not include(too_recent_team_membership) }
+    end
+  end
+
+  describe "#paired_membership_ids" do
+    subject { pairing_day.paired_membership_ids }
+
+    let!(:pairing_day) { FactoryGirl.create(:pairing_day) }
+
+    context "without memberships" do
+      it { should == ["0"] }
+    end
+
+    context "with memberships" do
+      let!(:pair) { FactoryGirl.create(:pair_with_memberships, pairing_day: pairing_day) }
+      let(:first_membership_id) { pair.team_memberships[0].id.to_s }
+      let(:second_membership_id) { pair.team_memberships[1].id.to_s }
+
+      it { should include(first_membership_id) }
+      it { should include(second_membership_id) }
     end
   end
 end

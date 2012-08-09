@@ -1,7 +1,7 @@
 $(function() {
 
   function modifyPairMemberCells() {
-    var pairedMembershipIds = $("body").data("paired-memberships");
+    var pairedMembershipIds = $(".matrix-table").data("paired-memberships");
 
     $(".matrix-table td").removeClass("faded");
     $.each(pairedMembershipIds, function(index, pairMembershipId) {
@@ -23,7 +23,7 @@ $(function() {
   }
 
   function updatePairedMemberships(pairedMembershipIds) {
-    $("body").data("paired-memberships", pairedMembershipIds);
+    $(".matrix-table").data("paired-memberships", pairedMembershipIds);
     modifyPairMemberCells();
   }
 
@@ -32,7 +32,7 @@ $(function() {
     if (!clickedCell.hasClass("faded")) {
 
       var pairMemberIds = clickedCell.data("pair").split(",");
-      var pairedMembershipIds = $("body").data("paired-memberships") || [];
+      var pairedMembershipIds = $(".matrix-table").data("paired-memberships");
 
       if (clickedCell.hasClass("created-pair")) {
         updatePairedMemberships(removePairIds(pairedMembershipIds, pairMemberIds));
@@ -43,4 +43,6 @@ $(function() {
       }
     }
   });
+
+  modifyPairMemberCells();
 });

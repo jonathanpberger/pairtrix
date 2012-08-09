@@ -8,6 +8,12 @@ class PairingDay < ActiveRecord::Base
   validates_presence_of :team_id, :pairing_date
   validates_uniqueness_of :pairing_date, scope: :team_id
 
+  class << self
+    def today
+      where(pairing_date: Date.current).first
+    end
+  end
+
   def to_param
     "#{id}-#{pairing_date.to_s(:db)}"
   end
@@ -24,6 +30,10 @@ class PairingDay < ActiveRecord::Base
 
   def available_team_memberships?
     available_team_memberships.length > 1
+  end
+
+  def paired_membership_ids
+    paired_team_membership_ids.map { |id| id.to_s }
   end
 
   private
