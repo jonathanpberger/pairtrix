@@ -15,7 +15,17 @@ class PairGroup
   end
 
   def current_pair?
-    if (pairing_day = PairingDay.where(pairing_date: Date.current).first)
+    current_pair
+  end
+
+  def current_pair_id
+    current_pair.try(:id)
+  end
+
+  private
+
+  def current_pair
+    if (pairing_day = team.pairing_days.today.first)
       pairing_day.pairs.detect do |pair|
         pair.has_membership?(@left_membership) && pair.has_membership?(@top_membership)
       end

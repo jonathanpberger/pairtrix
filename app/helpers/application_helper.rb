@@ -60,7 +60,7 @@ module ApplicationHelper
     content_tag(:td,
                 times_paired(pair_group),
                 class: pair_cell_css_classes(pair_group),
-                data: { pair: pair_group.ids })
+                data: pair_cell_data(pair_group))
   end
 
   def currently_paired_membership_ids(team)
@@ -72,6 +72,12 @@ module ApplicationHelper
   end
 
   private
+
+  def pair_cell_data(pair_group)
+    data_hash = { "pair-memberships" => pair_group.ids }
+    data_hash.merge!({ "pair-id" => pair_group.current_pair_id }) if pair_group.current_pair_id
+    data_hash
+  end
 
   def pair_cell_css_classes(pair_group)
     klasses = ["matrix-row-paired-count"]
