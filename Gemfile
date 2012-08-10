@@ -27,6 +27,8 @@ gem 'carrierwave'
 gem "rmagick", require: 'RMagick'
 gem "fog"
 
+gem "cancan"
+
 group :test do
   gem "cucumber-rails", require: false
 end
