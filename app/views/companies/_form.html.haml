@@ -1,0 +1,4 @@
+= simple_form_for @company do |f|
+  = error_messages_for(@company)
+  = f.input :name
+  = f.button :wrapped, cancel: companies_url

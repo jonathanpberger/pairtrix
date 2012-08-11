@@ -1,0 +1,11 @@
+%h3
+  = @company.name
+%br
+%ul
+  %li
+    = link_to("Employees", company_employees_path(@company))
+  %li
+    = link_to("Teams", company_teams_path(@company))
+
+= link_to("Back", companies_url)
+
