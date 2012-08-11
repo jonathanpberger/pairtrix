@@ -1,4 +1,3 @@
-= simple_form_for @team do |f|
-  = error_messages_for(@team)
-  = f.input :name
-  = f.button :wrapped, cancel: teams_url
+= error_messages_for(@team)
+= form.input :name
+= form.button :wrapped, cancel: company_teams_url(@team.company)

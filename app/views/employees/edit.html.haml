@@ -1,4 +1,4 @@
 %h3 Edit #{@employee.name}
 
-= render 'form'
-
+= simple_form_for @employee do |f|
+  = render(partial: "form", locals: { form: f, employee: @employee })

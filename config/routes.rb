@@ -10,11 +10,13 @@ Pairtrix::Application.routes.draw do
 
   resources :sessions
   resources :users
-  resources :employees
-  resources :teams, shallow: true do
-    resources :team_memberships
-    resources :pairing_days do
-      resources :pairs
+  resources :companies, shallow: true do
+    resources :employees
+    resources :teams, shallow: true do
+      resources :team_memberships
+      resources :pairing_days do
+        resources :pairs
+      end
     end
   end
 

@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe EmployeesController do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:company) { FactoryGirl.create(:company, user: user) }
+  let(:employee) { FactoryGirl.create(:employee, company: company) }
 
   def valid_attributes
     FactoryGirl.attributes_for(:employee)
@@ -10,65 +13,67 @@ describe EmployeesController do
     {}
   end
 
-  def mock_admin
-    user = mock(:user, admin?: true)
+  def mock_user
     controller.stub(:current_user).and_return(user)
+  end
+
+  before do
+    company.should be
   end
 
   describe "GET index" do
     it "assigns all employees as @employees" do
-      employee = FactoryGirl.create(:employee)
-      get :index, {}, valid_session
+      employee.should be
+      get :index, {company_id: company.to_param}, valid_session
       assigns(:employees).should eq([employee])
     end
   end
 
   describe "GET show" do
     it "assigns the requested employee as @employee" do
-      employee = FactoryGirl.create(:employee)
-      get :show, {:id => employee.to_param}, valid_session
+      get :show, {id: employee.to_param}, valid_session
       assigns(:employee).should eq(employee)
     end
   end
 
   describe "GET new" do
     it "assigns a new employee as @employee" do
-      mock_admin
-      get :new, {}, valid_session
+      mock_user
+      get :new, {company_id: company.to_param}, valid_session
       assigns(:employee).should be_a_new(Employee)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested employee as @employee" do
-      mock_admin
-      employee = FactoryGirl.create(:employee)
-      get :edit, {:id => employee.to_param}, valid_session
+      mock_user
+      employee.should be
+      get :edit, {id: employee.to_param}, valid_session
       assigns(:employee).should eq(employee)
     end
   end
 
   describe "POST create" do
     before do
-      mock_admin
+      mock_user
     end
 
     describe "with valid params" do
       it "creates a new Employee" do
         expect {
-          post :create, {:employee => valid_attributes}, valid_session
+          post :create, {company_id: company.to_param, employee: valid_attributes}, valid_session
         }.to change(Employee, :count).by(1)
       end
 
       it "assigns a newly created employee as @employee" do
-        post :create, {:employee => valid_attributes}, valid_session
+        post :create, {company_id: company.to_param, employee: valid_attributes}, valid_session
         assigns(:employee).should be_a(Employee)
         assigns(:employee).should be_persisted
       end
 
       it "redirects to the created employee" do
-        post :create, {:employee => valid_attributes}, valid_session
-        response.should redirect_to(employees_url)
+        post :create, {company_id: company.to_param, employee: valid_attributes}, valid_session
+        response.should redirect_to(company_employees_url(company))
       end
     end
 
@@ -76,14 +81,14 @@ describe EmployeesController do
       it "assigns a newly created but unsaved employee as @employee" do
         # Trigger the behavior that occurs when invalid params are submitted
         Employee.any_instance.stub(:save).and_return(false)
-        post :create, {:employee => {}}, valid_session
+        post :create, {company_id: company.to_param, employee: {}}, valid_session
         assigns(:employee).should be_a_new(Employee)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Employee.any_instance.stub(:save).and_return(false)
-        post :create, {:employee => {}}, valid_session
+        post :create, {company_id: company.to_param, employee: {}}, valid_session
         response.should render_template("new")
       end
     end
@@ -91,43 +96,39 @@ describe EmployeesController do
 
   describe "PUT update" do
     before do
-      mock_admin
+      employee.should be
+      mock_user
     end
 
     describe "with valid params" do
       it "updates the requested employee" do
-        employee = FactoryGirl.create(:employee)
         Employee.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => employee.to_param, :employee => {'these' => 'params'}}, valid_session
+        put :update, {id: employee.to_param, employee: {'these' => 'params'}}, valid_session
       end
 
       it "assigns the requested employee as @employee" do
-        employee = FactoryGirl.create(:employee)
-        put :update, {:id => employee.to_param, :employee => valid_attributes}, valid_session
+        put :update, {id: employee.to_param, employee: valid_attributes}, valid_session
         assigns(:employee).should eq(employee)
       end
 
       it "redirects to the employee" do
-        employee = FactoryGirl.create(:employee)
-        put :update, {:id => employee.to_param, :employee => valid_attributes}, valid_session
-        response.should redirect_to(employees_url)
+        put :update, {id: employee.to_param, employee: valid_attributes}, valid_session
+        response.should redirect_to(company_employees_url(company))
       end
     end
 
     describe "with invalid params" do
       it "assigns the employee as @employee" do
-        employee = FactoryGirl.create(:employee)
         # Trigger the behavior that occurs when invalid params are submitted
         Employee.any_instance.stub(:save).and_return(false)
-        put :update, {:id => employee.to_param, :employee => {}}, valid_session
+        put :update, {id: employee.to_param, employee: {}}, valid_session
         assigns(:employee).should eq(employee)
       end
 
       it "re-renders the 'edit' template" do
-        employee = FactoryGirl.create(:employee)
         # Trigger the behavior that occurs when invalid params are submitted
         Employee.any_instance.stub(:save).and_return(false)
-        put :update, {:id => employee.to_param, :employee => {}}, valid_session
+        put :update, {id: employee.to_param, employee: {}}, valid_session
         response.should render_template("edit")
       end
     end
@@ -135,21 +136,19 @@ describe EmployeesController do
 
   describe "DELETE destroy" do
     before do
-      mock_admin
+      employee.should be
+      mock_user
     end
 
     it "destroys the requested employee" do
-      employee = FactoryGirl.create(:employee)
       expect {
-        delete :destroy, {:id => employee.to_param}, valid_session
+        delete :destroy, {id: employee.to_param}, valid_session
       }.to change(Employee, :count).by(-1)
     end
 
     it "redirects to the employees list" do
-      employee = FactoryGirl.create(:employee)
-      delete :destroy, {:id => employee.to_param}, valid_session
-      response.should redirect_to(employees_url)
+      delete :destroy, {id: employee.to_param}, valid_session
+      response.should redirect_to(company_employees_url(company))
     end
   end
-
 end

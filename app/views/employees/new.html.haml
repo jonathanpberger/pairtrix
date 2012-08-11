@@ -1,4 +1,4 @@
 %h3 New employee
 
-= render 'form'
-
+= simple_form_for [@employee.company, @employee] do |f|
+  = render(partial: "form", locals: { form: f, employee: @employee })

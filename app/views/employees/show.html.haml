@@ -6,4 +6,4 @@ Avatar:
 = avatar_for(@employee)
 %br
 
-= link_to("Back", employees_url)
+= link_to("Back", company_employees_url(@employee.company))

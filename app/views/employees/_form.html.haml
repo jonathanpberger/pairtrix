@@ -1,18 +1,17 @@
-= simple_form_for @employee do |f|
-  = error_messages_for(@employee)
-  = f.input :first_name
-  = f.input :last_name
-  = f.input :avatar, as: :file
-  = f.hidden_field :avatar_cache
+= error_messages_for(employee)
+= form.input :first_name
+= form.input :last_name
+= form.input :avatar, as: :file
+= form.hidden_field :avatar_cache
 
-  = f.input :remote_avatar_url, label: "Or Image URL:"
+= form.input :remote_avatar_url, label: "Or Image URL:"
 
-  = f.input :remove_avatar, as: :boolean, inline_label: "Delete Avatar", label: false
+= form.input :remove_avatar, as: :boolean, inline_label: "Delete Avatar", label: false
 
-  - if @employee.avatar?
-    .control-group
-      = f.label :avatar_image
-      .controls
-        = image_tag(@employee.avatar_url)
+- if employee.avatar?
+  .control-group
+    = form.label :avatar_image
+    .controls
+      = image_tag(employee.avatar_url)
 
-  = f.button :wrapped, cancel: employees_url
+= form.button :wrapped, cancel: company_employees_url(employee.company)

@@ -1,26 +1,27 @@
 class TeamsController < ApplicationController
 
+  before_filter :load_company, only: [:index, :new, :create]
   before_filter :load_team, only: [:show, :edit, :update, :destroy]
 
   def index
-    @teams = Team.all
+    @teams = @company.teams
   end
 
   def show
   end
 
   def new
-    @team = Team.new
+    @team = @company.teams.build
   end
 
   def edit
   end
 
   def create
-    @team = Team.new(params[:team])
+    @team = @company.teams.new(params[:team])
 
     if @team.save
-      redirect_to teams_url, flash: { success: 'Team was successfully created.' }
+      redirect_to company_teams_url(@team.company), flash: { success: 'Team was successfully created.' }
     else
       render action: "new"
     end
@@ -28,7 +29,7 @@ class TeamsController < ApplicationController
 
   def update
     if @team.update_attributes(params[:team])
-      redirect_to teams_url, flash: { success: 'Team was successfully updated.' }
+      redirect_to company_teams_url(@team.company), flash: { success: 'Team was successfully updated.' }
     else
       render action: "edit"
     end
@@ -36,10 +37,14 @@ class TeamsController < ApplicationController
 
   def destroy
     @team.destroy
-    redirect_to teams_url
+    redirect_to company_teams_url(@team.company)
   end
 
   private
+
+  def load_company
+    @company = Company.find(params[:company_id])
+  end
 
   def load_team
     @team = Team.find(params[:id])

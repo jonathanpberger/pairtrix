@@ -1,4 +1,5 @@
 %h3 New team
 
-= render 'form'
+= simple_form_for [@team.company, @team] do |f|
+  = render(partial: "form", locals: { form: f, team: @team })
 

@@ -13,5 +13,5 @@
       = render(partial: 'matrix', locals: { team: @team })
     #team-memberships.tab-pane
       = render(partial: 'team_memberships', locals: { team: @team })
-= link_to("Back", teams_url)
+= link_to("Back", company_teams_url(@team.company))
 
