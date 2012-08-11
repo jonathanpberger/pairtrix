@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe PagesController do
 
-  describe "GET 'home'" do
+  describe "GET 'about'" do
     it "returns http success" do
-      get 'home'
+      get 'about'
       response.should be_success
     end
   end

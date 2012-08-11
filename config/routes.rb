@@ -7,6 +7,7 @@ Pairtrix::Application.routes.draw do
   match "/dashboard", to: "users#dashboard", :as => "dashboard"
 
   match "/pairs/ajax_create", to: "pairs#create"
+  match "/about", to: "pages#about", as: :about
 
   resources :sessions
   resources :users
@@ -20,6 +21,6 @@ Pairtrix::Application.routes.draw do
     end
   end
 
-  root :to => 'pages#home'
+  root :to => 'companies#index'
 
 end
