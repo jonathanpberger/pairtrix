@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120807024858) do
+ActiveRecord::Schema.define(:version => 20120810025049) do
+
+  create_table "companies", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "companies", ["user_id", "name"], :name => "index_companies_on_user_id_and_name"
 
   create_table "employees", :force => true do |t|
     t.string   "first_name"
@@ -19,9 +28,10 @@ ActiveRecord::Schema.define(:version => 20120807024858) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "avatar"
+    t.integer  "company_id"
   end
 
-  add_index "employees", ["last_name", "first_name"], :name => "index_employees_on_last_name_and_first_name", :unique => true
+  add_index "employees", ["company_id", "last_name", "first_name"], :name => "index_employees_on_company_id_and_last_name_and_first_name"
 
   create_table "pair_memberships", :force => true do |t|
     t.integer  "pair_id"
@@ -66,9 +76,10 @@ ActiveRecord::Schema.define(:version => 20120807024858) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "company_id"
   end
 
-  add_index "teams", ["name"], :name => "index_teams_on_name", :unique => true
+  add_index "teams", ["company_id", "name"], :name => "index_teams_on_company_id_and_name"
 
   create_table "users", :force => true do |t|
     t.string   "provider"

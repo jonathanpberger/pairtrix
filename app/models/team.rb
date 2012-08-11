@@ -1,8 +1,11 @@
 class Team < ActiveRecord::Base
-  attr_accessible :name
+  attr_accessible :name, :company_id
 
   validates_presence_of :name
   validates_uniqueness_of :name
+  validates_presence_of :company_id
+
+  belongs_to :company
 
   has_many :team_memberships, dependent: :destroy
   has_many :employees, through: :team_memberships

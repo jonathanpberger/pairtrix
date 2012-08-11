@@ -29,6 +29,38 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: companies; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE companies (
+    id integer NOT NULL,
+    user_id integer,
+    name character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: companies_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE companies_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: companies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE companies_id_seq OWNED BY companies.id;
+
+
+--
 -- Name: employees; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -38,7 +70,8 @@ CREATE TABLE employees (
     last_name character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    avatar character varying(255)
+    avatar character varying(255),
+    company_id integer
 );
 
 
@@ -207,7 +240,8 @@ CREATE TABLE teams (
     id integer NOT NULL,
     name character varying(255),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    company_id integer
 );
 
 
@@ -269,6 +303,13 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY companies ALTER COLUMN id SET DEFAULT nextval('companies_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY employees ALTER COLUMN id SET DEFAULT nextval('employees_id_seq'::regclass);
 
 
@@ -312,6 +353,14 @@ ALTER TABLE ONLY teams ALTER COLUMN id SET DEFAULT nextval('teams_id_seq'::regcl
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Name: companies_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY companies
+    ADD CONSTRAINT companies_pkey PRIMARY KEY (id);
 
 
 --
@@ -371,10 +420,17 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: index_employees_on_last_name_and_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_companies_on_user_id_and_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_employees_on_last_name_and_first_name ON employees USING btree (last_name, first_name);
+CREATE INDEX index_companies_on_user_id_and_name ON companies USING btree (user_id, name);
+
+
+--
+-- Name: index_employees_on_company_id_and_last_name_and_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_employees_on_company_id_and_last_name_and_first_name ON employees USING btree (company_id, last_name, first_name);
 
 
 --
@@ -420,10 +476,10 @@ CREATE INDEX index_team_memberships_on_team_id ON team_memberships USING btree (
 
 
 --
--- Name: index_teams_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_teams_on_company_id_and_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_teams_on_name ON teams USING btree (name);
+CREATE INDEX index_teams_on_company_id_and_name ON teams USING btree (company_id, name);
 
 
 --
@@ -464,5 +520,9 @@ INSERT INTO schema_migrations (version) VALUES ('20120727234900');
 INSERT INTO schema_migrations (version) VALUES ('20120727235000');
 
 INSERT INTO schema_migrations (version) VALUES ('20120807024858');
+
+INSERT INTO schema_migrations (version) VALUES ('20120810023820');
+
+INSERT INTO schema_migrations (version) VALUES ('20120810025049');
 
 INSERT INTO schema_migrations (version) VALUES ('3');

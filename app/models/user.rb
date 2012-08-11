@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   attr_accessible :admin, :email, :name, :provider, :uid
 
+  has_many :companies
+
   class << self
 
     def from_omniauth(auth)
