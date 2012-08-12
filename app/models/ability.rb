@@ -17,5 +17,9 @@ class Ability
     can :update, Employee, company: { user_id: user.id }
     can :create, Employee, company: { user_id: user.id }
     can :destroy, Employee, company: { user_id: user.id }
+
+    can :update, Team, company: { user_id: user.id }
+    can :create, Team, company: { user_id: user.id }
+    can :destroy, Team, company: { user_id: user.id }
   end
 end

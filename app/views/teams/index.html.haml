@@ -1,11 +1,13 @@
 %h3 Teams
 
-= link_to 'New Team', new_company_team_path
+- if can? :create, @company.teams.build
+  .new-item
+    = link_to 'New Team', new_company_team_path(@company)
 
 %table.table.table-striped.table-condensed.table-bordered
-  %tr
-    %th
-      Name
-    %th
-      Action
-  = render(partial: 'team_row', collection: @teams, as: 'team')
+  %thead
+    %tr
+      %th
+        Name
+  %tbody
+    = render(partial: 'team_row', collection: @teams, as: 'team')

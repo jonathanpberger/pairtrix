@@ -1,10 +1,10 @@
 class TeamsController < ApplicationController
 
-  before_filter :load_company, only: [:index, :new, :create]
-  before_filter :load_team, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource :company
+  load_and_authorize_resource :team, through: :company, shallow: true
 
   def index
-    @teams = @company.teams
+    @teams = @company.teams.all
   end
 
   def show
@@ -38,15 +38,5 @@ class TeamsController < ApplicationController
   def destroy
     @team.destroy
     redirect_to company_teams_url(@team.company)
-  end
-
-  private
-
-  def load_company
-    @company = Company.find(params[:company_id])
-  end
-
-  def load_team
-    @team = Team.find(params[:id])
   end
 end
