@@ -1,7 +1,7 @@
 class TeamMembershipsController < ApplicationController
 
-  before_filter :load_team, only: [:index, :new, :create]
-  before_filter :load_team_membership, except: [:index, :new, :create]
+  load_and_authorize_resource :team
+  load_and_authorize_resource :team_membership, through: :team, shallow: true
 
   def index
     @team_memberships = @team.team_memberships
@@ -39,15 +39,5 @@ class TeamMembershipsController < ApplicationController
   def destroy
     @team_membership.destroy
     redirect_to team_url(@team_membership.team)
-  end
-
-  private
-
-  def load_team_membership
-    @team_membership = TeamMembership.find(params[:id])
-  end
-
-  def load_team
-    @team = Team.find(params[:team_id])
   end
 end

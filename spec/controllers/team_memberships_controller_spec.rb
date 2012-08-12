@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe TeamMembershipsController do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:company) { FactoryGirl.create(:company, user: user) }
+  let(:team) { FactoryGirl.create(:team, company: company) }
+  let(:team_membership) { FactoryGirl.create(:team_membership, team: team) }
 
   def valid_attributes
     FactoryGirl.attributes_for(:team_membership).merge!(employee_id: 1)
@@ -10,14 +14,17 @@ describe TeamMembershipsController do
     {}
   end
 
-  def mock_admin
-    user = mock(:user, admin?: true)
+  def mock_user
     controller.stub(:current_user).and_return(user)
+  end
+
+  before do
+    company.should be
   end
 
   describe "GET index" do
     it "assigns all team_memberships as @team_memberships" do
-      team_membership = FactoryGirl.create(:team_membership)
+      team_membership.should be
       get :index, { team_id: team_membership.team.to_param }, valid_session
       assigns(:team_memberships).should eq([team_membership])
     end
@@ -25,7 +32,6 @@ describe TeamMembershipsController do
 
   describe "GET show" do
     it "assigns the requested team_membership as @team_membership" do
-      team_membership = FactoryGirl.create(:team_membership)
       get :show, { id: team_membership.to_param }, valid_session
       assigns(:team_membership).should eq(team_membership)
     end
@@ -33,8 +39,7 @@ describe TeamMembershipsController do
 
   describe "GET new" do
     it "assigns a new team_membership as @team_membership" do
-      mock_admin
-      team = FactoryGirl.create(:team)
+      mock_user
       get :new, { team_id: team.to_param }, valid_session
       assigns(:team_membership).should be_a_new(TeamMembership)
     end
@@ -42,18 +47,15 @@ describe TeamMembershipsController do
 
   describe "GET edit" do
     it "assigns the requested team_membership as @team_membership" do
-      mock_admin
-      team_membership = FactoryGirl.create(:team_membership)
+      mock_user
       get :edit, { id: team_membership.to_param }, valid_session
       assigns(:team_membership).should eq(team_membership)
     end
   end
 
   describe "POST create" do
-    let!(:team) { FactoryGirl.create(:team) }
-
     before do
-      mock_admin
+      mock_user
     end
 
     describe "with valid params" do
@@ -94,11 +96,8 @@ describe TeamMembershipsController do
   end
 
   describe "PUT update" do
-    let!(:team_membership) { FactoryGirl.create(:team_membership) }
-    let(:team) { team_membership.team }
-
     before do
-      mock_admin
+      mock_user
     end
 
     describe "with valid params" do
@@ -138,11 +137,9 @@ describe TeamMembershipsController do
   end
 
   describe "DELETE destroy" do
-    let!(:team_membership) { FactoryGirl.create(:team_membership) }
-    let(:team) { team_membership.team }
-
     before do
-      mock_admin
+      team_membership.should be
+      mock_user
     end
 
     it "destroys the requested team_membership" do

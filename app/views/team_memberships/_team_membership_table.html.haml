@@ -1,0 +1,18 @@
+%h3
+  Team Memberships
+
+- if (Employee.available.any?) && (can? :create, team.team_memberships.build)
+  .new-item
+    = link_to 'New Team Membership', new_team_team_membership_path(team)
+
+%table.table.table-striped.table-condensed.table-bordered
+  %thead
+    %tr
+      %th
+        Employee Name
+      %th
+        Start date
+      %th
+        End date
+  %tbody
+    = render(partial: 'team_memberships/team_membership_row', collection: team.team_memberships.sorted, as: 'team_membership')
