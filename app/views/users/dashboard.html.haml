@@ -1,14 +1,15 @@
-%h4
+%h3
   User Dashboard
-.name
-  %strong
-    Name:
-  = current_user.name
-.email
-  %strong
-    Email:
-  = current_user.email
-.uid
-  %strong
-    UID:
-  = current_user.uid
+.user-information
+  .name
+    %strong
+      Name:
+    = current_user.name
+  .email
+    %strong
+      Email:
+    = current_user.email
+  .uid
+    %strong
+      UID:
+    = current_user.uid
