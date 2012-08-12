@@ -1,8 +1,6 @@
 class CompaniesController < ApplicationController
 
-  before_filter :authenticate_user!, except: [:index, :show]
-
-  before_filter :load_company, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
 
   def index
     @companies = Company.all
@@ -39,11 +37,5 @@ class CompaniesController < ApplicationController
   def destroy
     @company.destroy
     redirect_to companies_url
-  end
-
-  private
-
-  def load_company
-    @company = Company.find(params[:id])
   end
 end

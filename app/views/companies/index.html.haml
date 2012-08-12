@@ -1,11 +1,16 @@
 %h3 Companies
 
-= link_to 'New Company', new_company_path
+- if user_signed_in?
+  .new-item
+    = link_to 'New Company', new_company_path
 
 %table.table.table-striped.table-condensed.table-bordered
-  %tr
-    %th
-      Name
-    %th
-      Action
-  = render(partial: 'company_row', collection: @companies, as: 'company')
+  %thead
+    %tr
+      %th
+        Name
+      - if can? :update, @companies
+        %th
+          Action
+  %tbody
+    = render(partial: 'company_row', collection: @companies, as: 'company')

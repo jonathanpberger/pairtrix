@@ -1,8 +1,14 @@
 class ApplicationController < ActionController::Base
 
+  check_authorization
+
   helper_method :current_user, :user_signed_in?, :admin?
 
   protect_from_forgery
+
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, flash: { error: exception.message }
+  end
 
   protected
 
