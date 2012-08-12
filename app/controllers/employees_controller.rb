@@ -1,7 +1,7 @@
 class EmployeesController < ApplicationController
 
-  before_filter :load_company, only: [:index, :new, :create]
-  before_filter :load_employee, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource :company
+  load_and_authorize_resource :employee, through: :company, shallow: true
 
   def index
     @employees = @company.employees.ordered_by_last_name
@@ -38,15 +38,5 @@ class EmployeesController < ApplicationController
   def destroy
     @employee.destroy
     redirect_to company_employees_url(@employee.company)
-  end
-
-  private
-
-  def load_company
-    @company = Company.find(params[:company_id])
-  end
-
-  def load_employee
-    @employee = Employee.find(params[:id])
   end
 end

@@ -1,4 +1,5 @@
-%td
-  = link_to('Edit', polymorphic_path(item, action: :edit)) if can? :update, item
-  = link_to('Destroy', item, data: { confirm: 'Are you sure?' }, :method => :delete) if can? :destroy, item
+- if (can? :update, item) || (can? :destroy, item)
+  %td
+    = link_to('Edit', polymorphic_path(item, action: :edit)) if can? :update, item
+    = link_to('Destroy', item, data: { confirm: 'Are you sure?' }, :method => :delete) if can? :destroy, item
 
