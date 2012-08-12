@@ -2,8 +2,9 @@ Pairtrix::Application.routes.draw do
 
   match "/auth/:provider/callback", to: "sessions#create"
   match "/auth/failure", to: "sessions#failure"
-  match "/sign_out", to: "sessions#destroy", :as => "sign_out"
-  match "/dashboard", to: "users#dashboard", :as => "dashboard"
+  match "/sign_out", to: "sessions#destroy", as: "sign_out"
+  match "/sign_in" => redirect("/auth/google_oauth2"), as: "sign_in"
+  match "/dashboard", to: "users#dashboard", as: "dashboard"
 
   match "/pairs/ajax_create", to: "pairs#create"
   match "/about", to: "pages#about", as: :about
@@ -20,6 +21,6 @@ Pairtrix::Application.routes.draw do
     end
   end
 
-  root :to => 'companies#index'
+  root to: 'companies#index'
 
 end
