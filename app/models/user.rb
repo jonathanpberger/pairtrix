@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   attr_accessible :admin, :email, :name, :provider, :uid
 
   has_many :companies
+  has_many :membership_requests, dependent: :destroy
 
   class << self
 

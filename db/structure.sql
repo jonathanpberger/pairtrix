@@ -95,6 +95,39 @@ ALTER SEQUENCE employees_id_seq OWNED BY employees.id;
 
 
 --
+-- Name: membership_requests; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE membership_requests (
+    id integer NOT NULL,
+    company_id integer,
+    user_id integer,
+    status character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: membership_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE membership_requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: membership_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE membership_requests_id_seq OWNED BY membership_requests.id;
+
+
+--
 -- Name: pair_memberships; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -317,6 +350,13 @@ ALTER TABLE ONLY employees ALTER COLUMN id SET DEFAULT nextval('employees_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY membership_requests ALTER COLUMN id SET DEFAULT nextval('membership_requests_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY pair_memberships ALTER COLUMN id SET DEFAULT nextval('pair_memberships_id_seq'::regclass);
 
 
@@ -369,6 +409,14 @@ ALTER TABLE ONLY companies
 
 ALTER TABLE ONLY employees
     ADD CONSTRAINT employees_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: membership_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY membership_requests
+    ADD CONSTRAINT membership_requests_pkey PRIMARY KEY (id);
 
 
 --
@@ -431,6 +479,20 @@ CREATE INDEX index_companies_on_user_id_and_name ON companies USING btree (user_
 --
 
 CREATE INDEX index_employees_on_company_id_and_last_name_and_first_name ON employees USING btree (company_id, last_name, first_name);
+
+
+--
+-- Name: index_membership_requests_on_company_id_and_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_membership_requests_on_company_id_and_user_id ON membership_requests USING btree (company_id, user_id);
+
+
+--
+-- Name: index_membership_requests_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_membership_requests_on_status ON membership_requests USING btree (status);
 
 
 --
@@ -524,5 +586,7 @@ INSERT INTO schema_migrations (version) VALUES ('20120807024858');
 INSERT INTO schema_migrations (version) VALUES ('20120810023820');
 
 INSERT INTO schema_migrations (version) VALUES ('20120810025049');
+
+INSERT INTO schema_migrations (version) VALUES ('20120813024150');
 
 INSERT INTO schema_migrations (version) VALUES ('3');
