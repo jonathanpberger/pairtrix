@@ -61,6 +61,39 @@ ALTER SEQUENCE companies_id_seq OWNED BY companies.id;
 
 
 --
+-- Name: company_memberships; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE company_memberships (
+    id integer NOT NULL,
+    company_id integer,
+    user_id integer,
+    role character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: company_memberships_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE company_memberships_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: company_memberships_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE company_memberships_id_seq OWNED BY company_memberships.id;
+
+
+--
 -- Name: employees; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -343,6 +376,13 @@ ALTER TABLE ONLY companies ALTER COLUMN id SET DEFAULT nextval('companies_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY company_memberships ALTER COLUMN id SET DEFAULT nextval('company_memberships_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY employees ALTER COLUMN id SET DEFAULT nextval('employees_id_seq'::regclass);
 
 
@@ -401,6 +441,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 ALTER TABLE ONLY companies
     ADD CONSTRAINT companies_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: company_memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY company_memberships
+    ADD CONSTRAINT company_memberships_pkey PRIMARY KEY (id);
 
 
 --
@@ -472,6 +520,20 @@ ALTER TABLE ONLY users
 --
 
 CREATE INDEX index_companies_on_user_id_and_name ON companies USING btree (user_id, name);
+
+
+--
+-- Name: index_company_memberships_on_company_id_and_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_company_memberships_on_company_id_and_user_id ON company_memberships USING btree (company_id, user_id);
+
+
+--
+-- Name: index_company_memberships_on_role; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_company_memberships_on_role ON company_memberships USING btree (role);
 
 
 --
@@ -588,5 +650,7 @@ INSERT INTO schema_migrations (version) VALUES ('20120810023820');
 INSERT INTO schema_migrations (version) VALUES ('20120810025049');
 
 INSERT INTO schema_migrations (version) VALUES ('20120813024150');
+
+INSERT INTO schema_migrations (version) VALUES ('20120813043704');
 
 INSERT INTO schema_migrations (version) VALUES ('3');
