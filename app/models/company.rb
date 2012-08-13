@@ -11,5 +11,6 @@ class Company < ActiveRecord::Base
   has_many :teams, dependent: :destroy
   has_many :employees, dependent: :destroy
   has_many :membership_requests, dependent: :destroy
+  has_many :company_memberships, dependent: :destroy
 
 end

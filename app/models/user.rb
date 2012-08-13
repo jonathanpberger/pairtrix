@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
 
   has_many :companies
   has_many :membership_requests, dependent: :destroy
+  has_many :company_memberships, dependent: :destroy
 
   class << self
 

@@ -51,16 +51,27 @@ describe MembershipRequestsController do
   describe "PUT update" do
     let(:commit_type) { "Approve" }
 
+    def do_update
+      put :update, { id: membership_request.to_param, membership_request: {}, commit: commit_type}, valid_session
+    end
+
     before do
       mock_user
       membership_request.should be
-      put :update, { id: membership_request.to_param, membership_request: {}, commit: commit_type}, valid_session
     end
 
     describe "with valid params" do
       context "when approved" do
         it "sets the membership_request to approved" do
+          do_update
           assigns(:membership_request).status.should == "Approved"
+        end
+
+        it "creates a new CompanyMembership" do
+          expect {
+            do_update
+          }.to change(CompanyMembership, :count).by(1)
+          CompanyMembership.last.user_id.should == membership_request.user_id
         end
       end
 
@@ -68,11 +79,19 @@ describe MembershipRequestsController do
         let(:commit_type) { "Deny" }
 
         it "sets the membership_request to denied" do
+          do_update
           assigns(:membership_request).status.should == "Denied"
+        end
+
+        it "fails to create a new CompanyMembership" do
+          expect {
+            do_update
+          }.to change(CompanyMembership, :count).by(0)
         end
       end
 
       it "redirects to the user_dashboard" do
+        do_update
         response.should redirect_to(company_url(company))
       end
     end

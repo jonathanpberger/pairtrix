@@ -19,6 +19,7 @@ class MembershipRequestsController < ApplicationController
       params[:membership_request][:status] = "Denied"
     when "Approve"
       params[:membership_request][:status] = "Approved"
+      @membership_request.company.company_memberships.create(user_id: @membership_request.user_id, role: "member")
     end
 
     @membership_request.update_attributes(params[:membership_request])
