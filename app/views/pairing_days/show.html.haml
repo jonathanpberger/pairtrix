@@ -2,7 +2,7 @@
   = @pairing_day.pairing_date
 %br
 
-= render(partial: 'pairs', locals: { pairing_day: @pairing_day })
+= render(partial: 'pairs/pair_table', locals: { pairing_day: @pairing_day })
 
 = render(partial: 'teams/matrix', locals: { team: @pairing_day.team })
 

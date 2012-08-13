@@ -1,6 +1,4 @@
 %tr
   %td
     = link_to pairing_day.pairing_date, pairing_day
-  %td
-    = link_to 'Edit', edit_pairing_day_path(pairing_day)
-    = link_to 'Destroy', pairing_day, data: { confirm: 'Are you sure?' }, :method => :delete
+  = render(partial: "shared/action_column", locals: { item: pairing_day })

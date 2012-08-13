@@ -1,8 +1,14 @@
+%h3 Pairs
+
+- if (pairing_day.available_team_memberships?) && (can? :create, pairing_day.pairs.build)
+  .new-item
+    = link_to 'New Pair', new_pairing_day_pair_path(pairing_day)
+
 %table.table.table-striped.table-condensed.table-bordered
-  %tr
-    %th
-      Name
-    %th
-      Action
-  = render(partial: "pair_row", collection: pairs, as: 'pair')
+  %thead
+    %tr
+      %th
+        Name
+  %tbody
+    = render(partial: "pairs/pair_row", collection: pairing_day.pairs.all, as: 'pair')
 

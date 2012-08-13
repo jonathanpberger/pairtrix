@@ -1,10 +1,12 @@
 class PairsController < ApplicationController
 
   before_filter :load_pairing_day, only: [:index, :new, :create]
-  before_filter :load_pair, except: [:index, :new, :create]
+
+  load_and_authorize_resource :pairing_day
+  load_and_authorize_resource :pair, through: :pairing_day, shallow: true
 
   def index
-    @pairs = @pairing_day.pairs
+    @pairs = @pairing_day.pairs.all
   end
 
   def show
@@ -58,10 +60,6 @@ class PairsController < ApplicationController
   end
 
   private
-
-  def load_pair
-    @pair = Pair.find(params[:id])
-  end
 
   def load_pairing_day
     if params[:pairing_day_id]

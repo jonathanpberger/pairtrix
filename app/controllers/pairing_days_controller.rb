@@ -1,10 +1,10 @@
 class PairingDaysController < ApplicationController
 
-  before_filter :load_team, only: [:index, :new, :create]
-  before_filter :load_pairing_day, except: [:index, :new, :create]
+  load_and_authorize_resource :team
+  load_and_authorize_resource :pairing_day, through: :team, shallow: true
 
   def index
-    @pairing_days = @team.pairing_days
+    @pairing_days = @team.pairing_days.order("pairing_date DESC")
   end
 
   def show
@@ -38,15 +38,5 @@ class PairingDaysController < ApplicationController
   def destroy
     @pairing_day.destroy
     redirect_to team_url(@pairing_day.team)
-  end
-
-  private
-
-  def load_pairing_day
-    @pairing_day = PairingDay.find(params[:id])
-  end
-
-  def load_team
-    @team = Team.find(params[:team_id])
   end
 end

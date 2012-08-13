@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe PairsController do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:company) { FactoryGirl.create(:company, user: user) }
+  let(:team) { FactoryGirl.create(:team, company: company) }
+  let(:pairing_day) { FactoryGirl.create(:pairing_day, team: team) }
+  let(:pair) { FactoryGirl.create(:pair_with_memberships, pairing_day: pairing_day) }
 
   def valid_attributes
     FactoryGirl.attributes_for(:pair)
@@ -10,25 +15,23 @@ describe PairsController do
     {}
   end
 
-  def mock_admin
-    user = mock(:user, admin?: true)
+  def mock_user
     controller.stub(:current_user).and_return(user)
   end
 
-  describe "GET index" do
-    let!(:pair) { FactoryGirl.create(:pair_with_memberships) }
-    let(:pairing_day) { pair.pairing_day }
+  before do
+    company.should be
+  end
 
+  describe "GET index" do
     it "assigns all pairs as @pairs" do
+      pair.should be
       get :index, { pairing_day_id: pairing_day.to_param, }, valid_session
       assigns(:pairs).should eq([pair])
     end
   end
 
   describe "GET show" do
-    let!(:pair) { FactoryGirl.create(:pair_with_memberships) }
-    let(:pairing_day) { pair.pairing_day }
-
     it "assigns the requested pair as @pair" do
       get :show, { id: pair.to_param }, valid_session
       assigns(:pair).should eq(pair)
@@ -36,38 +39,30 @@ describe PairsController do
   end
 
   describe "GET new" do
-    let!(:pairing_day) { FactoryGirl.create(:pairing_day) }
-
     it "assigns a new pair as @pair" do
-      mock_admin
+      mock_user
       get :new, { pairing_day_id: pairing_day.to_param, }, valid_session
       assigns(:pair).should be_a_new(Pair)
     end
   end
 
   describe "GET edit" do
-    let!(:pair) { FactoryGirl.create(:pair_with_memberships) }
-    let(:pairing_day) { pair.pairing_day }
-
     it "assigns the requested pair as @pair" do
-      mock_admin
+      mock_user
       get :edit, { id: pair.to_param }, valid_session
       assigns(:pair).should eq(pair)
     end
   end
 
   describe "POST create" do
-    let!(:pairing_day) { FactoryGirl.create(:pairing_day) }
-    let!(:team_membership) { FactoryGirl.create(:team_membership) }
-    let(:team) { team_membership.team }
-    let!(:team_membership_1) { FactoryGirl.create(:team_membership, team: team) }
+    let(:team_membership) { FactoryGirl.create(:team_membership, team: team) }
+    let(:team_membership_1) { FactoryGirl.create(:team_membership, team: team) }
 
     before do
-      mock_admin
+      mock_user
     end
 
     describe "with valid params" do
-
       it "creates a new Pair" do
         expect {
           post :create, { pairing_day_id: pairing_day.to_param, pair: valid_attributes.merge!(team_membership_ids: [team_membership.id, team_membership_1.id]) }, valid_session
@@ -122,11 +117,8 @@ describe PairsController do
   end
 
   describe "PUT update" do
-    let!(:pair) { FactoryGirl.create(:pair_with_memberships) }
-    let(:pairing_day) { pair.pairing_day }
-
     before do
-      mock_admin
+      mock_user
     end
 
     describe "with valid params" do
@@ -164,11 +156,9 @@ describe PairsController do
   end
 
   describe "DELETE destroy" do
-    let!(:pair) { FactoryGirl.create(:pair_with_memberships) }
-    let(:pairing_day) { pair.pairing_day }
-
     before do
-      mock_admin
+      pair.should be
+      mock_user
     end
 
     it "destroys the requested pair" do
