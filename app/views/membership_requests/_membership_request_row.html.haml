@@ -1,0 +1,7 @@
+%tr
+  %td
+    = membership_request.user.name
+    %br
+    = membership_request.user.email
+  %td
+    = render(partial: "membership_requests/edit", locals: { membership_request: membership_request })

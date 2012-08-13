@@ -12,4 +12,10 @@ class MembershipRequest < ActiveRecord::Base
   validates_presence_of :status
 
   validates_inclusion_of :status, in: MembershipRequest::STATUSES, if: :status
+
+  class << self
+    def pending
+      where(status: "Pending")
+    end
+  end
 end

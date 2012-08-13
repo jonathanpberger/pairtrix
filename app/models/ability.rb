@@ -10,6 +10,9 @@ class Ability
       can :read, :all
     end
 
+    can :create, MembershipRequest
+    can :update, MembershipRequest, company: { user_id: user.id }
+
     can :update, Company, user_id: user.id
     can :create, Company, user_id: user.id
     can :destroy, Company, user_id: user.id

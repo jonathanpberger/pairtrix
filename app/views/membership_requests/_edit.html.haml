@@ -1,0 +1,4 @@
+= simple_form_for membership_request do |f|
+  = f.button :submit, "Approve", class: "btn btn-success"
+  = f.button :submit, "Deny", class: "btn btn-danger"
+  = f.input :company_id, as: :hidden

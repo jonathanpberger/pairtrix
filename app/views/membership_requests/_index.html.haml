@@ -1,0 +1,14 @@
+%h3
+  Membership Requests
+
+%table.table.table-striped.table-condensed.table-bordered
+  %thead
+    %tr
+      %th
+        Name
+      %th
+        Action
+  %tbody
+    = render(partial: 'membership_requests/membership_request_row',
+             collection: company.membership_requests.pending,
+             as: 'membership_request')
