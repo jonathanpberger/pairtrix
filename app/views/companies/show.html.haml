@@ -9,7 +9,7 @@
   %li
     = link_to("Teams", company_teams_path(@company))
 
-- if can? :update, @company.membership_requests.build && @company.membership_requests.pending.any?
+- if (can? :update, @company.membership_requests.build) && (@company.membership_requests.pending.any?)
   = render(partial: "membership_requests/index", locals: { company: @company })
 
 = link_to("Back", companies_url)
