@@ -27,12 +27,24 @@ $(function() {
     modifyPairMemberCells();
   }
 
+  function notAuthorized() {
+    $("#flash-messages").html("<div class='alert alert-error'>You are not authorized to complete this action.</div>").show().delay(2000).fadeOut("fast");
+  }
+
   function addPair(clickedCell) {
     var pairMemberIds = clickedCell.data("pair-memberships").split(",");
     var teamId = $(".matrix-table").data("team-id");
     $.post("/pairs/ajax_create", { 'pair[team_membership_ids][]': pairMemberIds, team_id: teamId, format: 'json' },
            function(json) {
-             clickedCell.data("pair-id", json.pairId);
+             if (json.success === true) {
+               var pairingInformation = getPairingInformation(clickedCell);
+               clickedCell.data("pair-id", json.pairId);
+               updateCellCount(clickedCell, 1);
+               clickedCell.addClass("created-pair").removeClass("faded");
+               updatePairedMemberships(pairingInformation.pairedMembershipIds.concat(pairingInformation.pairMemberIds));
+             } else {
+               notAuthorized();
+             }
            });
   }
 
@@ -40,7 +52,15 @@ $(function() {
     var pairId = clickedCell.data("pair-id");
     $.post("/pairs/"+pairId, { _method: 'delete', format: 'json' },
            function(json) {
-             clickedCell.removeData("pair-id");
+             if (json.success === true) {
+               var pairingInformation = getPairingInformation(clickedCell);
+               clickedCell.removeData("pair-id");
+               updateCellCount(clickedCell, -1);
+               clickedCell.removeClass("created-pair").removeClass("faded");
+               updatePairedMemberships(removePairIds(pairingInformation.pairedMembershipIds, pairingInformation.pairMemberIds));
+             } else {
+               notAuthorized();
+             }
            });
   }
 
@@ -49,23 +69,20 @@ $(function() {
     clickedCell.text(count);
   }
 
+  function getPairingInformation(clickedCell) {
+    var pairingInformation = {};
+    pairingInformation.pairMemberIds = clickedCell.data("pair-memberships").split(",");
+    pairingInformation.pairedMembershipIds = $(".matrix-table").data("paired-memberships");
+    return pairingInformation;
+  }
+
   $(".matrix-row-paired-count").click(function() {
     var clickedCell = $(this);
     if (!clickedCell.hasClass("faded")) {
-
-      var pairMemberIds = clickedCell.data("pair-memberships").split(",");
-      var pairedMembershipIds = $(".matrix-table").data("paired-memberships");
-
       if (clickedCell.hasClass("created-pair")) {
         removePair(clickedCell);
-        updateCellCount(clickedCell, -1);
-        updatePairedMemberships(removePairIds(pairedMembershipIds, pairMemberIds));
-        clickedCell.removeClass("created-pair").removeClass("faded");
       } else {
         addPair(clickedCell);
-        updateCellCount(clickedCell, 1);
-        updatePairedMemberships(pairedMembershipIds.concat(pairMemberIds));
-        clickedCell.addClass("created-pair").removeClass("faded");
       }
     }
   });

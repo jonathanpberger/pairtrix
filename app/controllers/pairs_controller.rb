@@ -39,7 +39,15 @@ class PairsController < ApplicationController
         end
       end
     else
-      render action: "new"
+      respond_to do |format|
+        format.html do
+          render action: "new"
+        end
+
+        format.json do
+          render(json: { success: false })
+        end
+      end
     end
   end
 
