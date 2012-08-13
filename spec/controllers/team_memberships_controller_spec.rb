@@ -5,6 +5,7 @@ describe TeamMembershipsController do
   let(:company) { FactoryGirl.create(:company, user: user) }
   let(:team) { FactoryGirl.create(:team, company: company) }
   let(:team_membership) { FactoryGirl.create(:team_membership, team: team) }
+  let(:company_membership) { FactoryGirl.create(:company_membership, company: company, user: user) }
 
   def valid_attributes
     FactoryGirl.attributes_for(:team_membership).merge!(employee_id: 1)
@@ -19,7 +20,7 @@ describe TeamMembershipsController do
   end
 
   before do
-    company.should be
+    company_membership.should be
   end
 
   describe "GET index" do

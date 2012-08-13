@@ -42,4 +42,28 @@ describe Company do
       end
     end
   end
+
+  describe "#has_membership_for?" do
+    subject { company.has_membership_for?(user) }
+
+    let(:membership_user) { FactoryGirl.create(:user) }
+    let(:company_membership) { FactoryGirl.create(:company_membership, user: membership_user) }
+    let(:company) { company_membership.company }
+
+    before do
+      company.should be
+    end
+
+    context "when it has a membership" do
+      let(:user) { membership_user }
+
+      it { should be_true }
+    end
+
+    context "when it doesn't have a membership" do
+      let(:user) { FactoryGirl.create(:user) }
+
+      it { should be_false }
+    end
+  end
 end

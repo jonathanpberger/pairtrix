@@ -6,6 +6,7 @@ describe PairsController do
   let(:team) { FactoryGirl.create(:team, company: company) }
   let(:pairing_day) { FactoryGirl.create(:pairing_day, team: team) }
   let(:pair) { FactoryGirl.create(:pair_with_memberships, pairing_day: pairing_day) }
+  let(:company_membership) { FactoryGirl.create(:company_membership, company: company, user: user) }
 
   def valid_attributes
     FactoryGirl.attributes_for(:pair)
@@ -20,7 +21,7 @@ describe PairsController do
   end
 
   before do
-    company.should be
+    company_membership.should be
   end
 
   describe "GET index" do

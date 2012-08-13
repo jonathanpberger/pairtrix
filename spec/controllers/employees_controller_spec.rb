@@ -4,6 +4,7 @@ describe EmployeesController do
   let(:user) { FactoryGirl.create(:user) }
   let(:company) { FactoryGirl.create(:company, user: user) }
   let(:employee) { FactoryGirl.create(:employee, company: company) }
+  let(:company_membership) { FactoryGirl.create(:company_membership, company: company, user: user) }
 
   def valid_attributes
     FactoryGirl.attributes_for(:employee)
@@ -18,7 +19,7 @@ describe EmployeesController do
   end
 
   before do
-    company.should be
+    company_membership.should be
   end
 
   describe "GET index" do

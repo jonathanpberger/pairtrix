@@ -13,4 +13,7 @@ class Company < ActiveRecord::Base
   has_many :membership_requests, dependent: :destroy
   has_many :company_memberships, dependent: :destroy
 
+  def has_membership_for?(user)
+    company_memberships.detect { |company_membership| company_membership.user_id == user.id }
+  end
 end
