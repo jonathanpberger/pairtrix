@@ -22,12 +22,27 @@ describe MembershipRequestsController do
       mock_user
     end
 
+    def do_post
+      post :create, { company_id: company.to_param }, valid_session
+    end
+
     describe "with valid params" do
       context "without an existing request" do
+        let(:mailer) { double(:mailer, deliver: true) }
+
+        before do
+          MembershipRequestMailer.should_receive(:membership_request_email).and_return(mailer)
+        end
+
         it "creates a new MembershipRequest" do
           expect {
-            post :create, { company_id: company.to_param }, valid_session
+            do_post
           }.to change(MembershipRequest, :count).by(1)
+        end
+
+        it "redirects to the created membership_request" do
+          do_post
+          response.should redirect_to(company_url(company))
         end
       end
 
@@ -36,15 +51,16 @@ describe MembershipRequestsController do
 
         it "fails to create a new MembershipRequest" do
           expect {
-            post :create, { company_id: company.to_param }, valid_session
+            do_post
           }.to change(MembershipRequest, :count).by(0)
+        end
+
+        it "redirects to the created membership_request" do
+          do_post
+          response.should redirect_to(company_url(company))
         end
       end
 
-      it "redirects to the created membership_request" do
-        post :create, { company_id: company.to_param }, valid_session
-        response.should redirect_to(company_url(company))
-      end
     end
   end
 

@@ -7,7 +7,8 @@ class MembershipRequestsController < ApplicationController
 
   def create
     if !(membership_request = @company.membership_requests.where(user_id: current_user.id).first)
-      @company.membership_requests.create(user_id: current_user.id, status: "Pending")
+      membership_request = @company.membership_requests.create(user_id: current_user.id, status: "Pending")
+      MembershipRequestMailer.membership_request_email(membership_request).deliver
     end
 
     redirect_to company_url(@company), flash: { warning: 'Membership Request creation succeeded.' }
