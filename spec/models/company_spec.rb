@@ -66,4 +66,32 @@ describe Company do
       it { should be_false }
     end
   end
+
+  describe ".available_users" do
+    subject { company.available_users }
+
+    let!(:company) { FactoryGirl.create(:company) }
+    let(:user) { company.user }
+    let!(:company_membership) { FactoryGirl.create(:company_membership,
+                                                  company: company,
+                                                  user: user) }
+
+    context "with no available users" do
+      it { should == [] }
+    end
+
+    context "with available users" do
+      let(:available_user_unpersisted_membership) { FactoryGirl.create(:user) }
+      let!(:available_user) { FactoryGirl.create(:user) }
+
+      before do
+        company.company_memberships.build(user_id: available_user_unpersisted_membership.id)
+      end
+
+      it { should include(available_user) }
+      it { should include(available_user_unpersisted_membership) }
+      it { should_not include(user) }
+    end
+  end
+
 end

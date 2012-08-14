@@ -1,0 +1,13 @@
+- if can? :manage, @company
+  %h4
+    Administration
+  %p
+    = link_to('Edit', edit_company_path(@company)) if can? :update, @company
+    %br
+    = link_to('Destroy', @company, data: { confirm: 'Are you sure?' }, :method => :delete) if can? :destroy, @company
+    %br
+    = link_to('Edit Company Memberships', company_company_memberships_url(@company)) if can? :manage, @company.company_memberships.build
+
+  - if (can? :update, @company.membership_requests.build) && (@company.membership_requests.pending.any?)
+    = render(partial: "membership_requests/index", locals: { company: @company })
+  %hr

@@ -5,10 +5,12 @@ class Ability
 
     user ||= User.new # guest user (not logged in)
 
+    can :manage, Company, user_id: user.id
+
     can :create, MembershipRequest
     can :update, MembershipRequest, company: { user_id: user.id }
 
-    can :manage, Company, user_id: user.id
+    can :manage, CompanyMembership, company: { user_id: user.id }
 
     can :read, Company do |company|
       company.has_membership_for?(user)

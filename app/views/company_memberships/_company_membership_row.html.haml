@@ -1,0 +1,8 @@
+%tr
+  %td
+    = link_to company_membership.user.name, company_membership
+  %td
+    = company_membership.user.email
+  %td
+    = company_membership.role
+  = render(partial: "shared/action_column", locals: { item: company_membership })

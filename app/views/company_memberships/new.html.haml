@@ -1,0 +1,8 @@
+%h3 New Company Membership
+
+= simple_form_for [@company_membership.company, @company_membership] do |f|
+  = error_messages_for(@company_membership)
+  = f.input :user_id, collection: @company.available_users, include_blank: false
+  = f.input :role, collection: CompanyMembership::ROLES, include_blank: false
+  = f.button :wrapped, cancel: company_company_memberships_url(@company)
+

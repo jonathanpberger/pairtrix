@@ -1,0 +1,7 @@
+%h3 Edit #{@company_membership.user.name} - #{@company_membership.user.email}
+
+= simple_form_for @company_membership do |f|
+  = error_messages_for(@company_membership)
+  = f.input :user_id, as: :hidden
+  = f.input :role, collection: CompanyMembership::ROLES, include_blank: false
+  = f.button :wrapped, cancel: company_company_memberships_url(@company_membership.company)

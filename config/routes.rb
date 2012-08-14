@@ -13,6 +13,7 @@ Pairtrix::Application.routes.draw do
   resources :users
   resources :companies, shallow: true do
     resources :membership_requests, only: [:create, :update]
+    resources :company_memberships
     resources :employees
     resources :teams, shallow: true do
       resources :team_memberships

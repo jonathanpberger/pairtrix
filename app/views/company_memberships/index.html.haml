@@ -1,0 +1,21 @@
+%h3
+  Company Memberships
+
+- if @company.available_users.any?
+  .new-item
+    = link_to 'New Company Membership', new_company_company_membership_path(@company)
+
+%table.table.table-striped.table-condensed.table-bordered
+  %thead
+    %tr
+      %th
+        Name
+      %th
+        Email
+      %th
+        Role
+      %th
+        Action
+  %tbody
+    = render(partial: 'company_membership_row', collection: @company_memberships, as: 'company_membership')
+= link_to("Back", company_url(@company))
