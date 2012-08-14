@@ -1,13 +1,14 @@
-%h3 Employees
+- if can? :manage, @company.employees.build
+  %h3
+    Employees
 
-- if can? :create, @company.employees.build
   .new-item
     = link_to 'New Employee', new_company_employee_path(@company)
 
-%table.table.table-striped.table-condensed.table-bordered
-  %thead
-    %tr
-      %th
-        Name
-  %tbody
-    = render(partial: 'employee_row', collection: @employees, as: 'employee')
+  %table.table.table-striped.table-condensed.table-bordered
+    %thead
+      %tr
+        %th
+          Name
+    %tbody
+      = render(partial: 'employee_row', collection: @employees, as: 'employee')

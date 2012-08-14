@@ -21,6 +21,7 @@ describe TeamMembershipsController do
 
   before do
     company_membership.should be
+    mock_user
   end
 
   describe "GET index" do
@@ -40,7 +41,6 @@ describe TeamMembershipsController do
 
   describe "GET new" do
     it "assigns a new team_membership as @team_membership" do
-      mock_user
       get :new, { team_id: team.to_param }, valid_session
       assigns(:team_membership).should be_a_new(TeamMembership)
     end
@@ -48,17 +48,12 @@ describe TeamMembershipsController do
 
   describe "GET edit" do
     it "assigns the requested team_membership as @team_membership" do
-      mock_user
       get :edit, { id: team_membership.to_param }, valid_session
       assigns(:team_membership).should eq(team_membership)
     end
   end
 
   describe "POST create" do
-    before do
-      mock_user
-    end
-
     describe "with valid params" do
       it "creates a new TeamMembership" do
         expect {
@@ -97,10 +92,6 @@ describe TeamMembershipsController do
   end
 
   describe "PUT update" do
-    before do
-      mock_user
-    end
-
     describe "with valid params" do
       it "updates the requested team_membership" do
         TeamMembership.any_instance.should_receive(:update_attributes).with({'these' => 'params'}).and_return(true)
@@ -140,7 +131,6 @@ describe TeamMembershipsController do
   describe "DELETE destroy" do
     before do
       team_membership.should be
-      mock_user
     end
 
     it "destroys the requested team_membership" do

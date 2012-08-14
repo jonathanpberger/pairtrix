@@ -1,6 +1,8 @@
 class CompaniesController < ApplicationController
 
   load_and_authorize_resource
+  skip_authorize_resource only: [:index, :show]
+  skip_authorization_check only: [:index, :show]
 
   def index
     @companies = Company.all

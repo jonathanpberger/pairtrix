@@ -20,6 +20,7 @@ describe EmployeesController do
 
   before do
     company_membership.should be
+    mock_user
   end
 
   describe "GET index" do
@@ -39,7 +40,6 @@ describe EmployeesController do
 
   describe "GET new" do
     it "assigns a new employee as @employee" do
-      mock_user
       get :new, {company_id: company.to_param}, valid_session
       assigns(:employee).should be_a_new(Employee)
     end
@@ -47,7 +47,6 @@ describe EmployeesController do
 
   describe "GET edit" do
     it "assigns the requested employee as @employee" do
-      mock_user
       employee.should be
       get :edit, {id: employee.to_param}, valid_session
       assigns(:employee).should eq(employee)
@@ -55,10 +54,6 @@ describe EmployeesController do
   end
 
   describe "POST create" do
-    before do
-      mock_user
-    end
-
     describe "with valid params" do
       it "creates a new Employee" do
         expect {
@@ -98,7 +93,6 @@ describe EmployeesController do
   describe "PUT update" do
     before do
       employee.should be
-      mock_user
     end
 
     describe "with valid params" do
@@ -138,7 +132,6 @@ describe EmployeesController do
   describe "DELETE destroy" do
     before do
       employee.should be
-      mock_user
     end
 
     it "destroys the requested employee" do

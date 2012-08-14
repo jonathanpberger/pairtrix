@@ -22,6 +22,7 @@ describe PairsController do
 
   before do
     company_membership.should be
+    mock_user
   end
 
   describe "GET index" do
@@ -41,7 +42,6 @@ describe PairsController do
 
   describe "GET new" do
     it "assigns a new pair as @pair" do
-      mock_user
       get :new, { pairing_day_id: pairing_day.to_param, }, valid_session
       assigns(:pair).should be_a_new(Pair)
     end
@@ -49,7 +49,6 @@ describe PairsController do
 
   describe "GET edit" do
     it "assigns the requested pair as @pair" do
-      mock_user
       get :edit, { id: pair.to_param }, valid_session
       assigns(:pair).should eq(pair)
     end
@@ -58,10 +57,6 @@ describe PairsController do
   describe "POST create" do
     let(:team_membership) { FactoryGirl.create(:team_membership, team: team) }
     let(:team_membership_1) { FactoryGirl.create(:team_membership, team: team) }
-
-    before do
-      mock_user
-    end
 
     describe "with valid params" do
       it "creates a new Pair" do
@@ -118,10 +113,6 @@ describe PairsController do
   end
 
   describe "PUT update" do
-    before do
-      mock_user
-    end
-
     describe "with valid params" do
       it "updates the requested pair" do
         Pair.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
@@ -159,7 +150,6 @@ describe PairsController do
   describe "DELETE destroy" do
     before do
       pair.should be
-      mock_user
     end
 
     it "destroys the requested pair" do

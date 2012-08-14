@@ -21,6 +21,7 @@ describe PairingDaysController do
 
   before do
     company_membership.should be
+    mock_user
   end
 
   describe "GET index" do
@@ -40,7 +41,6 @@ describe PairingDaysController do
 
   describe "GET new" do
     it "assigns a new pairing_day as @pairing_day" do
-      mock_user
       get :new, { team_id: team.to_param, }, valid_session
       assigns(:pairing_day).should be_a_new(PairingDay)
     end
@@ -48,19 +48,13 @@ describe PairingDaysController do
 
   describe "GET edit" do
     it "assigns the requested pairing_day as @pairing_day" do
-      mock_user
       get :edit, { id: pairing_day.to_param }, valid_session
       assigns(:pairing_day).should eq(pairing_day)
     end
   end
 
   describe "POST create" do
-    before do
-      mock_user
-    end
-
     describe "with valid params" do
-
       it "creates a new PairingDay" do
         expect {
           post :create, { team_id: team.to_param, pairing_day: valid_attributes }, valid_session
@@ -100,10 +94,6 @@ describe PairingDaysController do
   end
 
   describe "PUT update" do
-    before do
-      mock_user
-    end
-
     describe "with valid params" do
       it "updates the requested pairing_day" do
         PairingDay.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
@@ -141,7 +131,6 @@ describe PairingDaysController do
   describe "DELETE destroy" do
     before do
       pairing_day.should be
-      mock_user
     end
 
     it "destroys the requested pairing_day" do

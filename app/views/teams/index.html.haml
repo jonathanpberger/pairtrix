@@ -1,8 +1,8 @@
-%h3 Teams
+%h3
+  Teams
 
-- if can? :create, @company.teams.build
-  .new-item
-    = link_to 'New Team', new_company_team_path(@company)
+.new-item
+  = link_to 'New Team', new_company_team_path(@company)
 
 %table.table.table-striped.table-condensed.table-bordered
   %thead

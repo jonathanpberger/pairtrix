@@ -20,6 +20,7 @@ describe TeamsController do
 
   before do
     company_membership.should be
+    mock_user
   end
 
   describe "GET index" do
@@ -39,7 +40,6 @@ describe TeamsController do
 
   describe "GET new" do
     it "assigns a new team as @team" do
-      mock_user
       get :new, {company_id: company.to_param}, valid_session
       assigns(:team).should be_a_new(Team)
     end
@@ -47,7 +47,6 @@ describe TeamsController do
 
   describe "GET edit" do
     it "assigns the requested team as @team" do
-      mock_user
       team.should be
       get :edit, {id: team.to_param}, valid_session
       assigns(:team).should eq(team)
@@ -55,10 +54,6 @@ describe TeamsController do
   end
 
   describe "POST create" do
-    before do
-      mock_user
-    end
-
     describe "with valid params" do
       it "creates a new Team" do
         expect {
@@ -98,7 +93,6 @@ describe TeamsController do
   describe "PUT update" do
     before do
       team.should be
-      mock_user
     end
 
     describe "with valid params" do
@@ -138,7 +132,6 @@ describe TeamsController do
   describe "DELETE destroy" do
     before do
       team.should be
-      mock_user
     end
 
     it "destroys the requested team" do
