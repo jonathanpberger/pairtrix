@@ -4,7 +4,5 @@
 
 = render(partial: 'pairs/pair_table', locals: { pairing_day: @pairing_day })
 
-= render(partial: 'teams/matrix', locals: { team: @pairing_day.team })
-
 %br
 = link_to("Back", team_url(@pairing_day.team))
