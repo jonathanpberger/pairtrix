@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :team do
-    name { Faker::Company.name }
+    sequence(:name) {|n| "#{Faker::Company.name}-#{n}" }
     company
   end
 end
