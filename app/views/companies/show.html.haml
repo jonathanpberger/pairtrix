@@ -1,16 +1,20 @@
-%h3
-  = @company.name
-- if (can? :create, @company.membership_requests.build) && user_signed_in? && (@company.membership_requests.where(user_id: current_user.id).all.empty?)
-  = render(partial: "membership_requests/new", locals: { membership_request: @company.membership_requests.build })
+- if user_signed_in?
+  %h3
+    = @company.name
+  - if (can? :create, @company.membership_requests.build) && user_signed_in? && (@company.membership_requests.where(user_id: current_user.id).all.empty?)
+    = render(partial: "membership_requests/new", locals: { membership_request: @company.membership_requests.build })
 
-%ul
-  %li
-    = link_to("Employees", company_employees_path(@company))
-  %li
-    = link_to("Teams", company_teams_path(@company))
+  - if can? :read, @company
+    %ul
+      %li
+        = link_to("Employees", company_employees_path(@company))
+      %li
+        = link_to("Teams", company_teams_path(@company))
 
-- if (can? :update, @company.membership_requests.build) && (@company.membership_requests.pending.any?)
-  = render(partial: "membership_requests/index", locals: { company: @company })
+    - if (can? :update, @company.membership_requests.build) && (@company.membership_requests.pending.any?)
+      = render(partial: "membership_requests/index", locals: { company: @company })
 
-= link_to("Back", companies_url)
+  = link_to("Back", companies_url)
+- else
+  Please #{link_to("sign in", sign_in_path)} to create an account.
 

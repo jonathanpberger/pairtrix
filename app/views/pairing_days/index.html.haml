@@ -1,13 +1,15 @@
-%h3 Pairing Days
+%h3
+  Pairing Days
 
-- if can? :create, @team.pairing_days.build
-  .new-item
-    = link_to 'New Pairing Day', new_team_pairing_day_path(@team)
+.new-item
+  = link_to 'New Pairing Day', new_team_pairing_day_path(@team)
 
 %table.table.table-striped.table-condensed.table-bordered
   %thead
     %tr
       %th
         Pairing Date
+      %th
+        Action
   %tbody
     = render(partial: "pairing_day_row", collection: @pairing_days, as: 'pairing_day')

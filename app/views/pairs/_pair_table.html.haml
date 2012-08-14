@@ -1,6 +1,7 @@
-%h3 Pairs
+%h3
+  Pairs
 
-- if (pairing_day.available_team_memberships?) && (can? :create, pairing_day.pairs.build)
+- if pairing_day.available_team_memberships?
   .new-item
     = link_to 'New Pair', new_pairing_day_pair_path(pairing_day)
 
@@ -9,6 +10,8 @@
     %tr
       %th
         Name
+      %th
+        Action
   %tbody
     = render(partial: "pairs/pair_row", collection: pairing_day.pairs.all, as: 'pair')
 

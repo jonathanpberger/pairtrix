@@ -1,7 +1,7 @@
 %h3
   Team Memberships
 
-- if (Employee.available.any?) && (can? :create, team.team_memberships.build)
+- if Employee.available.any?
   .new-item
     = link_to 'New Team Membership', new_team_team_membership_path(team)
 
@@ -14,5 +14,7 @@
         Start date
       %th
         End date
+      %th
+        Action
   %tbody
     = render(partial: 'team_memberships/team_membership_row', collection: team.team_memberships.sorted, as: 'team_membership')

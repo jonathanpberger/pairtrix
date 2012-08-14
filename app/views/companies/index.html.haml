@@ -1,16 +1,16 @@
-%h3 Companies
-
 - if user_signed_in?
+  %h3
+    Companies
+
   .new-item
     = link_to 'New Company', new_company_path
 
-%table.table.table-striped.table-condensed.table-bordered
-  %thead
-    %tr
-      %th
-        Name
-      - if can? :update, @companies
+  %table.table.table-striped.table-condensed.table-bordered
+    %thead
+      %tr
         %th
-          Action
-  %tbody
-    = render(partial: 'company_row', collection: @companies, as: 'company')
+          Name
+    %tbody
+      = render(partial: 'company_row', collection: @companies, as: 'company')
+- else
+  Please #{link_to("sign in", sign_in_path)} to create an account.
