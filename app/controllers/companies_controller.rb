@@ -20,6 +20,9 @@ class CompaniesController < ApplicationController
     @company = current_user.companies.build(params[:company])
 
     if @company.save
+      @company.membership_requests.create(user_id: current_user.id, status: "Approved")
+      @company.company_memberships.create(user_id: current_user.id, role: "admin")
+
       redirect_to companies_url, flash: { success: 'Company was successfully created.' }
     else
       render action: "new"

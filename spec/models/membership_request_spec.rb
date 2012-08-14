@@ -42,4 +42,58 @@ describe MembershipRequest do
       end
     end
   end
+
+  describe "#approved?" do
+    subject { membership_request.approved? }
+
+    let(:membership_request) { MembershipRequest.new(status: status) }
+
+    context "as Approved" do
+      let(:status) { "Approved" }
+
+      it { should be_true }
+    end
+
+    context "as pending" do
+      let(:status) { "Pending" }
+
+      it { should be_false }
+    end
+  end
+
+  describe "#denied?" do
+    subject { membership_request.denied? }
+
+    let(:membership_request) { MembershipRequest.new(status: status) }
+
+    context "as Denied" do
+      let(:status) { "Denied" }
+
+      it { should be_true }
+    end
+
+    context "as pending" do
+      let(:status) { "Pending" }
+
+      it { should be_false }
+    end
+  end
+
+  describe "#pending?" do
+    subject { membership_request.pending? }
+
+    let(:membership_request) { MembershipRequest.new(status: status) }
+
+    context "as pending" do
+      let(:status) { "Pending" }
+
+      it { should be_true }
+    end
+
+    context "as Denied" do
+      let(:status) { "Denied" }
+
+      it { should be_false }
+    end
+  end
 end

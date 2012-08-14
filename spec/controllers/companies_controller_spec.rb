@@ -59,6 +59,22 @@ describe CompaniesController do
         }.to change(Company, :count).by(1)
       end
 
+      it "creates a new approved MembershipRequest" do
+        expect {
+          post :create, {:company => valid_attributes}, valid_session
+        }.to change(MembershipRequest, :count).by(1)
+
+        MembershipRequest.last.should be_approved
+      end
+
+      it "creates a new admin CompanyMembership" do
+        expect {
+          post :create, {:company => valid_attributes}, valid_session
+        }.to change(CompanyMembership, :count).by(1)
+
+        CompanyMembership.last.should be_admin
+      end
+
       it "assigns a newly created company as @company" do
         post :create, {:company => valid_attributes}, valid_session
         assigns(:company).should be_a(Company)

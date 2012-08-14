@@ -42,4 +42,40 @@ describe CompanyMembership do
       end
     end
   end
+
+  describe "#admin?" do
+    subject { company_membership.admin? }
+
+    let(:company_membership) { CompanyMembership.new(role: role) }
+
+    context "as admin" do
+      let(:role) { "admin" }
+
+      it { should be_true }
+    end
+
+    context "as member" do
+      let(:role) { "member" }
+
+      it { should be_false }
+    end
+  end
+
+  describe "#member?" do
+    subject { company_membership.member? }
+
+    let(:company_membership) { CompanyMembership.new(role: role) }
+
+    context "as member" do
+      let(:role) { "member" }
+
+      it { should be_true }
+    end
+
+    context "as admin" do
+      let(:role) { "admin" }
+
+      it { should be_false }
+    end
+  end
 end

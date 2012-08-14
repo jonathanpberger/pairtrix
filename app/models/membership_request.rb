@@ -18,4 +18,16 @@ class MembershipRequest < ActiveRecord::Base
       where(status: "Pending")
     end
   end
+
+  def pending?
+    status == "Pending"
+  end
+
+  def approved?
+    status == "Approved"
+  end
+
+  def denied?
+    status == "Denied"
+  end
 end

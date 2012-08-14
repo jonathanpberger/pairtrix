@@ -21,4 +21,12 @@ class CompanyMembership < ActiveRecord::Base
       where(role: "admin")
     end
   end
+
+  def admin?
+    role == "admin"
+  end
+
+  def member?
+    role == "member"
+  end
 end
