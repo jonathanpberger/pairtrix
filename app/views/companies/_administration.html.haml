@@ -8,6 +8,10 @@
     %br
     = link_to('Edit Company Memberships', company_company_memberships_url(@company)) if can? :manage, @company.company_memberships.build
 
+  = simple_form_for @company do |f|
+    = f.input :user_id, collection: @company.company_memberships.all.map(&:user), include_blank: false
+    = f.button :wrapped, value: "Change Company Ownership"
+
   - if (can? :update, @company.membership_requests.build) && (@company.membership_requests.pending.any?)
     = render(partial: "membership_requests/index", locals: { company: @company })
   %hr
