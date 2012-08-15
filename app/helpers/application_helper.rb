@@ -84,6 +84,7 @@ module ApplicationHelper
     klasses << pairing_count_warning(times_paired(pair_group))
     klasses << "member-#{pair_group.left_membership.id}"
     klasses << "member-#{pair_group.top_membership.id}"
+    klasses << "no-automation" if pair_group.contains_default_membership?
     klasses << "created-pair" if pair_group.current_pair?
     klasses.join(" ")
   end

@@ -22,6 +22,10 @@ class PairGroup
     current_pair.try(:id)
   end
 
+  def contains_default_membership?
+    @left_membership.hide? || @top_membership.hide?
+  end
+
   private
 
   def current_pair

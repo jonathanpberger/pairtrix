@@ -87,5 +87,28 @@ $(function() {
     }
   });
 
+  function availableCellCount() {
+    return $(".paired-count:not(.no-automation):not(.faded):not(.created-pair)").length;
+  }
+
+  function buildAvailablePair() {
+    var unpairedCells, timesPairedCount, unpairedCell;
+
+    if (availableCellCount() > 0) {
+      timesPairedCount = -1;
+      do {
+        timesPairedCount++;
+        unpairedCells = $(".paired-count:not(.no-automation):not(.faded):not(.created-pair):contains("+timesPairedCount+")");
+      }
+      while (unpairedCells.length == 0)
+      unpairedCell = $(unpairedCells[Math.floor(Math.random()*unpairedCells.length)]);
+      addPair(unpairedCell);
+    }
+  }
+
+  $(".randomize-pairs").click(function() {
+    buildAvailablePair();
+  });
+
   modifyPairMemberCells();
 });
