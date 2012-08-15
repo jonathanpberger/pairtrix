@@ -7,7 +7,7 @@ Pairtrix::Application.routes.draw do
   match "/dashboard", to: "users#dashboard", as: "dashboard"
 
   match "/pairs/ajax_create", to: "pairs#create"
-  match "/about", to: "pages#about", as: :about
+  match "/help", to: "pages#help", as: :help
 
   resources :sessions
   resources :users

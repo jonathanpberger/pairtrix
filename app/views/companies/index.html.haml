@@ -13,4 +13,7 @@
     %tbody
       = render(partial: 'company_row', collection: @companies, as: 'company')
 - else
-  Please #{link_to("sign in", sign_in_path)} to create an account.
+  %p
+    Help teams pair members.
+  %p
+    Please #{link_to("sign in", sign_in_path)} to create an account.
