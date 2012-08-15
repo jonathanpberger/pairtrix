@@ -1,4 +1,6 @@
-%h3 New company
-
-= render 'form'
-
+%h3
+  New company
+= simple_form_for @company do |f|
+  = error_messages_for(@company)
+  = f.input :name
+  = f.button :wrapped, cancel: companies_url

@@ -13,3 +13,4 @@
         Action
   %tbody
     = render(partial: 'employee_row', collection: @employees, as: 'employee')
+= link_to("Back", company_url(@company))
