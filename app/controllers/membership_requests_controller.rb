@@ -2,8 +2,13 @@ class MembershipRequestsController < ApplicationController
 
   before_filter :authenticate_user!, only: :create
 
+  skip_authorization_check only: :create
+
   load_and_authorize_resource :company
-  load_and_authorize_resource :membership_request, through: :company, shallow: true
+  load_and_authorize_resource through: :company, shallow: true
+
+  skip_authorize_resource only: :create
+  skip_authorize_resource :company, only: :create
 
   def create
     if !(membership_request = @company.membership_requests.where(user_id: current_user.id).first)
@@ -11,7 +16,7 @@ class MembershipRequestsController < ApplicationController
       MembershipRequestMailer.membership_request_email(membership_request).deliver
     end
 
-    redirect_to company_url(@company), flash: { warning: 'Membership Request creation succeeded.' }
+    redirect_to root_url, flash: { warning: 'Membership Request creation succeeded.' }
   end
 
   def update

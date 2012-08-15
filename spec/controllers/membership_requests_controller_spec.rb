@@ -42,7 +42,7 @@ describe MembershipRequestsController do
 
         it "redirects to the created membership_request" do
           do_post
-          response.should redirect_to(company_url(company))
+          response.should redirect_to(root_url)
         end
       end
 
@@ -57,7 +57,7 @@ describe MembershipRequestsController do
 
         it "redirects to the created membership_request" do
           do_post
-          response.should redirect_to(company_url(company))
+          response.should redirect_to(root_url)
         end
       end
 

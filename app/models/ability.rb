@@ -7,8 +7,8 @@ class Ability
 
     can :manage, Company, user_id: user.id
 
-    can :create, MembershipRequest
     can :update, MembershipRequest, company: { user_id: user.id }
+    can :create, MembershipRequest
 
     can :manage, CompanyMembership, company: { user_id: user.id }
 
