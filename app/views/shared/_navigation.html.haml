@@ -1,9 +1,9 @@
-.navbar
+.navbar.navbar-fixed-top
   .navbar-inner
-    .container
-      %ul.nav
-        %li
-          = link_to("Home", root_path)
-        %li
-          = link_to("Help", help_path)
-      = render("shared/sign_in_sign_out")
+    = link_to("Pairtrix", "#", class: "brand")
+    %ul.nav
+      %li
+        = link_to("Home", root_path)
+      %li
+        = link_to("Help", help_path)
+    = render("shared/sign_in_sign_out")
