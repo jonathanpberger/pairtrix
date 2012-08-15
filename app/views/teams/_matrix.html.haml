@@ -2,19 +2,16 @@
   Pairing matrix since #{1.month.ago.to_date}
 - memberships = team.team_memberships.current.joins(:employee).order("employees.id DESC")
 - if memberships.any?
-  %table.table.table-condensed.table-bordered.matrix-table{data: { "team-id" => team.id, "paired-memberships" => currently_paired_membership_ids(team).to_json } }
-    %thead
-      %tr
-        %td
-        - memberships.slice(1, memberships.length-1).each do |membership|
-          %td
-            = avatar_for(membership.employee)
-    %tbody
-      - memberships.slice(0, memberships.length-1).each_with_index do |left_membership, index|
-        %tr
-          %td.matrix-row-name{colspan: index+1}
-            = avatar_for(left_membership.employee)
-          - memberships.slice(index+1, memberships.length-1).each do |top_membership|
-            = pair_cell(PairGroup.new(left_membership, top_membership))
+  .matrix-table{data: { "team-id" => team.id, "paired-memberships" => currently_paired_membership_ids(team).to_json } }
+    .matrix-row
+      - memberships.slice(1, memberships.length-1).reverse.each do |membership|
+        .member-avatar.matrix-cell
+          = avatar_for(membership.employee)
+    - memberships.slice(0, memberships.length-1).each_with_index do |left_membership, index|
+      .matrix-row
+        - memberships.slice(index+1, memberships.length-1).reverse.each do |top_membership|
+          = pair_cell(PairGroup.new(left_membership, top_membership))
+        .member-avatar.matrix-cell
+          = avatar_for(left_membership.employee)
 
 

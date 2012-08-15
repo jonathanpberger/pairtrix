@@ -22,6 +22,18 @@ body {
   text-align: right;
 }
 
+h3 {
+  margin-bottom: 10px;
+}
+
+.user-information {
+  margin: 10px;
+}
+
+.new-item {
+  margin: 10px;
+}
+
 /* Rails scaffold style compatibility */
 .error-explanation {
   @extend .alert;
@@ -41,63 +53,55 @@ body {
   border-top: none;
 }
 
-.matrix-table .matrix-row-paired-count.faded {
+.matrix-table .paired-count.faded {
   opacity:0.1;
   &:hover {
     cursor: default;
-    background: $white !important;
+    background: $white;
   }
 }
 
-.table tbody tr:hover td {
-  background-color: #C0FBE8;
+@mixin white-shadowed {
+  color: $white;
+  text-shadow: $black 1px 1px 2px;
+  font-weight: bold;
 }
 
 .matrix-table {
-  thead td {
-    text-align: center;
-  }
-  .matrix-row-name {
-    text-align: right;
-  }
-  .matrix-row-paired-count {
-    text-align: center;
-    vertical-align: middle;
-    font-size: 36px;
-    cursor: pointer;
-    &:hover {
+  float: left;
+  .matrix-row {
+    clear: both;
+    .matrix-cell {
+      float: right;
+      width: 55px;
+      height: 55px;
+      text-align: center;
+      margin: 2px;
+      line-height: 48px;
+      border: 1px solid $white;
+    }
+    .paired-count {
+      vertical-align: middle;
+      font-size: 36px;
+      cursor: pointer;
+      border: 1px solid $black;
+      &:hover {
+        background: $green;
+        color: $white;
+      }
+    }
+    .created-pair {
+      @include white-shadowed;
       background: $green !important;
+      cursor: default;
+    }
+    .pairing-count-notice {
+      @include white-shadowed;
+      background: $yellow;
+    }
+    .pairing-count-warning {
+      @include white-shadowed;
+      background: $red;
     }
   }
-  .created-pair {
-    background: $green !important;
-    cursor: default;
-  }
-  .pairing-count-notice {
-    color: $yellow !important;
-    font-weight: bold;
-  }
-  .pairing-count-warning {
-    color: $red !important;
-    text-shadow: $black 1px 1px 2px;
-    font-size: 48px;
-    font-weight: bold;
-  }
-
-  tbody tr:hover td,
-  tbody tr:hover th {
-    background-color: transparent;
-  }
-}
-
-h3 {
-  margin-bottom: 10px;
-}
-
-.user-information {
-  margin: 10px;
-}
-
-.new-item {
-  margin: 10px;
 }

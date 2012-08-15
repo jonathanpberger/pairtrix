@@ -57,7 +57,7 @@ module ApplicationHelper
   end
 
   def pair_cell(pair_group)
-    content_tag(:td,
+    content_tag(:div,
                 times_paired(pair_group),
                 class: pair_cell_css_classes(pair_group),
                 data: pair_cell_data(pair_group))
@@ -80,7 +80,7 @@ module ApplicationHelper
   end
 
   def pair_cell_css_classes(pair_group)
-    klasses = ["matrix-row-paired-count"]
+    klasses = ["paired-count", "matrix-cell"]
     klasses << pairing_count_warning(times_paired(pair_group))
     klasses << "member-#{pair_group.left_membership.id}"
     klasses << "member-#{pair_group.top_membership.id}"

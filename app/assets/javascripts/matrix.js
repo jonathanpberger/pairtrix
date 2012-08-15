@@ -3,7 +3,7 @@ $(function() {
   function modifyPairMemberCells() {
     var pairedMembershipIds = $(".matrix-table").data("paired-memberships");
 
-    $(".matrix-table td").removeClass("faded");
+    $(".matrix-table .matrix-cell").removeClass("faded");
     $.each(pairedMembershipIds, function(index, pairMembershipId) {
       if (pairMembershipId !== "2") {
         $(".matrix-table").find(".member-"+pairMembershipId).each(function() {
@@ -76,7 +76,7 @@ $(function() {
     return pairingInformation;
   }
 
-  $(".matrix-row-paired-count").click(function() {
+  $(".paired-count").click(function() {
     var clickedCell = $(this);
     if (!clickedCell.hasClass("faded")) {
       if (clickedCell.hasClass("created-pair")) {
