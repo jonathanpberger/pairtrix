@@ -37,10 +37,10 @@ class Pair < ActiveRecord::Base
   end
 
   def has_membership?(membership)
-    team_memberships.detect { |team_membership| team_membership.id == membership.id }
+    team_memberships.detect { |team_membership| team_membership.employee_id == membership.employee_id }
   end
 
   def other_membership(membership)
-    team_memberships.detect { |team_membership| team_membership.id != membership.id }
+    team_memberships.detect { |team_membership| team_membership.employee_id != membership.employee_id }
   end
 end
