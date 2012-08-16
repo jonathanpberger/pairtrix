@@ -56,6 +56,22 @@ module ApplicationHelper
     image_tag(image_url, title: employee.name, alt: employee.name)
   end
 
+  def available_teams_navigation_dropdown
+    if user_signed_in?
+      teams = Team.joins(company: :company_memberships).where("company_memberships.user_id = ?", current_user.id).order("companies.name ASC")
+      if teams.any?
+        content_tag(:li, class: "dropdown") do
+          link_to(raw("Teams"+content_tag(:b, "", class: "caret")), "#", class: "dropdown-toggle", data: { toggle: "dropdown" }) +
+            content_tag(:ul, class: "dropdown-menu") do
+            teams.map do |team|
+              content_tag(:li, link_to(team.name, team))
+            end.join("").html_safe
+          end
+        end
+      end
+    end
+  end
+
   def pair_cell(pair_group)
     content_tag(:div,
                 times_paired(pair_group),
