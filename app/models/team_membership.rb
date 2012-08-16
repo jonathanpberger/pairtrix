@@ -8,6 +8,8 @@ class TeamMembership < ActiveRecord::Base
 
   delegate :name, to: :employee
 
+  after_destroy :delete_pair_memberships_containing_membership
+
   class << self
     def current
       team_membership_table = Arel::Table.new(:team_memberships)
@@ -25,6 +27,12 @@ class TeamMembership < ActiveRecord::Base
 
   def hide?
     employee.hide?
+  end
+
+  private
+
+  def delete_pair_memberships_containing_membership
+    PairMembership.where(team_membership_id: self.id).destroy_all
   end
 
 end

@@ -1,7 +1,7 @@
 class PairMembership < ActiveRecord::Base
   attr_accessible :team_membership_id, :pair_id
 
-  belongs_to :pair
+  belongs_to :pair, dependent: :destroy
   belongs_to :team_membership
 
   validates_presence_of :team_membership_id, :pair_id
