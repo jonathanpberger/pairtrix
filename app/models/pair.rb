@@ -28,6 +28,10 @@ class Pair < ActiveRecord::Base
     pair_memberships[1].name
   end
 
+  def memberships_active?(active_memberships)
+    team_memberships.all? { |team_membership| active_memberships.include?(team_membership) }
+  end
+
   def memberships_current?
     team_memberships.all? { |team_membership| team_membership.current? }
   end

@@ -21,7 +21,7 @@ describe PairMatrixCalculator do
       let(:membership_two) { pair.team_memberships[1] }
 
       context "with no extra memberships" do
-        it { should == { membership_one.id => { membership_two.id => 1 }, membership_two.id => { membership_one.id => 1 }} }
+        it { should == { membership_one.employee_id => { membership_two.employee_id => 1 }, membership_two.employee_id => { membership_one.employee_id => 1 }} }
       end
 
       context "with extra memberships" do
@@ -29,7 +29,7 @@ describe PairMatrixCalculator do
         let!(:membership_three) { FactoryGirl.create(:team_membership, team: team) }
         let(:memberships) { [membership_one, membership_two, membership_three] }
 
-        it { should == { membership_three.id => {}, membership_one.id => { membership_two.id => 1 }, membership_two.id => { membership_one.id => 1 }} }
+        it { should == { membership_three.employee_id => {}, membership_one.employee_id => { membership_two.employee_id => 1 }, membership_two.employee_id => { membership_one.employee_id => 1 }} }
       end
     end
   end

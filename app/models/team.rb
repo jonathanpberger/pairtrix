@@ -15,21 +15,28 @@ class Team < ActiveRecord::Base
 
   after_commit :add_default_team_memberships
 
-  def current_membership_pairs
+  def times_paired(left, top)
+    membership_hash[left.employee_id].has_key?(top.employee_id) ? membership_hash[left.employee_id][top.employee_id] : 0
+  end
+
+  private
+
+  def active_memberships
+    @active_memberships ||= begin
+                              active_employee_ids = team_memberships.current.map(&:employee_id)
+                              team_memberships.where(employee_id: active_employee_ids)
+                            end
+  end
+
+  def active_membership_pairs
     pairing_days.where("pairing_date >= ?", 1.month.ago.to_date).map do |pairing_day|
-      pairing_day.pairs.select { |pair| pair.memberships_current? }
+      pairing_day.pairs.select { |pair| pair.memberships_active?(active_memberships) }
     end.compact.flatten
   end
 
   def membership_hash
-    @membership_hash ||= PairMatrixCalculator.new(current_membership_pairs, team_memberships.current).complete_pair_hash
+    @membership_hash ||= PairMatrixCalculator.new(active_membership_pairs, team_memberships.current).complete_pair_hash
   end
-
-  def times_paired(left, top)
-    membership_hash[left.id].has_key?(top.id) ? membership_hash[left.id][top.id] : 0
-  end
-
-  private
 
   # we want to make sure the solo and out of office employees exist on every team
   def add_default_team_memberships
