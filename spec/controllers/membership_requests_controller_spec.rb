@@ -66,6 +66,7 @@ describe MembershipRequestsController do
 
   describe "PUT update" do
     let(:commit_type) { "Approve" }
+    let(:mailer) { double(:mailer, deliver: true) }
 
     def do_update
       put :update, { id: membership_request.to_param, membership_request: {}, commit: commit_type}, valid_session
@@ -74,6 +75,7 @@ describe MembershipRequestsController do
     before do
       mock_user
       membership_request.should be
+      MembershipRequestMailer.should_receive(:membership_request_response_email).and_return(mailer)
     end
 
     describe "with valid params" do

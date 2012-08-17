@@ -29,6 +29,8 @@ class MembershipRequestsController < ApplicationController
     end
 
     @membership_request.update_attributes(params[:membership_request])
+    MembershipRequestMailer.membership_request_response_email(@membership_request).deliver
+
     redirect_to company_url(@membership_request.company), flash: { warning: 'Membership Request updated.' }
   end
 end
