@@ -1,0 +1,11 @@
+#{@status} membership request to #{@company.name} for #{@user.name}
+===============================================
+
+Name: #{@user.name}
+Email: #{@user.email}
+Status: #{@status}
+
+Thank you.
+- if @status == "Approved"
+  Please sign in at http://www.pairtrix.com
+
