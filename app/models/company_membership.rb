@@ -10,6 +10,8 @@ class CompanyMembership < ActiveRecord::Base
   validates_presence_of :user_id
   validates_presence_of :role
 
+  validates_uniqueness_of :user_id, scope: :company_id
+
   validates_inclusion_of :role, in: CompanyMembership::ROLES, if: :role
 
   class << self
