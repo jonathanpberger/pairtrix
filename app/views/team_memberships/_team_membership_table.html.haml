@@ -1,7 +1,7 @@
 %h3
   Team Memberships
 
-- if Employee.available.any?
+- if team.company.available_employees.any?
   .new-item
     = link_to 'New Team Membership', new_team_team_membership_path(team)
 

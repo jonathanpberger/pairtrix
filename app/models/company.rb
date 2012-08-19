@@ -24,6 +24,14 @@ class Company < ActiveRecord::Base
     User.where(users_table[:id].not_in(company_membership_member_ids)).order("name")
   end
 
+  def available_employees
+    employees.map do |employee|
+      employee if (employee.team_memberships.empty? ||
+                   employee.team_memberships.none? { |team_membership| team_membership.current? }) &&
+                   !employee.hide?
+    end.compact
+  end
+
   private
 
   def company_membership_member_ids

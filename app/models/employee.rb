@@ -22,15 +22,6 @@ class Employee < ActiveRecord::Base
       order("last_name ASC, first_name ASC")
     end
 
-    def available
-      employees = Employee.all
-      employees.map do |employee|
-        employee if (employee.team_memberships.empty? ||
-          employee.team_memberships.none? { |team_membership| team_membership.current? }) &&
-          !employee.hide?
-      end.compact
-    end
-
     def solo_employee
       where(last_name: "Solo").first
     end
