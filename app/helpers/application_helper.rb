@@ -52,7 +52,10 @@ module ApplicationHelper
   end
 
   def avatar_for(employee)
-    image_url = employee.avatar? ? employee.avatar_url : "layout/avatar.png"
+    image_url = employee.avatar? ? employee.avatar_url :
+      employee.solo_employee? ? "layout/solo.png" :
+      employee.out_of_office_employee? ? "layout/out_of_office.png" : "layout/avatar.png"
+
     image_tag(image_url, title: employee.name, alt: employee.name)
   end
 

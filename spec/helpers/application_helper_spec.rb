@@ -18,7 +18,9 @@ describe ApplicationHelper do
   describe "#avatar_for" do
     subject { helper.avatar_for(employee) }
 
-    let(:employee) { double(:employee, avatar?: has_avatar, avatar_url: avatar_url, name: "name") }
+    let(:employee) { double(:employee, avatar?: has_avatar, avatar_url: avatar_url, name: "name", solo_employee?: solo_employee, out_of_office_employee?: out_of_office_employee) }
+    let(:solo_employee) { false }
+    let(:out_of_office_employee) { false }
 
     context "with avatar" do
       let(:has_avatar) { true }
@@ -33,8 +35,26 @@ describe ApplicationHelper do
       let(:has_avatar) { false }
       let(:avatar_url) { "" }
 
-      it "displays the default" do
-        should =~ /layout/
+      context "as solo_employee" do
+        let(:solo_employee) { true }
+
+        it "displays the default" do
+          should =~ /solo/
+        end
+      end
+
+      context "as out_of_office_employee" do
+        let(:out_of_office_employee) { true }
+
+        it "displays the default" do
+          should =~ /office/
+        end
+      end
+
+      context "as normal employee" do
+        it "displays the default" do
+          should =~ /avatar/
+        end
       end
     end
   end

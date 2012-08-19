@@ -48,8 +48,6 @@ class Employee < ActiveRecord::Base
     [last_name, first_name].join(", ")
   end
 
-  private
-
   def solo_employee?
     id == Employee.solo_employee.try(:id)
   end
