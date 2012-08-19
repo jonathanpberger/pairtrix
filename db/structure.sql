@@ -137,7 +137,8 @@ CREATE TABLE membership_requests (
     user_id integer,
     status character varying(255),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    hash_key character varying(255)
 );
 
 
@@ -551,6 +552,13 @@ CREATE INDEX index_membership_requests_on_company_id_and_user_id ON membership_r
 
 
 --
+-- Name: index_membership_requests_on_hash_key; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_membership_requests_on_hash_key ON membership_requests USING btree (hash_key);
+
+
+--
 -- Name: index_membership_requests_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -652,5 +660,7 @@ INSERT INTO schema_migrations (version) VALUES ('20120810025049');
 INSERT INTO schema_migrations (version) VALUES ('20120813024150');
 
 INSERT INTO schema_migrations (version) VALUES ('20120813043704');
+
+INSERT INTO schema_migrations (version) VALUES ('20120819024034');
 
 INSERT INTO schema_migrations (version) VALUES ('3');

@@ -13,6 +13,8 @@ class MembershipRequest < ActiveRecord::Base
 
   validates_inclusion_of :status, in: MembershipRequest::STATUSES, if: :status
 
+  before_create :generate_hash_key
+
   class << self
     def pending
       where(status: "Pending")
@@ -30,4 +32,11 @@ class MembershipRequest < ActiveRecord::Base
   def denied?
     status == "Denied"
   end
+
+  private
+
+  def generate_hash_key
+    self.hash_key = Digest::MD5.hexdigest("#{company_id}:#{user_id}:#{Time.current.usec}")
+  end
+
 end
