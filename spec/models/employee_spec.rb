@@ -22,27 +22,63 @@ describe Employee do
     describe "uniqueness" do
       let!(:existing_employee) { FactoryGirl.create(:employee) }
 
-      before do
-        employee.last_name = existing_employee.last_name
+      context "with a common company" do
+        before do
+          employee.company = existing_employee.company
+        end
+
+        context "with a common last_name" do
+          before do
+            employee.last_name = existing_employee.last_name
+          end
+
+          context "with a unique first_name" do
+            before do
+              employee.first_name = "xxx"
+            end
+
+            it "validates the uniqueness of first_name" do
+              employee.should have(0).error_on(:first_name)
+            end
+          end
+
+          context "with a duplicate first_name" do
+            before do
+              employee.first_name = existing_employee.first_name
+            end
+
+            it "validates the uniqueness of first_name" do
+              employee.should have(1).error_on(:first_name)
+            end
+          end
+        end
       end
 
-      context "with a unique first_name" do
-        before do
-          employee.first_name = "xxy"
-        end
+      context "with different companies" do
+        context "with a common last_name" do
+          before do
+            employee.last_name = existing_employee.last_name
+          end
 
-        it "validates the uniqueness of first_name" do
-          employee.should have(0).error_on(:first_name)
-        end
-      end
+          context "with a unique first_name" do
+            before do
+              employee.first_name = "xxx"
+            end
 
-      context "with a duplicate first_name" do
-        before do
-          employee.first_name = existing_employee.first_name
-        end
+            it "validates the uniqueness of first_name" do
+              employee.should have(0).error_on(:first_name)
+            end
+          end
 
-        it "validates the uniqueness of first_name" do
-          employee.should have(1).error_on(:first_name)
+          context "with a duplicate first_name" do
+            before do
+              employee.first_name = existing_employee.first_name
+            end
+
+            it "validates the uniqueness of first_name" do
+              employee.should have(0).error_on(:first_name)
+            end
+          end
         end
       end
     end

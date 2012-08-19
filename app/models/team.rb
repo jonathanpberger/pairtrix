@@ -41,8 +41,8 @@ class Team < ActiveRecord::Base
   # we want to make sure the solo and out of office employees exist on every team
   def add_default_team_memberships
     if transaction_include_action?(:create)
-      team_memberships.create!(employee_id: Employee.solo_employee.id, start_date: Date.current-1.day)
-      team_memberships.create!(employee_id: Employee.out_of_office_employee.id, start_date: Date.current-1.day)
+      team_memberships.create!(employee_id: company.employees.solo_employee.id, start_date: Date.current-1.day)
+      team_memberships.create!(employee_id: company.employees.out_of_office_employee.id, start_date: Date.current-1.day)
     end
   end
 

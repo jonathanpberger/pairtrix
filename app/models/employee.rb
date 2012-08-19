@@ -5,7 +5,7 @@ class Employee < ActiveRecord::Base
   attr_accessible :avatar, :remote_avatar_url, :avatar_cache, :remove_avatar
 
   validates_presence_of :first_name, :last_name
-  validates_uniqueness_of :first_name, scope: :last_name
+  validates_uniqueness_of :first_name, scope: [:company_id, :last_name]
   validates_presence_of :company_id
 
   belongs_to :company
@@ -49,11 +49,11 @@ class Employee < ActiveRecord::Base
   end
 
   def solo_employee?
-    id == Employee.solo_employee.try(:id)
+    id == company.employees.solo_employee.try(:id)
   end
 
   def out_of_office_employee?
-    id == Employee.out_of_office_employee.try(:id)
+    id == company.employees.out_of_office_employee.try(:id)
   end
 
 end
