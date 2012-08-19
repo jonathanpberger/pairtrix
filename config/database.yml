@@ -2,8 +2,7 @@ defaults: &defaults
   adapter: postgresql
   encoding: unicode
   pool: 5
-  username: pairtrix
-  password: pairtrix
+  username: postgres
 
 development:
   <<: *defaults
@@ -12,10 +11,6 @@ development:
 test: &test
   <<: *defaults
   database: pairtrix_test
-
-production:
-  <<: *defaults
-  database: pairtrix_production
 
 cucumber:
   <<: *test
