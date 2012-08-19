@@ -1,0 +1,26 @@
+defaults: &defaults
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: pairtrix
+  password: pairtrix
+
+development:
+  <<: *defaults
+  database: pairtrix_development
+
+test: &test
+  <<: *defaults
+  database: pairtrix_test
+
+production:
+  <<: *defaults
+  database: pairtrix_production
+
+cucumber:
+  <<: *test
+
+postgres:
+  adapter: postgresql
+  database: pairtrix_test
+  username: postgres

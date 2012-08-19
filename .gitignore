@@ -28,7 +28,6 @@ db/*.sqlite3
 .redcar/
 .sass-cache
 /config/config.yml
-/config/database.yml
 /config/mail.yml
 /coverage.data
 /coverage/
