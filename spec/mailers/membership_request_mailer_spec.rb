@@ -33,6 +33,11 @@ describe MembershipRequestMailer do
     it 'assigns @company' do
       mail.body.encoded.should match(company.name)
     end
+
+    #ensure that the @hash_key variable appears in the email body
+    it 'assigns @hash_key' do
+      mail.body.encoded.should match(membership_request.hash_key)
+    end
   end
 
   describe '#membership_request_response_email' do

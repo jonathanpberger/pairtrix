@@ -15,4 +15,7 @@
       %strong
         Email:
       = @user.email
-
+    %p
+      = link_to("Approve", approve_membership_request_url(id: @hash_key))
+    %p
+      = link_to("Deny", deny_membership_request_url(id: @hash_key))
