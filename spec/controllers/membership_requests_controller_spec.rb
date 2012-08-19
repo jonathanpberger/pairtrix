@@ -114,4 +114,123 @@ describe MembershipRequestsController do
       end
     end
   end
+
+  describe "GET approve" do
+    let(:mailer) { double(:mailer, deliver: true) }
+    let(:membership_request) { FactoryGirl.create(:membership_request, company: company, user: user, status: status) }
+
+    def do_approve
+      get :approve, { id: membership_request.hash_key }, valid_session
+    end
+
+    before do
+      mock_user
+      membership_request.should be
+      MembershipRequestMailer.stub(:membership_request_response_email).and_return(mailer)
+    end
+
+    describe "with pending request" do
+      let(:status) { "Pending" }
+
+      context "when approved" do
+        it "sets the membership_request to approved" do
+          do_approve
+          MembershipRequest.last.status.should == "Approved"
+        end
+
+        it "creates a new CompanyMembership" do
+          expect {
+            do_approve
+          }.to change(CompanyMembership, :count).by(1)
+          CompanyMembership.last.user_id.should == membership_request.user_id
+        end
+      end
+
+      it "redirects to the user_dashboard" do
+        do_approve
+        response.should redirect_to(root_url)
+      end
+    end
+
+    describe "with non-pending request" do
+      let(:status) { "Denied" }
+
+      context "when approved" do
+        it "does not set the membership_request to approved" do
+          do_approve
+          MembershipRequest.last.status.should == "Denied"
+        end
+
+        it "does not create a new CompanyMembership" do
+          expect {
+            do_approve
+          }.to change(CompanyMembership, :count).by(0)
+        end
+      end
+
+      it "redirects to the user_dashboard" do
+        do_approve
+        response.should redirect_to(root_url)
+      end
+    end
+  end
+
+  describe "GET deny" do
+    let(:mailer) { double(:mailer, deliver: true) }
+    let(:membership_request) { FactoryGirl.create(:membership_request, company: company, user: user, status: status) }
+
+    def do_deny
+      get :deny, { id: membership_request.hash_key }, valid_session
+    end
+
+    before do
+      mock_user
+      membership_request.should be
+      MembershipRequestMailer.stub(:membership_request_response_email).and_return(mailer)
+    end
+
+    describe "with pending request" do
+      let(:status) { "Pending" }
+
+      context "when denied" do
+        it "sets the membership_request to denied" do
+          do_deny
+          MembershipRequest.last.status.should == "Denied"
+        end
+
+        it "fails to create a new CompanyMembership" do
+          expect {
+            do_deny
+          }.to change(CompanyMembership, :count).by(0)
+        end
+      end
+
+      it "redirects to the user_dashboard" do
+        do_deny
+        response.should redirect_to(root_url)
+      end
+    end
+
+    describe "with non-pending request" do
+      let(:status) { "Approved" }
+
+      context "when approved" do
+        it "does not set the membership_request to approved" do
+          do_deny
+          MembershipRequest.last.status.should == "Approved"
+        end
+
+        it "does not create a new CompanyMembership" do
+          expect {
+            do_deny
+          }.to change(CompanyMembership, :count).by(0)
+        end
+      end
+
+      it "redirects to the user_dashboard" do
+        do_deny
+        response.should redirect_to(root_url)
+      end
+    end
+  end
 end
