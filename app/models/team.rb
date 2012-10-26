@@ -29,7 +29,7 @@ class Team < ActiveRecord::Base
   end
 
   def active_membership_pairs
-    pairing_days.where("pairing_date >= ?", 1.month.ago.to_date).map do |pairing_day|
+    pairing_days.where("pairing_date >= ?", 2.weeks.ago.to_date).map do |pairing_day|
       pairing_day.pairs.select { |pair| pair.memberships_active?(active_memberships) }
     end.compact.flatten
   end
