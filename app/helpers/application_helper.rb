@@ -61,17 +61,10 @@ module ApplicationHelper
 
   def available_teams_navigation_dropdown
     if user_signed_in?
-      teams = Team.joins(company: :company_memberships).where("company_memberships.user_id = ?", current_user.id).order("companies.name ASC")
-      if teams.any?
-        content_tag(:li, class: "dropdown") do
-          link_to(raw("Teams"+content_tag(:b, "", class: "caret")), "#", class: "dropdown-toggle", data: { toggle: "dropdown" }) +
-            content_tag(:ul, class: "dropdown-menu") do
-            teams.map do |team|
-              content_tag(:li, link_to(team.name, team))
-            end.join("").html_safe
-          end
-        end
-      end
+      teams = Team.joins(company: :company_memberships).
+        where("company_memberships.user_id = ?", current_user.id).
+        order("companies.name ASC")
+      generate_teams_dropdown(teams) if teams.any?
     end
   end
 
@@ -91,6 +84,19 @@ module ApplicationHelper
   end
 
   private
+
+  def generate_teams_dropdown(teams)
+    content_tag(:li, class: "dropdown") do
+      link_to(raw("Teams"+content_tag(:b, "", class: "caret")), "#", class: "dropdown-toggle", data: { toggle: "dropdown" }) +
+        content_tag(:ul, class: "dropdown-menu") do
+        team_name_links(teams)
+      end
+    end
+  end
+
+  def team_name_links(teams)
+    teams.map { |team| content_tag(:li, link_to(team.name, team)) }.join("").html_safe
+  end
 
   def pair_cell_data(pair_group)
     data_hash = { "pair-memberships" => pair_group.ids }

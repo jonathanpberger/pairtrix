@@ -23,31 +23,10 @@ class PairsController < ApplicationController
     @pair = @pairing_day.pairs.build(params[:pair])
 
     if @pair.save
-
-      @pair.pair_memberships.each do |pair_membership|
-        pair_membership.save!
-      end
-
-      respond_to do |format|
-        format.html do
-          redirect_url = @pairing_day.available_team_memberships? ? new_pairing_day_pair_url(@pairing_day) : pairing_day_url(@pairing_day)
-          redirect_to redirect_url, flash: { success: 'Pair was successfully created.' }
-        end
-
-        format.json do
-          render(json: { success: true, pairId: @pair.id })
-        end
-      end
+      save_pair_memberships
+      successful_create_response
     else
-      respond_to do |format|
-        format.html do
-          render action: "new"
-        end
-
-        format.json do
-          render(json: { success: false })
-        end
-      end
+      failure_create_response
     end
   end
 
@@ -73,9 +52,43 @@ class PairsController < ApplicationController
     if params[:pairing_day_id]
       @pairing_day = PairingDay.find(params[:pairing_day_id])
     elsif params[:team_id]
-      team = Team.find(params[:team_id])
-      if (!@pairing_day = team.pairing_days.where(pairing_date: Date.current).first)
-        @pairing_day = team.pairing_days.create(pairing_date: Date.current)
+      find_or_create_pairing_day_for_team_id(params[:team_id])
+    end
+  end
+
+  def find_or_create_pairing_day_for_team_id(team_id)
+    team = Team.find(team_id)
+    @pairing_day = team.pairing_days.where(pairing_date: Date.current).first ||
+      team.pairing_days.create(pairing_date: Date.current)
+  end
+
+  def save_pair_memberships
+    @pair.pair_memberships.each do |pair_membership|
+      pair_membership.save!
+    end
+  end
+
+  def successful_create_response
+    respond_to do |format|
+      format.html do
+        redirect_url = @pairing_day.available_team_memberships? ? new_pairing_day_pair_url(@pairing_day) : pairing_day_url(@pairing_day)
+        redirect_to redirect_url, flash: { success: 'Pair was successfully created.' }
+      end
+
+      format.json do
+        render(json: { success: true, pairId: @pair.id })
+      end
+    end
+  end
+
+  def failure_create_response
+    respond_to do |format|
+      format.html do
+        render action: "new"
+      end
+
+      format.json do
+        render(json: { success: false })
       end
     end
   end

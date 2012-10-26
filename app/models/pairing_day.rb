@@ -19,13 +19,7 @@ class PairingDay < ActiveRecord::Base
   end
 
   def available_team_memberships
-    team_membership_table = Arel::Table.new(:team_memberships)
-    available_team_memberships = TeamMembership.current.
-      where(team_membership_table[:id].not_in(paired_team_membership_ids)).
-      where(team_membership_table[:team_id].eq(team.id)).
-      where(team_membership_table[:start_date].lteq(pairing_date)).
-      joins(:employee).order("employees.last_name ASC")
-    [out_of_office_membership, available_team_memberships].flatten.uniq
+    [get_out_of_office_membership, get_available_team_memberships].flatten.uniq
   end
 
   def available_team_memberships?
@@ -38,7 +32,16 @@ class PairingDay < ActiveRecord::Base
 
   private
 
-  def out_of_office_membership
+  def get_available_team_memberships
+    team_membership_table = Arel::Table.new(:team_memberships)
+    TeamMembership.current.
+      where(team_membership_table[:id].not_in(paired_team_membership_ids)).
+      where(team_membership_table[:team_id].eq(team.id)).
+      where(team_membership_table[:start_date].lteq(pairing_date)).
+      joins(:employee).order("employees.last_name ASC")
+  end
+
+  def get_out_of_office_membership
     find_membership_for("Office")
   end
 
