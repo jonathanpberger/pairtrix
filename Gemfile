@@ -31,6 +31,7 @@ gem "cancan"
 
 group :test do
   gem "cucumber-rails", require: false
+  gem "webmock"
 end
 
 group :development, :test do
@@ -46,7 +47,6 @@ group :development, :test do
   gem "launchy"
   gem "factory_girl"
   gem "factory_girl_rails"
-  gem "fakeweb"
   gem "rest-client"
   gem "simplecov"
 end
