@@ -25,7 +25,7 @@ class Company < ActiveRecord::Base
   end
 
   def available_employees
-    employees.map do |employee|
+    employees.ordered_by_last_name.map do |employee|
       employee if (employee.team_memberships.empty? ||
                    employee.team_memberships.none? { |team_membership| team_membership.current? }) &&
                    !employee.hide?
