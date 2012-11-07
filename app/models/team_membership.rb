@@ -5,6 +5,9 @@ class TeamMembership < ActiveRecord::Base
   belongs_to :employee
 
   validates_presence_of :team_id, :employee_id, :start_date
+  validates :employee_id, uniqueness: { scope: :team_id,
+                                        message: "The employee is currently a member of this team",
+                                        if: Proc.new { |membership| membership.active_membership? } }
 
   delegate :name, to: :employee
 
@@ -19,6 +22,10 @@ class TeamMembership < ActiveRecord::Base
     def sorted
       joins(:employee).order("end_date DESC, employees.last_name ASC")
     end
+  end
+
+  def active_membership?
+    TeamMembership.where(team_id: team_id).where(employee_id: employee_id).where("end_date IS ?", nil).any?
   end
 
   def current?

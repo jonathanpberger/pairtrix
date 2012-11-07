@@ -21,6 +21,44 @@ describe TeamMembership do
         team_membership.should have(1).error_on(:start_date)
       end
     end
+
+    describe "uniqueness" do
+      let(:end_date) { nil }
+      let!(:existing_team_membership) { FactoryGirl.create(:team_membership,
+                                                           end_date: end_date) }
+
+      before { team_membership.team_id = existing_team_membership.team_id }
+
+      context "with a unique employee_id" do
+        before do
+          team_membership.employee_id = 1
+        end
+
+        it "validates the uniqueness of employee_id" do
+          team_membership.should have(0).error_on(:employee_id)
+        end
+      end
+
+      context "with a duplicate employee_id" do
+        before do
+          team_membership.employee_id = existing_team_membership.employee_id
+        end
+
+        context "and an ended membership" do
+          let(:end_date) { Date.current }
+
+          it "validates the uniqueness of employee_id" do
+            team_membership.should have(0).error_on(:employee_id)
+          end
+        end
+
+        context "and an active membership" do
+          it "validates the uniqueness of employee_id" do
+            team_membership.should have(1).error_on(:employee_id)
+          end
+        end
+      end
+    end
   end
 
   describe "#current?" do
