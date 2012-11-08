@@ -54,11 +54,14 @@ h3 {
 }
 
 .matrix-table .paired-count.faded {
-  opacity:0.1;
   &:hover {
     cursor: default;
     background: $white;
   }
+}
+
+.faded {
+  opacity:0.1;
 }
 
 @mixin white-shadowed {
