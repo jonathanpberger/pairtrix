@@ -9,7 +9,7 @@ describe SessionsController do
       post 'create'
       session[:user_id].should == user.id
       flash[:success].should =~ /Signed in/i
-      response.should redirect_to(root_url)
+      response.should redirect_to(dashboard_url)
     end
   end
 
