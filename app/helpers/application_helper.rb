@@ -61,9 +61,7 @@ module ApplicationHelper
 
   def available_teams_navigation_dropdown
     if user_signed_in?
-      teams = Team.joins(company: :company_memberships).
-        where("company_memberships.user_id = ?", current_user.id).
-        order("companies.name ASC")
+      teams = current_user.available_teams
       generate_teams_dropdown(teams) if teams.any?
     end
   end

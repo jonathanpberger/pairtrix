@@ -6,8 +6,8 @@ describe "users/dashboard" do
   it "displays the user information" do
     view.stub(:current_user).and_return(user)
     render
-    rendered.should have_content("Bob Smith")
+    rendered.should have_content("My Teams")
+    rendered.should have_content("My Information")
     rendered.should have_content("bob@test.com")
-    rendered.should have_content("12345")
   end
 end

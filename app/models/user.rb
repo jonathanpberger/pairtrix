@@ -6,7 +6,6 @@ class User < ActiveRecord::Base
   has_many :company_memberships, dependent: :destroy
 
   class << self
-
     def from_omniauth(auth)
       where(provider: auth["provider"], uid: auth["uid"]).first || create_with_omniauth(auth)
     end
@@ -19,6 +18,11 @@ class User < ActiveRecord::Base
         user.email = auth["info"]["email"]
       end
     end
+  end
 
+  def available_teams
+    Team.joins(company: :company_memberships).
+      where("company_memberships.user_id = ?", id).
+      order("companies.name ASC")
   end
 end

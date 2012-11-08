@@ -1,15 +1,16 @@
 %h3
-  User Dashboard
-.user-information
-  .name
-    %strong
-      Name:
-    = current_user.name
-  .email
-    %strong
-      Email:
-    = current_user.email
-  .uid
-    %strong
-      UID:
-    = current_user.uid
+  Dashboard
+.row-fluid
+  .span6
+    .teams
+      %h5
+        My Teams
+      = render(partial: "available_team", collection: current_user.available_teams)
+  .span6
+    %h5
+      My Information
+    .user-information
+      .email
+        %strong
+          Email:
+        = current_user.email
