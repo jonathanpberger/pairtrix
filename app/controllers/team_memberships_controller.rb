@@ -22,7 +22,7 @@ class TeamMembershipsController < ApplicationController
 
     if @team_membership.valid?
       @team_membership.save
-      redirect_to team_url(@team_membership.team), flash: { success: 'TeamMembership was successfully created.' }
+      redirect_to team_team_memberships_url(@team_membership.team), flash: { success: 'TeamMembership was successfully created.' }
     else
       render action: "new"
     end
@@ -30,7 +30,7 @@ class TeamMembershipsController < ApplicationController
 
   def update
     if @team_membership.update_attributes(params[:team_membership])
-      redirect_to team_url(@team_membership.team), flash: { success: 'TeamMembership was successfully updated.' }
+      redirect_to team_team_memberships_url(@team_membership.team), flash: { success: 'TeamMembership was successfully updated.' }
     else
       render action: "edit"
     end
@@ -38,6 +38,6 @@ class TeamMembershipsController < ApplicationController
 
   def destroy
     @team_membership.destroy
-    redirect_to team_url(@team_membership.team)
+    redirect_to team_team_memberships_url(@team_membership.team)
   end
 end

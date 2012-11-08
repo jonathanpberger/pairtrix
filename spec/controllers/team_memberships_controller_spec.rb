@@ -69,7 +69,7 @@ describe TeamMembershipsController do
 
       it "redirects to the created team_membership" do
         post :create, { team_id: team.to_param, team_membership: valid_attributes }, valid_session
-        response.should redirect_to(team_url(team))
+        response.should redirect_to(team_team_memberships_url(team))
       end
     end
 
@@ -105,7 +105,7 @@ describe TeamMembershipsController do
 
       it "redirects to the team_membership" do
         put :update, { id: team_membership.to_param, team_membership: valid_attributes}, valid_session
-        response.should redirect_to(team_url(team))
+        response.should redirect_to(team_team_memberships_url(team))
       end
     end
 
@@ -141,7 +141,7 @@ describe TeamMembershipsController do
 
     it "redirects to the team_memberships list" do
       delete :destroy, { id: team_membership.to_param }, valid_session
-      response.should redirect_to(team_url(team))
+      response.should redirect_to(team_team_memberships_url(team))
     end
   end
 end
