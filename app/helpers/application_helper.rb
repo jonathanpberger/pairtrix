@@ -29,7 +29,7 @@ module ApplicationHelper
     messages = resource.errors.full_messages.map { |msg| content_tag(:li, msg) }.join
     sentence = "#{pluralize(resource.errors.count, "error")} prohibited this #{resource.class.name.downcase} from being saved:"
 
-    html = content_tag(:div, :class => 'error-explanation') do
+    html = content_tag(:div, class: 'error-explanation') do
       content_tag(:h3, sentence) +
         content_tag(:ul, messages.html_safe)
     end

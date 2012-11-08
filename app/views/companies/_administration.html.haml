@@ -4,7 +4,7 @@
   %p
     = link_to('Edit', edit_company_path(@company)) if can? :update, @company
     %br
-    = link_to('Destroy', @company, data: { confirm: 'Are you sure?' }, :method => :delete) if can? :destroy, @company
+    = link_to('Destroy', @company, data: { confirm: 'Are you sure?' }, method: :delete) if can? :destroy, @company
     %br
     = link_to('Edit Company Memberships', company_company_memberships_url(@company)) if can? :manage, @company.company_memberships.build
 

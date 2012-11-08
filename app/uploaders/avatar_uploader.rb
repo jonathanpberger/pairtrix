@@ -9,6 +9,6 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   storage :fog
 
-  process :resize_to_fit => [50, 50]
+  process resize_to_fit: [50, 50]
 
 end
