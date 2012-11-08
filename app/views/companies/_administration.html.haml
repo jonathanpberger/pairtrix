@@ -1,17 +1,20 @@
 - if can? :manage, @company
-  %h4
-    Administration
-  %p
-    = link_to('Edit', edit_company_url(@company)) if can? :update, @company
-    %br
-    = link_to('Destroy', @company, data: { confirm: 'Are you sure?' }, method: :delete) if can? :destroy, @company
-    %br
-    = link_to('Edit Company Memberships', company_company_memberships_url(@company)) if can? :manage, @company.company_memberships.build
+  .row-fluid
+    .span4
+      %h5
+        Administration
+      %p
+        = link_to("Edit Company Memberships", company_company_memberships_url(@company)) if can? :manage, @company.company_memberships.build
+        %br
+        = link_to("Edit #{@company.name}", edit_company_url(@company)) if can? :update, @company
+        %br
+        = link_to("Destroy #{@company.name}", @company, data: { confirm: 'Are you sure?' }, method: :delete) if can? :destroy, @company
+    .span8
+      %h5
+        Change Company Ownership
+      = simple_form_for @company do |f|
+        = f.input :user_id, collection: @company.company_memberships.all.map(&:user), include_blank: false
+        = f.button :wrapped, value: "Change Company Ownership"
 
-  = simple_form_for @company do |f|
-    = f.input :user_id, collection: @company.company_memberships.all.map(&:user), include_blank: false
-    = f.button :wrapped, value: "Change Company Ownership"
-
-  - if (can? :update, @company.membership_requests.build) && (@company.membership_requests.pending.any?)
-    = render(partial: "membership_requests/index", locals: { company: @company })
-  %hr
+      - if (can? :update, @company.membership_requests.build) && (@company.membership_requests.pending.any?)
+        = render(partial: "membership_requests/index", locals: { company: @company })
