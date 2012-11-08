@@ -1,20 +1,20 @@
 %ul.breadcrumb
   - if defined?(company)
     = breadcrumb_link({text: company.name,
-                       path: company_path(company)})
+                       url: company_url(company)})
   - if defined?(employees)
     = breadcrumb_link({text: "#{company.name} employees",
-                       path: company_employees_path(company),
+                       url: company_employees_url(company),
                        divider: true})
   - else
     = breadcrumb_link({text: "#{company.name} teams",
-                       path: company_teams_path(company),
+                       url: company_teams_url(company),
                        divider: true})
 
   - if defined?(team)
     = breadcrumb_link({text: "#{team.name} team matrix",
-                       path: team_path(team),
+                       url: team_url(team),
                        divider: true})
     = breadcrumb_link({text: "#{team.name} team memberships",
-                       path: team_team_memberships_path(team),
+                       url: team_team_memberships_url(team),
                        divider: true})

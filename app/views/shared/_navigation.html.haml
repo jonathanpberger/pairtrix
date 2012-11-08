@@ -1,8 +1,8 @@
 .navbar.navbar-fixed-top
   .navbar-inner
-    = link_to("Pairtrix", root_path, class: "brand")
+    = link_to("Pairtrix", root_url, class: "brand")
     %ul.nav
       %li
-        = link_to("Help", help_path)
+        = link_to("Help", help_url)
       = available_teams_navigation_dropdown
     = render("shared/sign_in_sign_out")

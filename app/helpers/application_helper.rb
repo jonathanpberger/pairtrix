@@ -86,15 +86,15 @@ module ApplicationHelper
   def breadcrumb_link(options)
     link = options[:divider] ? content_tag(:span, "/", class: "divider") : ""
     link << link_to(options[:text],
-                    options[:path],
-                    class: is_active_link?(options[:path]))
+                    options[:url],
+                    class: is_active_link?(options[:url]))
     content_tag(:li, raw(link))
   end
 
   private
 
-  def is_active_link?(path)
-    request.fullpath == path ? "active" : ""
+  def is_active_link?(url)
+    "#{request.protocol}#{request.host_with_port}#{request.fullpath}" == url ? "active" : ""
   end
 
   def generate_teams_dropdown(teams)

@@ -3,7 +3,7 @@
     Companies
 
   .new-item
-    = link_to 'New Company', new_company_path
+    = link_to 'New Company', new_company_url
 
   %table.table.table-striped.table-condensed.table-bordered
     %thead
@@ -16,4 +16,4 @@
   %p
     Help teams pair members.
   %p
-    Please #{link_to("sign in", sign_in_path)} to create an account.
+    Please #{link_to("sign in", sign_in_url)} to create an account.

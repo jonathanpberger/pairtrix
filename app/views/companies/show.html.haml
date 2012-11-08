@@ -9,11 +9,11 @@
 
   - if can? :read, @company
     %p
-      = link_to("Employees", company_employees_path(@company))
+      = link_to("Employees", company_employees_url(@company))
       %br
-      = link_to("Teams", company_teams_path(@company))
+      = link_to("Teams", company_teams_url(@company))
 
   = link_to("Back", companies_url)
 - else
-  Please #{link_to("sign in", sign_in_path)} to create an account.
+  Please #{link_to("sign in", sign_in_url)} to create an account.
 
