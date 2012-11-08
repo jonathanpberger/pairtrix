@@ -83,7 +83,19 @@ module ApplicationHelper
     end
   end
 
+  def breadcrumb_link(options)
+    link = options[:divider] ? content_tag(:span, "/", class: "divider") : ""
+    link << link_to(options[:text],
+                    options[:path],
+                    class: is_active_link?(options[:path]))
+    content_tag(:li, raw(link))
+  end
+
   private
+
+  def is_active_link?(path)
+    request.fullpath == path ? "active" : ""
+  end
 
   def generate_teams_dropdown(teams)
     content_tag(:li, class: "dropdown") do

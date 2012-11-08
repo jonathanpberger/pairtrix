@@ -1,4 +1,5 @@
 - if user_signed_in?
+  = render(partial: "shared/breadcrumb", locals: { company: @company })
   %h3
     = @company.name
   = render(partial: "companies/administration")

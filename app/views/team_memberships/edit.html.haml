@@ -1,3 +1,6 @@
+= render(partial: "shared/breadcrumb",
+         locals: { company: @team_membership.team.company,
+         team: @team_membership.team })
 %h3 Edit #{@team_membership.employee.name}
 
 = simple_form_for @team_membership do |f|
