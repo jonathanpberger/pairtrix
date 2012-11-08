@@ -25,7 +25,7 @@ class TeamMembership < ActiveRecord::Base
   end
 
   def active_membership?
-    TeamMembership.where(team_id: team_id).where(employee_id: employee_id).where("end_date IS ?", nil).any?
+    (TeamMembership.where(team_id: team_id, employee_id: employee_id, end_date: nil).all - [self]).any?
   end
 
   def current?
