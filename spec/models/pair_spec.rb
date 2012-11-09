@@ -51,25 +51,6 @@ describe Pair do
     it { should == pair.pair_memberships[1].name }
   end
 
-  describe "#memberships_current?" do
-    subject { pair.memberships_current? }
-    let!(:pair) { FactoryGirl.create(:pair_with_memberships) }
-
-    context "with all memberships current" do
-      it { should be_true }
-    end
-
-    context "with any membership not current" do
-      before do
-        team_membership = pair.team_memberships.first
-        team_membership.end_date = 3.days.ago.to_date
-        team_membership.save!
-      end
-
-      it { should be_false }
-    end
-  end
-
   describe "#has_membership?" do
     subject { pair.has_membership?(membership) }
 

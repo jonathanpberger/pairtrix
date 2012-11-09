@@ -34,10 +34,9 @@ class PairingDay < ActiveRecord::Base
 
   def get_available_team_memberships
     team_membership_table = Arel::Table.new(:team_memberships)
-    TeamMembership.current.
+    TeamMembership.
       where(team_membership_table[:id].not_in(paired_team_membership_ids)).
       where(team_membership_table[:team_id].eq(team.id)).
-      where(team_membership_table[:start_date].lteq(pairing_date)).
       joins(:employee).order("employees.last_name ASC")
   end
 

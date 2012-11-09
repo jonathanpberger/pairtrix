@@ -12,10 +12,6 @@
       %th
         Employee Name
       %th
-        Start date
-      %th
-        End date
-      %th
         Action
   %tbody
     = render(partial: 'team_memberships/team_membership_row', collection: team.team_memberships.sorted, as: 'team_membership')

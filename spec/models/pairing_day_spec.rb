@@ -67,17 +67,9 @@ describe PairingDay do
     end
 
     context "with available team memberships" do
-      let!(:available_team_membership) { FactoryGirl.create(:team_membership,
-                                                            team: team,
-                                                            start_date: pairing_date - 5.days) }
-      let!(:unavailable_team_membership) { FactoryGirl.create(:team_membership,
-                                                              team: team,
-                                                              start_date: pairing_date - 5.days) }
-      let!(:unavailable_team_membership_1) { FactoryGirl.create(:team_membership,
-                                                                team: team,
-                                                                start_date: pairing_date - 5.days) }
-      let!(:too_recent_team_membership) { FactoryGirl.create(:team_membership,
-                                                             team: team) }
+      let!(:available_team_membership) { FactoryGirl.create(:team_membership, team: team) }
+      let!(:unavailable_team_membership) { FactoryGirl.create(:team_membership, team: team) }
+      let!(:unavailable_team_membership_1) { FactoryGirl.create(:team_membership, team: team) }
       let!(:other_team_membership) { FactoryGirl.create(:team_membership) }
       let!(:existing_pair) { FactoryGirl.create(:pair,
                                                 team_membership_ids: [unavailable_team_membership.id, unavailable_team_membership_1.id],
@@ -86,7 +78,6 @@ describe PairingDay do
       it { should include(available_team_membership) }
       it { should_not include(unavailable_team_membership) }
       it { should_not include(other_team_membership) }
-      it { should_not include(too_recent_team_membership) }
     end
   end
 

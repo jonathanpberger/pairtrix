@@ -23,7 +23,7 @@ class Team < ActiveRecord::Base
 
   def active_memberships
     @active_memberships ||= begin
-                              active_employee_ids = team_memberships.current.map(&:employee_id)
+                              active_employee_ids = team_memberships.map(&:employee_id)
                               team_memberships.where(employee_id: active_employee_ids)
                             end
   end
@@ -35,14 +35,14 @@ class Team < ActiveRecord::Base
   end
 
   def membership_hash
-    @membership_hash ||= PairMatrixCalculator.new(active_membership_pairs, team_memberships.current).complete_pair_hash
+    @membership_hash ||= PairMatrixCalculator.new(active_membership_pairs, team_memberships).complete_pair_hash
   end
 
   # we want to make sure the solo and out of office employees exist on every team
   def add_default_team_memberships
     if transaction_include_action?(:create)
-      team_memberships.create!(employee_id: company.employees.solo_employee.id, start_date: Date.current-1.day)
-      team_memberships.create!(employee_id: company.employees.out_of_office_employee.id, start_date: Date.current-1.day)
+      team_memberships.create!(employee_id: company.employees.solo_employee.id)
+      team_memberships.create!(employee_id: company.employees.out_of_office_employee.id)
     end
   end
 

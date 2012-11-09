@@ -1,9 +1,5 @@
 - if !team_membership.hide?
-  %tr{class: ("faded" if !team_membership.current?) }
+  %tr
     %td
       = team_membership.employee.name
-    %td
-      = team_membership.start_date
-    %td
-      = team_membership.end_date
     = render(partial: "shared/action_column", locals: { item: team_membership })

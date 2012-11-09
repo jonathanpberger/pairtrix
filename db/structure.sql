@@ -273,8 +273,6 @@ CREATE TABLE team_memberships (
     id integer NOT NULL,
     team_id integer,
     employee_id integer,
-    start_date date,
-    end_date date,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -662,5 +660,7 @@ INSERT INTO schema_migrations (version) VALUES ('20120813024150');
 INSERT INTO schema_migrations (version) VALUES ('20120813043704');
 
 INSERT INTO schema_migrations (version) VALUES ('20120819024034');
+
+INSERT INTO schema_migrations (version) VALUES ('20121109032542');
 
 INSERT INTO schema_migrations (version) VALUES ('3');

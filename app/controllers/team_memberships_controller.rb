@@ -11,7 +11,7 @@ class TeamMembershipsController < ApplicationController
   end
 
   def new
-    @team_membership = @team.team_memberships.build(start_date: Date.current)
+    @team_membership = @team.team_memberships.build
   end
 
   def edit

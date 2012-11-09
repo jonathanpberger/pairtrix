@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120819024034) do
+ActiveRecord::Schema.define(:version => 20121109032542) do
 
   create_table "companies", :force => true do |t|
     t.integer  "user_id"
@@ -87,8 +87,6 @@ ActiveRecord::Schema.define(:version => 20120819024034) do
   create_table "team_memberships", :force => true do |t|
     t.integer  "team_id"
     t.integer  "employee_id"
-    t.date     "start_date"
-    t.date     "end_date"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end

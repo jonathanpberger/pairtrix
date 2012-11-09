@@ -14,10 +14,6 @@ class Employee < ActiveRecord::Base
   has_many :teams, through: :team_memberships
 
   class << self
-    def completed_team_memberships
-      team_memberships.where("end_date <= ?", Date.current)
-    end
-
     def ordered_by_last_name
       order("last_name ASC, first_name ASC")
     end

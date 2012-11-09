@@ -2,7 +2,7 @@
   %button.btn.btn-primary.randomize-pairs
     Create pair
   %br
-- memberships = team.team_memberships.current.joins(:employee).order("employees.id DESC")
+- memberships = team.team_memberships.joins(:employee).order("employees.id DESC")
 - if memberships.any?
   .matrix-table{data: { "team-id" => team.id, "paired-memberships" => currently_paired_membership_ids(team).to_json } }
     .matrix-row

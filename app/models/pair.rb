@@ -32,10 +32,6 @@ class Pair < ActiveRecord::Base
     team_memberships.all? { |team_membership| active_memberships.include?(team_membership) }
   end
 
-  def memberships_current?
-    team_memberships.all? { |team_membership| team_membership.current? }
-  end
-
   def has_membership?(membership)
     team_memberships.detect { |team_membership| team_membership.employee_id == membership.employee_id }
   end
