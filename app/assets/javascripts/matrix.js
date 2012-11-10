@@ -110,5 +110,7 @@ $(function() {
     buildAvailablePair();
   });
 
-  modifyPairMemberCells();
+  if ($(".matrix-table").length > 0) {
+    modifyPairMemberCells();
+  }
 });
