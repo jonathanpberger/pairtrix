@@ -14,6 +14,9 @@
           = link_to("Teams", company_teams_url(@company))
     .span6
       = render(partial: "companies/administration")
+  .row-fluid
+    .span12
+      = render(partial: "companies/team_allocation", locals: { company: @company })
 
 
 

@@ -19,6 +19,10 @@ class Team < ActiveRecord::Base
     membership_hash[left.employee_id].has_key?(top.employee_id) ? membership_hash[left.employee_id][top.employee_id] : 0
   end
 
+  def active_real_memberships
+    active_memberships.reject { |membership| membership.hide? }
+  end
+
   private
 
   def active_memberships

@@ -1,4 +1,0 @@
-= error_messages_for(team_membership)
-- if team_membership.new_record?
-  = form.input :employee_id, label: "Employee", collection: team_membership.team.company.available_employees, include_blank: false
-= form.button :wrapped, cancel: team_url(team_membership.team)

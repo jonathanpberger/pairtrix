@@ -15,6 +15,10 @@ class Company < ActiveRecord::Base
 
   after_commit :add_default_employees
 
+  def real_employees
+    employees.reject(&:hide?)
+  end
+
   def has_membership_for?(user)
     company_memberships.detect { |company_membership| company_membership.user_id == user.id }
   end

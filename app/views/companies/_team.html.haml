@@ -1,0 +1,6 @@
+.team
+  .heading
+    %h5
+      = link_to(team.name, team_url(team))
+  %ul.team-memberships{"data-team-id" => team.id}
+    = render(partial: "team_membership", collection: team.active_real_memberships)

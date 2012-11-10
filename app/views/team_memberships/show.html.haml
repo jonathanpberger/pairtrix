@@ -1,9 +1,0 @@
-= render(partial: "shared/breadcrumb",
-         locals: { company: @team_membership.team.company,
-         team: @team_membership.team,
-         team_membership: @team_membership })
-%h3
-  = @team_membership.employee.name
-%br
-%br
-= link_to("Back", team_url(@team_membership.team))

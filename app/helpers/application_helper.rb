@@ -89,6 +89,10 @@ module ApplicationHelper
     content_tag(:li, raw(link))
   end
 
+  def badge_name_for(employee)
+    (employee.first_name + " " + employee.last_name).html_safe
+  end
+
   private
 
   def is_active_link?(url)

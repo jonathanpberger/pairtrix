@@ -108,3 +108,65 @@ h3 {
     }
   }
 }
+
+.employee-badge {
+  margin-bottom: 4px;
+  height: 30px;
+  background: $white;
+  border: 1px solid $black;
+  width: 170px;
+  .avatar {
+    display: inline;
+    float: left;
+    margin: 0 10px 0 10px;
+    img {
+      height: 30px;
+      width: 30px;
+    }
+  }
+  .employee-name {
+    padding-top: 10px;
+    display: inline;
+    color: $black;
+    font-size: 14px;
+  }
+}
+
+.team {
+  float: left;
+  margin-right: 10px;
+  h5 {
+    text-align: center;
+    margin-top: 0px;
+    background: $black;
+    a {
+      color: $white;
+    }
+  }
+}
+
+.available-employees {
+  h5 {
+    text-align: center;
+    margin-top: 0px;
+    background: $black;
+    color: $white;
+  }
+}
+
+.available-employees, .team {
+  width: 200px;
+  ul {
+    min-height: 150px;
+    list-style-type: none;
+    padding: 5px;
+    margin: 0px;
+    li {
+      cursor: move;
+    }
+  }
+}
+
+.ui-hover {
+  background: $yellow;
+}

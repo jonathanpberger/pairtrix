@@ -1,8 +1,0 @@
-= render(partial: "shared/breadcrumb",
-         locals: { company: @team_membership.team.company,
-         team: @team_membership.team })
-%h3 New Team Membership
-
-= simple_form_for [@team_membership.team, @team_membership] do |f|
-  = render(partial: 'form', locals: { form: f, team_membership: @team_membership } )
-
