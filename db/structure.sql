@@ -341,7 +341,9 @@ CREATE TABLE users (
     email character varying(255),
     admin boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    last_viewed_url character varying(255),
+    sign_in_redirect_option character varying(255) DEFAULT 'dashboard'::character varying
 );
 
 
@@ -662,5 +664,7 @@ INSERT INTO schema_migrations (version) VALUES ('20120813043704');
 INSERT INTO schema_migrations (version) VALUES ('20120819024034');
 
 INSERT INTO schema_migrations (version) VALUES ('20121109032542');
+
+INSERT INTO schema_migrations (version) VALUES ('20121111000050');
 
 INSERT INTO schema_migrations (version) VALUES ('3');

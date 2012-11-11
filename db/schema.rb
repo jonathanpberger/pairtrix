@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121109032542) do
+ActiveRecord::Schema.define(:version => 20121111000050) do
 
   create_table "companies", :force => true do |t|
     t.integer  "user_id"
@@ -108,9 +108,11 @@ ActiveRecord::Schema.define(:version => 20121109032542) do
     t.string   "uid"
     t.string   "name"
     t.string   "email"
-    t.boolean  "admin",      :default => false
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.boolean  "admin",                   :default => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+    t.string   "last_viewed_url"
+    t.string   "sign_in_redirect_option", :default => "dashboard"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
