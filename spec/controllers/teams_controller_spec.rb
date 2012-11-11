@@ -80,13 +80,6 @@ describe TeamsController do
         post :create, {company_id: company.to_param, team: {}}, valid_session
         assigns(:team).should be_a_new(Team)
       end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Team.any_instance.stub(:save).and_return(false)
-        post :create, {company_id: company.to_param, team: {}}, valid_session
-        response.should render_template("new")
-      end
     end
   end
 

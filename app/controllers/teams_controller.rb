@@ -1,4 +1,5 @@
 class TeamsController < ApplicationController
+  respond_to :html, :json
 
   load_and_authorize_resource :company
   load_and_authorize_resource :team, through: :company, shallow: true
@@ -19,12 +20,8 @@ class TeamsController < ApplicationController
 
   def create
     @team = @company.teams.new(params[:team])
-
-    if @team.save
-      redirect_to company_teams_url(@team.company), flash: { success: 'Team was successfully created.' }
-    else
-      render action: "new"
-    end
+    @team.save
+    respond_with @team, location: company_teams_url(@company)
   end
 
   def update

@@ -77,6 +77,43 @@ $(function() {
            });
   }
 
+  function addTeam(team) {
+    var teamHtml = $("<div/>", {class: "team"}).html(
+      $("<div/>", {class: "heading"}).html(
+        $("<h5/>").html(
+          $("<a/>", { text: team.name,
+            href: "/teams/"+team.id})))).append(
+            $("<ul/>", {class: "team-memberships ui-droppable", "data-team-id": team.id}).data('team-id', team.id)
+            .droppable({
+              accept: ".available-employee",
+              hoverClass: "ui-hover",
+              drop: function(event, ui) {
+                createTeamMembership($(ui.draggable[0]), $(this));
+              }
+            }));
+            $(".team").parent().append(teamHtml);
+  }
+
+  $('#new_team_ajax').on('submit', function(){
+    var form = $(this);
+    form.find(".control-group").removeClass("error").find(".controls").find('span').remove();
+    $.post(form.attr('action'), form.serialize()+"&format=json", function(team) {
+      addTeam(team);
+      $("#addTeam").modal('hide');
+    }).error(function(result) {
+      var json = JSON.parse(result.responseText);
+      form.find(".control-group").addClass("error").
+        find(".controls").append($("<span/>", {class:'help-inline', text: json.errors.name[0]}));
+    });
+    return false;
+  });
+
+  $('#add-team-submit').on('click', function(e){
+    // We don't want this to act as a link so cancel the link action
+    e.preventDefault();
+    $('#new_team_ajax').submit();
+  });
+
   $(".available-employees li").draggable(draggableParams);
   $(".team li").draggable(draggableParams);
 

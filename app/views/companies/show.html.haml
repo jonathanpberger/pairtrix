@@ -12,6 +12,8 @@
           = link_to("Employees", company_employees_url(@company))
           %br
           = link_to("Teams", company_teams_url(@company))
+          %br
+          = link_to("Add Team", "#addTeam", role: "button", class: "btn btn-primary", "data-toggle" => "modal")
     .span6
       = render(partial: "companies/administration")
   .row-fluid
@@ -21,6 +23,7 @@
 
 
   = link_to("Back", companies_url)
+  - if can? :read, @company
+    = render(partial: "new_team", locals: { company: @company })
 - else
   Please #{link_to("sign in", sign_in_url)} to create an account.
-
