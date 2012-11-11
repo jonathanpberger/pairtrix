@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
 
+  before_filter LastViewedFilter
+
   check_authorization
 
   helper_method :current_user, :user_signed_in?, :admin?
