@@ -1,6 +1,10 @@
 class User < ActiveRecord::Base
   attr_accessible :admin, :email, :name, :provider, :uid, :last_viewed_url, :sign_in_redirect_option
 
+  LAST_VIEWED = 'last_viewed'
+  DASHBOARD = 'dashboard'
+  REDIRECT_OPTIONS = [DASHBOARD, LAST_VIEWED]
+
   has_many :companies
   has_many :membership_requests, dependent: :destroy
   has_many :company_memberships, dependent: :destroy
@@ -24,5 +28,9 @@ class User < ActiveRecord::Base
     Team.joins(company: :company_memberships).
       where("company_memberships.user_id = ?", id).
       order("companies.name ASC")
+  end
+
+  def save_last_viewed_url?
+    sign_in_redirect_option == LAST_VIEWED
   end
 end

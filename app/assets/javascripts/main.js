@@ -17,4 +17,9 @@ $(function() {
 
   // make sure we accept javascript for ajax requests
   jQuery.ajaxSetup({'beforeSend': function(xhr) {xhr.setRequestHeader("Accept", "text/javascript");}});
+
+  $('#user_sign_in_redirect_option').change(function() {
+    var form = $(this).closest('form');
+    $.post(form.attr('action'), form.serialize()+"&format=json");
+  });
 });

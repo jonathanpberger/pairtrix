@@ -1,0 +1,7 @@
+= simple_form_for current_user do |f|
+  = f.hidden_field(:last_viewed_url, value: "")
+  = f.input :sign_in_redirect_option,
+    label: "Sign In Option",
+    collection: [["Last viewed", User::LAST_VIEWED], ["Dashboard", User::DASHBOARD]],
+    include_blank: false
+
