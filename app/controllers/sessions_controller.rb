@@ -5,7 +5,8 @@ class SessionsController < ApplicationController
   def create
     @user = User.from_omniauth(env["omniauth.auth"])
     session[:user_id] = @user.id
-    redirect_to dashboard_url, flash: { success: "Signed in successfully." }
+    redirect_url = (@user.save_last_viewed_url? && !@user.last_viewed_url.blank?) ? @user.last_viewed_url : dashboard_url
+    redirect_to(redirect_url, flash: { success: "Signed in successfully." })
   end
 
   def destroy
