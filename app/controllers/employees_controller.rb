@@ -1,4 +1,5 @@
 class EmployeesController < ApplicationController
+  respond_to :html, :json
 
   load_and_authorize_resource :company
   load_and_authorize_resource :employee, through: :company, shallow: true
@@ -19,12 +20,8 @@ class EmployeesController < ApplicationController
 
   def create
     @employee = @company.employees.new(params[:employee])
-
-    if @employee.save
-      redirect_to company_employees_url(@employee.company), flash: { success: 'Employee was successfully created.' }
-    else
-      render action: "new"
-    end
+    @employee.save
+    respond_with @employee, location: company_employees_url(@company)
   end
 
   def update

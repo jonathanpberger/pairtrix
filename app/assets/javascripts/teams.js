@@ -82,36 +82,123 @@ $(function() {
       $("<div/>", {class: "heading"}).html(
         $("<h5/>").html(
           $("<a/>", { text: team.name,
-            href: "/teams/"+team.id})))).append(
-            $("<ul/>", {class: "team-memberships ui-droppable", "data-team-id": team.id}).data('team-id', team.id)
-            .droppable({
-              accept: ".available-employee",
-              hoverClass: "ui-hover",
-              drop: function(event, ui) {
-                createTeamMembership($(ui.draggable[0]), $(this));
-              }
-            }));
-            $(".team").parent().append(teamHtml);
+            href: "/teams/"+team.id})))
+    ).append(
+    $("<ul/>", {class: "team-memberships ui-droppable", "data-team-id": team.id}).data('team-id', team.id)
+    .droppable({
+      accept: ".available-employee",
+      hoverClass: "ui-hover",
+      drop: function(event, ui) {
+        createTeamMembership($(ui.draggable[0]), $(this));
+      }
+    }));
+    $(".team").parent().append(teamHtml);
   }
+
+  function addEmployee(employee) {
+    var fullName = employee.first_name+" "+employee.last_name;
+    var imageUrl = employee.avatar.url || "/assets/layout/avatar.png";
+    var employeeHtml = $("<li/>", {class: "available-employee ui-draggable"}).html(
+      $("<div/>", {class: "employee-badge badge", "data-employee-id": employee.id}).data('employee-id', employee.id).html(
+        $("<div/>", {class: "avatar"}).html(
+          $("<img/>", { alt: fullName, src: imageUrl}))
+    ).append($("<div/>", {class: "employee-name", text: fullName}))
+    ).draggable(draggableParams);
+    $(".available-employees").find('ul').append(employeeHtml);
+  }
+
+  function addError(prefix, field, message) {
+    var inputField = $("#"+prefix+"_"+field);
+    inputField.closest(".control-group").addClass("error");
+    inputField.closest(".controls").append($("<span/>", {class:'help-inline', text: message}));
+  }
+
+  function displayErrors(modelName, form, result) {
+    var errors = $.parseJSON(result.responseText).errors;
+    $.each(errors, function(field, message) {
+      addError(modelName, field, message);
+    });
+  }
+
+  function removeErrors(form) {
+    var controlGroup = form.find(".control-group");
+    controlGroup.removeClass("error");
+    controlGroup.find('.controls').each(function() {
+      $(this).find('span').remove();
+    });
+  }
+
+  function resetForm(form) {
+    form[0].reset();
+    removeErrors(form);
+  }
+
+  $('#addEmployee').on('show', function() {
+    resetForm($(this).find('form'));
+  });
+
+  $('#addTeam').on('show', function() {
+    resetForm($(this).find('form'));
+  });
 
   $('#new_team_ajax').on('submit', function(){
     var form = $(this);
-    form.find(".control-group").removeClass("error").find(".controls").find('span').remove();
-    $.post(form.attr('action'), form.serialize()+"&format=json", function(team) {
-      addTeam(team);
-      $("#addTeam").modal('hide');
-    }).error(function(result) {
-      var json = JSON.parse(result.responseText);
-      form.find(".control-group").addClass("error").
-        find(".controls").append($("<span/>", {class:'help-inline', text: json.errors.name[0]}));
+    var formData = new FormData(form[0]);
+    removeErrors(form);
+    $.ajax({
+      url: form.attr('action'),  //server script to process data
+      type: 'POST',
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader("Accept", "application/json");
+      },
+      success: function(team) {
+        addTeam(team);
+        $("#addTeam").modal('hide');
+      },
+      error: function(result) {
+        displayErrors("team", form, result);
+      },
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false
     });
     return false;
   });
 
   $('#add-team-submit').on('click', function(e){
-    // We don't want this to act as a link so cancel the link action
     e.preventDefault();
     $('#new_team_ajax').submit();
+  });
+
+  $('#new_employee_ajax').on('submit', function(){
+    var form = $(this);
+    removeErrors(form);
+    var formData = new FormData(form[0]);
+    $.ajax({
+      url: form.attr('action'),  //server script to process data
+      type: 'POST',
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader("Accept", "application/json");
+      },
+      success: function(employee) {
+        addEmployee(employee);
+        $("#addEmployee").modal('hide');
+      },
+      error: function(result) {
+        displayErrors("employee", form, result);
+      },
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false
+    });
+    return false;
+  });
+
+  $('#add-employee-submit').on('click', function(e){
+    e.preventDefault();
+    $('#new_employee_ajax').submit();
   });
 
   $(".available-employees li").draggable(draggableParams);

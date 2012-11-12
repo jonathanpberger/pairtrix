@@ -80,13 +80,6 @@ describe EmployeesController do
         post :create, {company_id: company.to_param, employee: {}}, valid_session
         assigns(:employee).should be_a_new(Employee)
       end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Employee.any_instance.stub(:save).and_return(false)
-        post :create, {company_id: company.to_param, employee: {}}, valid_session
-        response.should render_template("new")
-      end
     end
   end
 
