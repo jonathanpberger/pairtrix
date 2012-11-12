@@ -24,7 +24,7 @@ describe TeamMembership do
       before { team_membership.team_id = existing_team_membership.team_id }
 
       context "with a unique employee_id" do
-        before { team_membership.employee_id = 1 }
+        before { team_membership.employee_id = 999999 }
 
         it "validates the uniqueness of employee_id" do
           team_membership.should have(0).error_on(:employee_id)
