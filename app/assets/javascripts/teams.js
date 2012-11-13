@@ -242,12 +242,41 @@ $(function() {
     }
   }
 
+  function deleteEmployee(options) {
+    var employee = options.$trigger;
+    var employeeId = employee.data('employee-id');
+    if (confirm("Are you sure?")) {
+      $.ajax({
+        url: '/employees/'+employeeId,
+        type: 'POST',
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader("Accept", "application/json");
+        },
+        success: function() {
+          $(employee).remove();
+        },
+        data: {_method: 'DELETE'}
+      });
+    }
+  }
+
   $.contextMenu({
     selector: ".team h5",
     items: {
       'delete': {
         name: "Delete Team",
         callback: function(key, opt){ deleteTeam(opt); },
+        icon: 'delete'
+      }
+    }
+  });
+
+  $.contextMenu({
+    selector: ".employee-badge",
+    items: {
+      'delete': {
+        name: "Delete Employee",
+        callback: function(key, opt){ deleteEmployee(opt); },
         icon: 'delete'
       }
     }

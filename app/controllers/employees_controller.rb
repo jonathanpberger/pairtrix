@@ -34,6 +34,6 @@ class EmployeesController < ApplicationController
 
   def destroy
     @employee.destroy
-    redirect_to company_employees_url(@employee.company)
+    respond_with @employee, location: company_employees_url(@employee.company)
   end
 end
