@@ -219,4 +219,37 @@ $(function() {
       createAvailableEmployee($(ui.draggable[0]), $(this));
     }
   });
+
+  function deleteTeam(options) {
+    var team = options.$trigger.closest('.team');
+    var teamId = team.data('team-id');
+    if (confirm("Are you sure?")) {
+      $.ajax({
+        url: '/teams/'+teamId,
+        type: 'POST',
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader("Accept", "application/json");
+        },
+        success: function(employee) {
+          var availableEmployees = $(".available-employees ul");
+          $(team).find('.team-membership').each(function() {
+            addAvailableEmployee($(this), availableEmployees);
+          });
+          $(team).remove();
+        },
+        data: {_method: 'DELETE'}
+      });
+    }
+  }
+
+  $.contextMenu({
+    selector: ".team h5",
+    items: {
+      'delete': {
+        name: "Delete Team",
+        callback: function(key, opt){ deleteTeam(opt); },
+        icon: 'delete'
+      }
+    }
+  });
 });

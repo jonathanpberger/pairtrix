@@ -34,6 +34,6 @@ class TeamsController < ApplicationController
 
   def destroy
     @team.destroy
-    redirect_to company_teams_url(@team.company)
+    respond_with @team, location: company_teams_url(@team.company)
   end
 end
