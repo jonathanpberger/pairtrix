@@ -5,8 +5,7 @@ class TeamMembership < ActiveRecord::Base
   belongs_to :employee
 
   validates_presence_of :team_id, :employee_id
-  validates :employee_id, uniqueness: { scope: :team_id,
-                                        message: "The employee is currently a member of this team" }
+  validates :employee_id, uniqueness: { unless: Proc.new { |membership| membership.employee && membership.solo_or_out_of_office? } }
 
   delegate :name, :solo_or_out_of_office?, to: :employee
 

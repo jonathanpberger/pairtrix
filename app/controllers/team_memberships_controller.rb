@@ -6,6 +6,7 @@ class TeamMembershipsController < ApplicationController
 
   def create
     @team_membership = @team.team_memberships.build(params[:team_membership])
+    TeamMembership.where(employee_id: @team_membership.employee_id).destroy_all
     @team_membership.save
     respond_with @team_membership
   end

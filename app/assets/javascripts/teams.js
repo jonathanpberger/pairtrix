@@ -65,7 +65,7 @@ $(function() {
   }
 
   function createTeamMembership(employee, team) {
-    var teamId = team.data('team-id');
+    var teamId = team.closest('.team').data('team-id');
     var employeeId = getEmployeeId(employee);
     $.post("/teams/"+teamId+"/team_memberships",
            { 'team_membership[employee_id]': employeeId, format: 'json' },
@@ -78,15 +78,15 @@ $(function() {
   }
 
   function addTeam(team) {
-    var teamHtml = $("<div/>", {class: "team"}).html(
+    var teamHtml = $("<div/>", {class: "team", "data-team-id": team.id}).data('team-id', team.id).html(
       $("<div/>", {class: "heading"}).html(
         $("<h5/>").html(
           $("<a/>", { text: team.name,
             href: "/teams/"+team.id})))
     ).append(
-    $("<ul/>", {class: "team-memberships ui-droppable", "data-team-id": team.id}).data('team-id', team.id)
+    $("<ul/>", {class: "team-memberships ui-droppable"})
     .droppable({
-      accept: ".available-employee",
+      accept: ".available-employee, .team-membership",
       hoverClass: "ui-hover",
       drop: function(event, ui) {
         createTeamMembership($(ui.draggable[0]), $(this));
@@ -205,7 +205,7 @@ $(function() {
   $(".team li").draggable(draggableParams);
 
   $(".team ul").droppable({
-    accept: ".available-employee",
+    accept: ".available-employee, .team-membership",
     hoverClass: "ui-hover",
     drop: function(event, ui) {
       createTeamMembership($(ui.draggable[0]), $(this));

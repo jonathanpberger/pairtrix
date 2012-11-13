@@ -21,8 +21,6 @@ describe TeamMembership do
     describe "uniqueness" do
       let!(:existing_team_membership) { FactoryGirl.create(:team_membership) }
 
-      before { team_membership.team_id = existing_team_membership.team_id }
-
       context "with a unique employee_id" do
         before { team_membership.employee_id = 999999 }
 
