@@ -20,7 +20,7 @@ class Team < ActiveRecord::Base
   end
 
   def active_real_memberships
-    active_memberships.reject { |membership| membership.hide? }
+    active_memberships.reject { |membership| membership.solo_or_out_of_office? }
   end
 
   private

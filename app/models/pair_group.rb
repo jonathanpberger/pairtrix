@@ -23,7 +23,7 @@ class PairGroup
   end
 
   def contains_default_membership?
-    @left_membership.hide? || @top_membership.hide?
+    @left_membership.solo_or_out_of_office? || @top_membership.solo_or_out_of_office?
   end
 
   private

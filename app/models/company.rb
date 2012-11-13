@@ -16,7 +16,7 @@ class Company < ActiveRecord::Base
   after_commit :add_default_employees
 
   def real_employees
-    employees.reject(&:hide?)
+    employees.reject(&:solo_or_out_of_office?)
   end
 
   def has_membership_for?(user)
@@ -30,7 +30,7 @@ class Company < ActiveRecord::Base
 
   def available_employees
     employees.ordered_by_last_name.select do |employee|
-      employee.team_memberships.empty? && !employee.hide?
+      employee.team_memberships.empty? && !employee.solo_or_out_of_office?
     end.compact
   end
 

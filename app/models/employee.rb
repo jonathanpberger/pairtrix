@@ -27,7 +27,7 @@ class Employee < ActiveRecord::Base
     end
   end
 
-  def hide?
+  def solo_or_out_of_office?
     solo_employee? || out_of_office_employee?
   end
 

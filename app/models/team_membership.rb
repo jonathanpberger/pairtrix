@@ -8,7 +8,7 @@ class TeamMembership < ActiveRecord::Base
   validates :employee_id, uniqueness: { scope: :team_id,
                                         message: "The employee is currently a member of this team" }
 
-  delegate :name, :hide?, to: :employee
+  delegate :name, :solo_or_out_of_office?, to: :employee
 
   after_destroy :delete_pair_memberships_containing_membership
 
@@ -23,5 +23,4 @@ class TeamMembership < ActiveRecord::Base
   def delete_pair_memberships_containing_membership
     PairMembership.where(team_membership_id: self.id).destroy_all
   end
-
 end
