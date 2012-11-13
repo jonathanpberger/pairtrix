@@ -12,12 +12,9 @@ end
 gem 'jquery-rails'
 
 gem "haml"
-gem "kaminari"
 gem "bootstrap-sass"
 gem "simple_form"
 gem "bootstrap-datepicker-rails"
-gem "uuidtools"
-gem "capistrano"
 gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "american_date"
