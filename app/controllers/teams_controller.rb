@@ -16,6 +16,7 @@ class TeamsController < ApplicationController
   end
 
   def edit
+    respond_with @team
   end
 
   def create
@@ -26,9 +27,12 @@ class TeamsController < ApplicationController
 
   def update
     if @team.update_attributes(params[:team])
-      redirect_to company_teams_url(@team.company), flash: { success: 'Team was successfully updated.' }
+      respond_with @team do |format|
+        format.json { render json: @team.to_json, status: :accepted }
+        format.html { respond_with @team, location: company_teams_url(@team.company) }
+      end
     else
-      render action: "edit"
+      respond_with @team
     end
   end
 

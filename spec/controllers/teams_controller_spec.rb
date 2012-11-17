@@ -112,13 +112,6 @@ describe TeamsController do
         put :update, {id: team.to_param, team: {}}, valid_session
         assigns(:team).should eq(team)
       end
-
-      it "re-renders the 'edit' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Team.any_instance.stub(:save).and_return(false)
-        put :update, {id: team.to_param, team: {}}, valid_session
-        response.should render_template("edit")
-      end
     end
   end
 

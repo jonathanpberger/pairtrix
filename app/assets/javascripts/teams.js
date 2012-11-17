@@ -95,6 +95,10 @@ $(function() {
     $(".team").parent().append(teamHtml);
   }
 
+  function updateTeam(team) {
+    $(".team[data-team-id='" + team.id + "'] h5 a").text(team.name);
+  }
+
   function addEmployee(employee) {
     var fullName = employee.first_name+" "+employee.last_name;
     var imageUrl = employee.avatar.url || "/assets/layout/avatar.png";
@@ -137,11 +141,11 @@ $(function() {
     resetForm($(this).find('form'));
   });
 
-  $('#addTeam').on('show', function() {
+  $('#team').on('show', function() {
     resetForm($(this).find('form'));
   });
 
-  $('#new_team_ajax').on('submit', function(){
+  $('#team_ajax').on('submit', function(){
     var form = $(this);
     var formData = new FormData(form[0]);
     removeErrors(form);
@@ -151,9 +155,15 @@ $(function() {
       beforeSend: function(xhr) {
         xhr.setRequestHeader("Accept", "application/json");
       },
-      success: function(team) {
-        addTeam(team);
-        $("#addTeam").modal('hide');
+      statusCode: {
+        201: function(team, textStatus, xhr) {
+          addTeam(team);
+          $("#team").modal('hide');
+        },
+        202: function(team, textStatus, xhr) {
+          updateTeam(team);
+          $("#team").modal('hide');
+        }
       },
       error: function(result) {
         displayErrors("team", form, result);
@@ -166,9 +176,9 @@ $(function() {
     return false;
   });
 
-  $('#add-team-submit').on('click', function(e){
+  $('#team-submit').on('click', function(e){
     e.preventDefault();
-    $('#new_team_ajax').submit();
+    $('#team_ajax').submit();
   });
 
   $('#new_employee_ajax').on('submit', function(){
@@ -260,9 +270,34 @@ $(function() {
     }
   }
 
+  function editTeam(options) {
+    var team = options.$trigger.closest('.team');
+    var teamId = team.data('team-id');
+    $.ajax({
+      url: '/teams/'+teamId+'/edit',
+      type: 'GET',
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader("Accept", "application/json");
+      },
+      success: function(team) {
+        $("#team_ajax").attr('action', '/teams/'+team.id);
+        $("#team_ajax").find("input[name='authenticity_token']").append($('<input/>', {type: 'hidden', name: '_method', value: 'put'}));
+        $("#team").modal('show');
+        $("#team_name").val(team.name);
+        $("#teamLabel").text("Edit Team");
+        $("#team-submit").text("Update Team");
+      }
+    });
+  }
+
   $.contextMenu({
     selector: ".team h5",
     items: {
+      'edit': {
+        name: "Edit Team",
+        callback: function(key, opt){ editTeam(opt); },
+        icon: 'edit'
+      },
       'delete': {
         name: "Delete Team",
         callback: function(key, opt){ deleteTeam(opt); },
