@@ -16,6 +16,7 @@ class EmployeesController < ApplicationController
   end
 
   def edit
+    respond_with @employee
   end
 
   def create
@@ -26,9 +27,12 @@ class EmployeesController < ApplicationController
 
   def update
     if @employee.update_attributes(params[:employee])
-      redirect_to company_employees_url(@employee.company), flash: { success: 'Employee was successfully updated.' }
+      respond_with @employee do |format|
+        format.json { render json: @employee.to_json, status: :accepted }
+        format.html { respond_with @employee, location: company_employees_url(@employee.company) }
+      end
     else
-      render action: "edit"
+      respond_with @employee
     end
   end
 

@@ -112,13 +112,6 @@ describe EmployeesController do
         put :update, {id: employee.to_param, employee: {}}, valid_session
         assigns(:employee).should eq(employee)
       end
-
-      it "re-renders the 'edit' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Employee.any_instance.stub(:save).and_return(false)
-        put :update, {id: employee.to_param, employee: {}}, valid_session
-        response.should render_template("edit")
-      end
     end
   end
 

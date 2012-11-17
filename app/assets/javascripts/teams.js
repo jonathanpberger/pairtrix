@@ -96,7 +96,12 @@ $(function() {
   }
 
   function updateTeam(team) {
+    var companyId = $("h3").data("company-id");
     $(".team[data-team-id='" + team.id + "'] h5 a").text(team.name);
+    $("#team_ajax").attr('action', '/companies/'+companyId+'/teams');
+    $("#team_ajax").find("input[name='_method']").remove();
+    $("#teamLabel").text("Add Team");
+    $("#team-submit").text("Add Team");
   }
 
   function addEmployee(employee) {
@@ -109,6 +114,19 @@ $(function() {
     ).append($("<div/>", {class: "employee-name", text: fullName}))
     ).draggable(draggableParams);
     $(".available-employees").find('ul').append(employeeHtml);
+  }
+
+  function updateEmployee(employee) {
+    var companyId = $("h3").data("company-id");
+    var fullName = employee.first_name+" "+employee.last_name;
+    var imageUrl = employee.avatar.url || "/assets/layout/avatar.png";
+    var badge = $(".employee-badge[data-employee-id='" + employee.id + "']");
+    badge.find("img").attr('src', imageUrl).attr('alt', fullName);
+    badge.find(".employee-name").text(fullName);
+    $("#employee_ajax").attr('action', '/companies/'+companyId+'/employees');
+    $("#employee_ajax").find("input[name='_method']").remove();
+    $("#employeeLabel").text("Add Employee");
+    $("#employee-submit").text("Add Employee");
   }
 
   function addError(prefix, field, message) {
@@ -137,7 +155,7 @@ $(function() {
     removeErrors(form);
   }
 
-  $('#addEmployee').on('show', function() {
+  $('#employee').on('show', function() {
     resetForm($(this).find('form'));
   });
 
@@ -181,7 +199,7 @@ $(function() {
     $('#team_ajax').submit();
   });
 
-  $('#new_employee_ajax').on('submit', function(){
+  $('#employee_ajax').on('submit', function(){
     var form = $(this);
     removeErrors(form);
     var formData = new FormData(form[0]);
@@ -191,9 +209,15 @@ $(function() {
       beforeSend: function(xhr) {
         xhr.setRequestHeader("Accept", "application/json");
       },
-      success: function(employee) {
-        addEmployee(employee);
-        $("#addEmployee").modal('hide');
+      statusCode: {
+        201: function(employee, textStatus, xhr) {
+          addEmployee(employee);
+          $("#employee").modal('hide');
+        },
+        202: function(employee, textStatus, xhr) {
+          updateEmployee(employee);
+          $("#employee").modal('hide');
+        }
       },
       error: function(result) {
         displayErrors("employee", form, result);
@@ -206,9 +230,9 @@ $(function() {
     return false;
   });
 
-  $('#add-employee-submit').on('click', function(e){
+  $('#employee-submit').on('click', function(e){
     e.preventDefault();
-    $('#new_employee_ajax').submit();
+    $('#employee_ajax').submit();
   });
 
   $(".available-employees li").draggable(draggableParams);
@@ -240,7 +264,7 @@ $(function() {
         beforeSend: function(xhr) {
           xhr.setRequestHeader("Accept", "application/json");
         },
-        success: function(employee) {
+        success: function() {
           var availableEmployees = $(".available-employees ul");
           $(team).find('.team-membership').each(function() {
             addAvailableEmployee($(this), availableEmployees);
@@ -270,6 +294,27 @@ $(function() {
     }
   }
 
+  function editEmployee(options) {
+    var employee = options.$trigger;
+    var employeeId = employee.data('employee-id');
+    $.ajax({
+      url: '/employees/'+employeeId+'/edit',
+      type: 'GET',
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader("Accept", "application/json");
+      },
+      success: function(employee) {
+        $("#employee_ajax").attr('action', '/employees/'+employee.id);
+        $("#employee_ajax").find("input[name='authenticity_token']").append($('<input/>', {type: 'hidden', name: '_method', value: 'put'}));
+        $("#employeeLabel").text("Edit Employee");
+        $("#employee-submit").text("Update Employee");
+        $("#employee").modal('show');
+        $("#employee_first_name").val(employee.first_name);
+        $("#employee_last_name").val(employee.last_name);
+      }
+    });
+  }
+
   function editTeam(options) {
     var team = options.$trigger.closest('.team');
     var teamId = team.data('team-id');
@@ -282,10 +327,10 @@ $(function() {
       success: function(team) {
         $("#team_ajax").attr('action', '/teams/'+team.id);
         $("#team_ajax").find("input[name='authenticity_token']").append($('<input/>', {type: 'hidden', name: '_method', value: 'put'}));
-        $("#team").modal('show');
-        $("#team_name").val(team.name);
         $("#teamLabel").text("Edit Team");
         $("#team-submit").text("Update Team");
+        $("#team").modal('show');
+        $("#team_name").val(team.name);
       }
     });
   }
@@ -309,6 +354,11 @@ $(function() {
   $.contextMenu({
     selector: ".employee-badge",
     items: {
+      'edit': {
+        name: "Edit Employee",
+        callback: function(key, opt){ editEmployee(opt); },
+        icon: 'edit'
+      },
       'delete': {
         name: "Delete Employee",
         callback: function(key, opt){ deleteEmployee(opt); },
