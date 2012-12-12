@@ -1,8 +1,7 @@
 $(function() {
 
-  var draggableParams = { revert: true, zIndex: 300 };
-
-  var updateClasses = function(newTeam) {
+  var draggableParams = { revert: true, zIndex: 300 },
+  updateClasses = function(newTeam) {
     var addClass, removeClass;
     if (newTeam === true) {
       addClass = "team-membership";
@@ -14,8 +13,8 @@ $(function() {
     return {
       'addClass' : addClass,
       'removeClass': removeClass
-    }
-  }
+    };
+  };
 
   function getEmployeeId(element) {
     return element.find('.employee-badge').data('employee-id');
@@ -65,8 +64,8 @@ $(function() {
   }
 
   function createTeamMembership(employee, team) {
-    var teamId = team.closest('.team').data('team-id');
-    var employeeId = getEmployeeId(employee);
+    var teamId = team.closest('.team').data('team-id'),
+    employeeId = getEmployeeId(employee);
     $.post("/teams/"+teamId+"/team_memberships",
            { 'team_membership[employee_id]': employeeId, format: 'json' },
            function(teamMembership) {
@@ -78,13 +77,13 @@ $(function() {
   }
 
   function addTeam(team) {
-    var teamHtml = $("<div/>", {class: "team", "data-team-id": team.id}).data('team-id', team.id).html(
-      $("<div/>", {class: "heading"}).html(
+    var teamHtml = $("<div/>", {'class': "team", "data-team-id": team.id}).data('team-id', team.id).html(
+      $("<div/>", {'class': "heading"}).html(
         $("<h5/>").html(
           $("<a/>", { text: team.name,
             href: "/teams/"+team.id})))
     ).append(
-    $("<ul/>", {class: "team-memberships ui-droppable"})
+    $("<ul/>", {'class': "team-memberships ui-droppable"})
     .droppable({
       accept: ".available-employee, .team-membership",
       hoverClass: "ui-hover",
@@ -105,22 +104,22 @@ $(function() {
   }
 
   function addEmployee(employee) {
-    var fullName = employee.first_name+" "+employee.last_name;
-    var imageUrl = employee.avatar.url || "/assets/layout/avatar.png";
-    var employeeHtml = $("<li/>", {class: "available-employee ui-draggable"}).html(
-      $("<div/>", {class: "employee-badge badge", "data-employee-id": employee.id}).data('employee-id', employee.id).html(
-        $("<div/>", {class: "avatar"}).html(
+    var fullName = employee.first_name+" "+employee.last_name,
+    imageUrl = employee.avatar.url || "/assets/layout/avatar.png",
+    employeeHtml = $("<li/>", {'class': "available-employee ui-draggable"}).html(
+      $("<div/>", {'class': "employee-badge badge", "data-employee-id": employee.id}).data('employee-id', employee.id).html(
+        $("<div/>", {'class': "avatar"}).html(
           $("<img/>", { alt: fullName, src: imageUrl}))
-    ).append($("<div/>", {class: "employee-name", text: fullName}))
+    ).append($("<div/>", {'class': "employee-name", text: fullName}))
     ).draggable(draggableParams);
     $(".available-employees").find('ul').append(employeeHtml);
   }
 
   function updateEmployee(employee) {
-    var companyId = $("h3").data("company-id");
-    var fullName = employee.first_name+" "+employee.last_name;
-    var imageUrl = employee.avatar.url || "/assets/layout/avatar.png";
-    var badge = $(".employee-badge[data-employee-id='" + employee.id + "']");
+    var companyId = $("h3").data("company-id"),
+    fullName = employee.first_name+" "+employee.last_name,
+    imageUrl = employee.avatar.url || "/assets/layout/avatar.png",
+    badge = $(".employee-badge[data-employee-id='" + employee.id + "']");
     badge.find("img").attr('src', imageUrl).attr('alt', fullName);
     badge.find(".employee-name").text(fullName);
     $("#employee_ajax").attr('action', '/companies/'+companyId+'/employees');
@@ -132,7 +131,7 @@ $(function() {
   function addError(prefix, field, message) {
     var inputField = $("#"+prefix+"_"+field);
     inputField.closest(".control-group").addClass("error");
-    inputField.closest(".controls").append($("<span/>", {class:'help-inline', text: message}));
+    inputField.closest(".controls").append($("<span/>", {'class':'help-inline', text: message}));
   }
 
   function displayErrors(modelName, form, result) {
@@ -164,8 +163,8 @@ $(function() {
   });
 
   $('#team_ajax').on('submit', function(){
-    var form = $(this);
-    var formData = new FormData(form[0]);
+    var form = $(this),
+    formData = new FormData(form[0]);
     removeErrors(form);
     $.ajax({
       url: form.attr('action'),  //server script to process data
@@ -174,11 +173,11 @@ $(function() {
         xhr.setRequestHeader("Accept", "application/json");
       },
       statusCode: {
-        201: function(team, textStatus, xhr) {
+        201: function(team) {
           addTeam(team);
           $("#team").modal('hide');
         },
-        202: function(team, textStatus, xhr) {
+        202: function(team) {
           updateTeam(team);
           $("#team").modal('hide');
         }
@@ -200,9 +199,9 @@ $(function() {
   });
 
   $('#employee_ajax').on('submit', function(){
-    var form = $(this);
+    var form = $(this),
+    formData = new FormData(form[0]);
     removeErrors(form);
-    var formData = new FormData(form[0]);
     $.ajax({
       url: form.attr('action'),  //server script to process data
       type: 'POST',
@@ -210,11 +209,11 @@ $(function() {
         xhr.setRequestHeader("Accept", "application/json");
       },
       statusCode: {
-        201: function(employee, textStatus, xhr) {
+        201: function(employee) {
           addEmployee(employee);
           $("#employee").modal('hide');
         },
-        202: function(employee, textStatus, xhr) {
+        202: function(employee) {
           updateEmployee(employee);
           $("#employee").modal('hide');
         }
@@ -255,8 +254,8 @@ $(function() {
   });
 
   function deleteTeam(options) {
-    var team = options.$trigger.closest('.team');
-    var teamId = team.data('team-id');
+    var team = options.$trigger.closest('.team'),
+    teamId = team.data('team-id');
     if (confirm("Are you sure?")) {
       $.ajax({
         url: '/teams/'+teamId,
@@ -277,8 +276,8 @@ $(function() {
   }
 
   function deleteEmployee(options) {
-    var employee = options.$trigger;
-    var employeeId = employee.data('employee-id');
+    var employee = options.$trigger,
+    employeeId = employee.data('employee-id');
     if (confirm("Are you sure?")) {
       $.ajax({
         url: '/employees/'+employeeId,
@@ -295,8 +294,8 @@ $(function() {
   }
 
   function editEmployee(options) {
-    var employee = options.$trigger;
-    var employeeId = employee.data('employee-id');
+    var employee = options.$trigger,
+    employeeId = employee.data('employee-id');
     $.ajax({
       url: '/employees/'+employeeId+'/edit',
       type: 'GET',
@@ -316,8 +315,8 @@ $(function() {
   }
 
   function editTeam(options) {
-    var team = options.$trigger.closest('.team');
-    var teamId = team.data('team-id');
+    var team = options.$trigger.closest('.team'),
+    teamId = team.data('team-id');
     $.ajax({
       url: '/teams/'+teamId+'/edit',
       type: 'GET',

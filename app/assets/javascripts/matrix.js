@@ -19,7 +19,7 @@ $(function() {
     $.each(pairMemberIds, function(index, pairMemberId) {
       pairedMembershipIds.splice(pairedMembershipIds.indexOf(pairMemberId), 1);
     });
-    return pairedMembershipIds
+    return pairedMembershipIds;
   }
 
   function updatePairedMemberships(pairedMembershipIds) {
@@ -32,8 +32,8 @@ $(function() {
   }
 
   function addPair(clickedCell) {
-    var pairMemberIds = clickedCell.data("pair-memberships").split(",");
-    var teamId = $(".matrix-table").data("team-id");
+    var pairMemberIds = clickedCell.data("pair-memberships").split(","),
+    teamId = $(".matrix-table").data("team-id");
     $.post("/pairs/ajax_create", { 'pair[team_membership_ids][]': pairMemberIds, team_id: teamId, format: 'json' },
            function(json) {
              if (json.success === true) {
@@ -65,7 +65,7 @@ $(function() {
   }
 
   function updateCellCount(clickedCell, difference) {
-    var count = parseInt(clickedCell.text()) + difference;
+    var count = parseInt(clickedCell.text(), 10) + difference;
     clickedCell.text(count);
   }
 
@@ -100,7 +100,7 @@ $(function() {
         timesPairedCount++;
         unpairedCells = $(".paired-count:not(.no-automation):not(.faded):not(.created-pair):contains("+timesPairedCount+")");
       }
-      while (unpairedCells.length == 0)
+      while (unpairedCells.length === 0);
       unpairedCell = $(unpairedCells[Math.floor(Math.random()*unpairedCells.length)]);
       addPair(unpairedCell);
     }
