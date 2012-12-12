@@ -3,12 +3,12 @@ class Pair < ActiveRecord::Base
 
   belongs_to :pairing_day
 
-  has_many :pair_memberships, dependent: :destroy
+  has_many :pair_memberships, inverse_of: :pair, dependent: :destroy
   has_many :team_memberships, through: :pair_memberships
 
   has_many :employees, through: :team_memberships
 
-  validates_presence_of :pairing_day_id
+  validates_presence_of :pairing_day
 
   validate :validate_team_membership_count
 

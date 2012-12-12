@@ -2,7 +2,7 @@ class TeamMembership < ActiveRecord::Base
   attr_accessible :team_id, :employee_id
 
   belongs_to :team
-  belongs_to :employee
+  belongs_to :employee, inverse_of: :team_memberships
 
   validates_presence_of :team_id, :employee_id
   validates :employee_id, uniqueness: { unless: Proc.new { |membership| membership.employee && membership.solo_or_out_of_office? } }

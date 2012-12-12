@@ -148,9 +148,7 @@ describe PairsController do
   end
 
   describe "DELETE destroy" do
-    before do
-      pair.should be
-    end
+    before { pair.should be }
 
     it "destroys the requested pair" do
       expect {

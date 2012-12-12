@@ -10,7 +10,7 @@ class Employee < ActiveRecord::Base
 
   belongs_to :company
 
-  has_many :team_memberships, dependent: :destroy
+  has_many :team_memberships, inverse_of: :employee, dependent: :destroy
   has_many :teams, through: :team_memberships
 
   class << self

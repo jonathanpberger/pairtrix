@@ -9,12 +9,12 @@ describe PairMembership do
     end
 
     describe "presence" do
-      it "validates the presence of pair_id" do
-        pair_membership.should have(1).error_on(:pair_id)
+      it "validates the presence of pair" do
+        pair_membership.should have(1).error_on(:pair)
       end
 
-      it "validates the presence of team_membership_id" do
-        pair_membership.should have(1).error_on(:team_membership_id)
+      it "validates the presence of team_membership" do
+        pair_membership.should have(1).error_on(:team_membership)
       end
     end
   end

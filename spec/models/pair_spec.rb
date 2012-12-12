@@ -10,8 +10,8 @@ describe Pair do
     end
 
     describe "presence" do
-      describe "pairing_day_id"
-      it { should have(1).error_on(:pairing_day_id) }
+      describe "pairing_day"
+      it { should have(1).error_on(:pairing_day) }
     end
 
     describe "pair membership count" do
