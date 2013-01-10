@@ -14,11 +14,10 @@
           = link_to("Add Employee", "#employee", role: "button", class: "btn btn-primary", "data-toggle" => "modal")
     .span6
       = render(partial: "companies/administration")
-  .row-fluid
-    .span12
-      = render(partial: "companies/team_allocation", locals: { company: @company })
-
-
+  - if can? :read, @company
+    .row-fluid
+      .span12
+        = render(partial: "companies/team_allocation", locals: { company: @company })
 
   = link_to("Back", companies_url)
   - if can? :read, @company
