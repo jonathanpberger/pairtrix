@@ -20,7 +20,7 @@ class PairMatrixCalculator
 
   def hash_for_membership(membership)
     selected_pairs(membership).inject({}) do |hash, selected_pair|
-      other_membership_id = selected_pair.other_membership(membership).employee_id
+      other_membership_id = selected_pair.other_membership(membership).try(:employee_id)
       if hash.has_key?(other_membership_id)
         hash[other_membership_id] += 1
       else
