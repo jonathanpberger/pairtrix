@@ -21,7 +21,7 @@ gem "american_date"
 gem "unicorn"
 
 gem 'carrierwave'
-gem "rmagick", require: 'RMagick'
+gem "rmagick", require: false
 gem "fog"
 
 gem "cancan"
