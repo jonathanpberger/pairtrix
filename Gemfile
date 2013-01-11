@@ -39,6 +39,7 @@ group :development, :test do
   gem "haml-rails"
   gem "rspec-rails"
   gem "capybara"
+  gem "jasmine"
   gem "database_cleaner"
   gem "launchy"
   gem "factory_girl"
