@@ -3,8 +3,9 @@
     Create pair
   %br
 - memberships = team.team_memberships.joins(:employee).order("employees.id DESC")
+- out_of_office_membership = memberships.detect { |membership| membership.out_of_office_employee? }
 - if memberships.any?
-  .matrix-table{data: { "team-id" => team.id, "paired-memberships" => currently_paired_membership_ids(team).to_json } }
+  .matrix-table{data: { "team-id" => team.id, "paired-memberships" => currently_paired_membership_ids(team).to_json, "out-of-office-membership-id" => out_of_office_membership.id } }
     .matrix-row
       - memberships.slice(1, memberships.length-1).reverse.each do |membership|
         .member-avatar.matrix-cell

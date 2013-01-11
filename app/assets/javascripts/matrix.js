@@ -1,11 +1,12 @@
 $(function() {
 
   function modifyPairMemberCells() {
-    var pairedMembershipIds = $(".matrix-table").data("paired-memberships");
+    var pairedMembershipIds = $(".matrix-table").data("paired-memberships"),
+        outOfOfficeMembershipId = $(".matrix-table").data("out-of-office-membership-id").toString();
 
     $(".matrix-table .matrix-cell").removeClass("faded");
     $.each(pairedMembershipIds, function(index, pairMembershipId) {
-      if (pairMembershipId !== "2") {
+      if (pairMembershipId !== outOfOfficeMembershipId) {
         $(".matrix-table").find(".member-"+pairMembershipId).each(function() {
           if (!$(this).hasClass("created-pair")) {
             $(this).addClass("faded");
