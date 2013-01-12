@@ -3,10 +3,24 @@
     "console": false,
       "jQuery": false,
       "$": false,
-      "_": false
+      "_": false,
+      "timezoneJS": false,
+      "Backbone": false,
+      "org": false,
+      "jasmine": false,
+      "describe": false,
+      "context": false,
+      "beforeEach": false,
+      "afterEach": false,
+      "shared": false,
+      "spyOn": false,
+      "it": false,
+      "xit": false,
+      "expect": false
   },
     "maxparams": 5,
     "maxdepth": 5,
+    "indent": 2,
     "maxstatements": 25,
     "maxcomplexity": 10,
     "es5": true,
@@ -31,6 +45,6 @@
     "undef": true,
     "sub": true,
     "strict": false,
-    "white": false,
+    "white": true,
     "unused": true
 }
