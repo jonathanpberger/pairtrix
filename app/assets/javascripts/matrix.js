@@ -1,13 +1,13 @@
-$(function() {
+$(function () {
 
   function modifyPairMemberCells() {
     var pairedMembershipIds = $(".matrix-table").data("paired-memberships"),
-        outOfOfficeMembershipId = $(".matrix-table").data("out-of-office-membership-id").toString();
+    outOfOfficeMembershipId = $(".matrix-table").data("out-of-office-membership-id").toString();
 
     $(".matrix-table .matrix-cell").removeClass("faded");
-    $.each(pairedMembershipIds, function(index, pairMembershipId) {
+    $.each(pairedMembershipIds, function (index, pairMembershipId) {
       if (pairMembershipId !== outOfOfficeMembershipId) {
-        $(".matrix-table").find(".member-"+pairMembershipId).each(function() {
+        $(".matrix-table").find(".member-" + pairMembershipId).each(function () {
           if (!$(this).hasClass("created-pair")) {
             $(this).addClass("faded");
           }
@@ -17,7 +17,7 @@ $(function() {
   }
 
   function removePairIds(pairedMembershipIds, pairMemberIds) {
-    $.each(pairMemberIds, function(index, pairMemberId) {
+    $.each(pairMemberIds, function (index, pairMemberId) {
       pairedMembershipIds.splice(pairedMembershipIds.indexOf(pairMemberId), 1);
     });
     return pairedMembershipIds;
@@ -36,33 +36,33 @@ $(function() {
     var pairMemberIds = clickedCell.data("pair-memberships").split(","),
     teamId = $(".matrix-table").data("team-id");
     $.post("/pairs/ajax_create", { 'pair[team_membership_ids][]': pairMemberIds, team_id: teamId, format: 'json' },
-           function(json) {
-             if (json.success === true) {
-               var pairingInformation = getPairingInformation(clickedCell);
-               clickedCell.data("pair-id", json.pairId);
-               updateCellCount(clickedCell, 1);
-               clickedCell.addClass("created-pair").removeClass("faded");
-               updatePairedMemberships(pairingInformation.pairedMembershipIds.concat(pairingInformation.pairMemberIds));
-             } else {
-               notAuthorized();
-             }
-           });
+           function (json) {
+              if (json.success === true) {
+                var pairingInformation = getPairingInformation(clickedCell);
+                clickedCell.data("pair-id", json.pairId);
+                updateCellCount(clickedCell, 1);
+                clickedCell.addClass("created-pair").removeClass("faded");
+                updatePairedMemberships(pairingInformation.pairedMembershipIds.concat(pairingInformation.pairMemberIds));
+              } else {
+                notAuthorized();
+              }
+            });
   }
 
   function removePair(clickedCell) {
     var pairId = clickedCell.data("pair-id");
-    $.post("/pairs/"+pairId, { _method: 'delete', format: 'json' },
-           function(json) {
-             if (json.success === true) {
-               var pairingInformation = getPairingInformation(clickedCell);
-               clickedCell.removeData("pair-id");
-               updateCellCount(clickedCell, -1);
-               clickedCell.removeClass("created-pair").removeClass("faded");
-               updatePairedMemberships(removePairIds(pairingInformation.pairedMembershipIds, pairingInformation.pairMemberIds));
-             } else {
-               notAuthorized();
-             }
-           });
+    $.post("/pairs/" + pairId, { _method: 'delete', format: 'json' },
+           function (json) {
+              if (json.success === true) {
+                var pairingInformation = getPairingInformation(clickedCell);
+                clickedCell.removeData("pair-id");
+                updateCellCount(clickedCell, -1);
+                clickedCell.removeClass("created-pair").removeClass("faded");
+                updatePairedMemberships(removePairIds(pairingInformation.pairedMembershipIds, pairingInformation.pairMemberIds));
+              } else {
+                notAuthorized();
+              }
+            });
   }
 
   function updateCellCount(clickedCell, difference) {
@@ -77,7 +77,7 @@ $(function() {
     return pairingInformation;
   }
 
-  $(".paired-count").click(function() {
+  $(".paired-count").click(function () {
     var clickedCell = $(this);
     if (!clickedCell.hasClass("faded")) {
       if (clickedCell.hasClass("created-pair")) {
@@ -99,15 +99,15 @@ $(function() {
       timesPairedCount = -1;
       do {
         timesPairedCount++;
-        unpairedCells = $(".paired-count:not(.no-automation):not(.faded):not(.created-pair):contains("+timesPairedCount+")");
+        unpairedCells = $(".paired-count:not(.no-automation):not(.faded):not(.created-pair):contains(" + timesPairedCount + ")");
       }
       while (unpairedCells.length === 0);
-      unpairedCell = $(unpairedCells[Math.floor(Math.random()*unpairedCells.length)]);
+      unpairedCell = $(unpairedCells[Math.floor(Math.random() * unpairedCells.length)]);
       addPair(unpairedCell);
     }
   }
 
-  $(".randomize-pairs").click(function() {
+  $(".randomize-pairs").click(function () {
     buildAvailablePair();
   });
 
