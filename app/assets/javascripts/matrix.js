@@ -92,17 +92,29 @@ $(function () {
     return $(".paired-count:not(.no-automation):not(.faded):not(.created-pair)").length;
   }
 
+  function getAvailablePairCells() {
+    var unpairedCells, timesPairedCount;
+    timesPairedCount = -1;
+    do {
+      timesPairedCount++;
+      unpairedCells = $(".paired-count:not(.no-automation):not(.faded):not(.created-pair):contains(" + timesPairedCount + ")");
+    }
+    while (unpairedCells.length === 0);
+    return unpairedCells;
+  }
+
+  function getCellToPair() {
+    var unpairedCells, unpairedCell;
+    unpairedCells = getAvailablePairCells();
+    unpairedCell = $(unpairedCells[Math.floor(Math.random() * unpairedCells.length)]);
+    return unpairedCell;
+  }
+
   function buildAvailablePair() {
-    var unpairedCells, timesPairedCount, unpairedCell;
+    var unpairedCell;
 
     if (availableCellCount() > 0) {
-      timesPairedCount = -1;
-      do {
-        timesPairedCount++;
-        unpairedCells = $(".paired-count:not(.no-automation):not(.faded):not(.created-pair):contains(" + timesPairedCount + ")");
-      }
-      while (unpairedCells.length === 0);
-      unpairedCell = $(unpairedCells[Math.floor(Math.random() * unpairedCells.length)]);
+      unpairedCell = getCellToPair();
       addPair(unpairedCell);
     }
   }
