@@ -93,6 +93,11 @@ h3 {
         color: $white;
       }
     }
+    .possible-pair {
+      @include white-shadowed;
+      background: $orange !important;
+      cursor: default;
+    }
     .created-pair {
       @include white-shadowed;
       background: $green !important;

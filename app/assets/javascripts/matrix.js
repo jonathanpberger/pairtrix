@@ -1,5 +1,18 @@
 $(function () {
 
+  Array.prototype.shuffle = function () {
+    var i = this.length, j, tempi, tempj;
+    if (i === 0) return false;
+    while (--i) {
+      j       = Math.floor(Math.random() * (i + 1));
+      tempi   = this[i];
+      tempj   = this[j];
+      this[i] = tempj;
+      this[j] = tempi;
+    }
+    return this;
+  };
+
   function modifyPairMemberCells() {
     var pairedMembershipIds = $(".matrix-table").data("paired-memberships"),
     outOfOfficeMembershipId = $(".matrix-table").data("out-of-office-membership-id").toString();
@@ -92,7 +105,7 @@ $(function () {
     return $(".paired-count:not(.no-automation):not(.faded):not(.created-pair)").length;
   }
 
-  function getAvailablePairCells() {
+  function getUnpairedCells() {
     var unpairedCells, timesPairedCount;
     timesPairedCount = -1;
     do {
@@ -103,19 +116,49 @@ $(function () {
     return unpairedCells;
   }
 
-  function getCellToPair() {
-    var unpairedCells, unpairedCell;
-    unpairedCells = getAvailablePairCells();
-    unpairedCell = $(unpairedCells[Math.floor(Math.random() * unpairedCells.length)]);
-    return unpairedCell;
+  function flashCells(items, delay, count) {
+    setTimeout(function () {
+      items.toggleClass("possible-pair");
+      count--;
+      if (count !== 0) {
+        flashCells(items, delay, count);
+      } else {
+        fc(items.get());
+      }
+    }, delay);
+  }
+
+  function flashCell(cells, cell, delay, count, isLast) {
+    setTimeout(function () {
+      $(cell).toggleClass("possible-pair");
+      count--;
+      if (count !== 0) {
+        flashCell(cells, cell, delay, count, isLast);
+      } else {
+        if (isLast) {
+          addPair($(cell));
+        } else {
+          fc(cells);
+        }
+      }
+    }, delay);
+  }
+
+  var fc = function (cells) {
+    var cell;
+    cells.shuffle();
+    cell = cells.pop();
+    flashCell(cells, cell, 50, 2, (cells.length === 0));
+  };
+
+  function generatePair() {
+    var unpairedCells = getUnpairedCells();
+    flashCells(unpairedCells, 250, 4);
   }
 
   function buildAvailablePair() {
-    var unpairedCell;
-
     if (availableCellCount() > 0) {
-      unpairedCell = getCellToPair();
-      addPair(unpairedCell);
+      generatePair();
     }
   }
 
