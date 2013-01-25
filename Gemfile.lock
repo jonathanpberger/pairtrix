@@ -101,7 +101,6 @@ GEM
       railties (>= 3.1, < 4.1)
     hashie (1.2.0)
     hike (1.2.1)
-    hirb (0.7.0)
     httpauth (0.2.0)
     i18n (0.6.1)
     jasmine (1.3.1)
@@ -156,6 +155,10 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
+    pry-rails (0.2.2)
+      pry (>= 0.9.10)
+    pry-theme (0.1.3)
+      json
     rack (1.4.4)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -242,7 +245,6 @@ GEM
       addressable (>= 2.2.7)
       crack (>= 0.1.7)
     websocket (1.0.6)
-    wirble (0.1.3)
     xpath (1.0.0)
       nokogiri (~> 1.3)
 
@@ -265,7 +267,6 @@ DEPENDENCIES
   fog
   haml
   haml-rails
-  hirb
   jasmine
   jquery-rails
   launchy
@@ -273,6 +274,8 @@ DEPENDENCIES
   omniauth-google-oauth2
   pg
   pry
+  pry-rails
+  pry-theme
   rails
   rest-client
   rmagick
@@ -283,4 +286,3 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   unicorn
   webmock
-  wirble

@@ -31,10 +31,10 @@ group :test do
 end
 
 group :development, :test do
-  gem "hirb"
-  gem "wirble"
   gem "debugger"
   gem "pry"
+  gem "pry-rails"
+  gem "pry-theme"
   gem "faker"
   gem "haml-rails"
   gem "rspec-rails"
