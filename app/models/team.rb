@@ -23,7 +23,15 @@ class Team < ActiveRecord::Base
     active_memberships.reject { |membership| membership.solo_or_out_of_office? }
   end
 
+  def checksum
+    Digest::MD5.hexdigest(employee_id_string)
+  end
+
   private
+
+  def employee_id_string
+    employees.map(&:id).sort.join("-")
+  end
 
   def active_memberships
     @active_memberships ||= begin

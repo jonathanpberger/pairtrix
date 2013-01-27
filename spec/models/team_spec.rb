@@ -39,4 +39,19 @@ describe Team do
       end
     end
   end
+
+  describe "checksum" do
+    it "returns a checksum of the employee ids" do
+      team = Team.new
+      employees = [
+        double("employee", id: 4),
+        double("employee", id: 2),
+        double("employee", id: 1),
+        double("employee", id: 3)
+      ]
+      team.stub(:employees).and_return(employees)
+
+      team.checksum.should == "4001e76e5949268aa984e328877cbffd"
+    end
+  end
 end
