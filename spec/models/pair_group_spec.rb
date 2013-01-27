@@ -14,8 +14,22 @@ describe PairGroup do
 
   describe "#ids" do
     subject { pair_group.ids }
+    let(:top_membership) { double("top", id: top_id) }
+    let(:left_membership) { double("left", id: left_id) }
 
-    it { should == "#{left_membership.id},#{top_membership.id}" }
+    context "with left membership id > top membership id" do
+      let(:left_id) { 10 }
+      let(:top_id) { 5 }
+
+      it { should == "#{top_membership.id},#{left_membership.id}" }
+    end
+
+    context "with top membership id > left membership id" do
+      let(:left_id) { 5 }
+      let(:top_id) { 10 }
+
+      it { should == "#{left_membership.id},#{top_membership.id}" }
+    end
   end
 
   describe "#current_pair?" do

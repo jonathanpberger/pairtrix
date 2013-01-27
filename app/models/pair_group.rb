@@ -11,7 +11,7 @@ class PairGroup
   end
 
   def ids
-    [@left_membership.id, @top_membership.id].join(",")
+    [@left_membership.id, @top_membership.id].sort.join(",")
   end
 
   def current_pair?
