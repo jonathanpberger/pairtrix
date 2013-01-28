@@ -59,16 +59,24 @@ describe PairsController do
     let(:team_membership_1) { FactoryGirl.create(:team_membership, team: team) }
 
     describe "with valid params" do
+      before do
+        pair_team_membership_string = [team_membership.id, team_membership_1.id].sort.join(",")
+        Pusher.should_receive(:trigger).
+          with("private-test-team-#{team.id}",
+               "addPair",
+               { pairMemberString: pair_team_membership_string,
+                 pairId: kind_of(Numeric),
+                 uuid: nil,
+                 checksum: team.checksum }
+              )
+      end
+
       it "creates a new Pair" do
         expect {
           post :create, { pairing_day_id: pairing_day.to_param, pair: valid_attributes.merge!(team_membership_ids: [team_membership.id, team_membership_1.id]) }, valid_session
         }.to change(Pair, :count).by(1)
-      end
-
-      it "assigns a newly created pair as @pair" do
-        post :create, { pairing_day_id: pairing_day.to_param, pair: valid_attributes.merge!(team_membership_ids: [team_membership.id, team_membership_1.id]) }, valid_session
-        assigns(:pair).should be_an(Pair)
         assigns(:pair).should be_persisted
+        assigns(:pair).should be_a(Pair)
       end
 
       context "with available team_memberships" do
@@ -103,10 +111,6 @@ describe PairsController do
       it "assigns a newly created but unsaved pair as @pair" do
         post :create, { pairing_day_id: pairing_day.to_param, pair: {} }, valid_session
         assigns(:pair).should be_a_new(Pair)
-      end
-
-      it "re-renders the 'new' template" do
-        post :create, { pairing_day_id: pairing_day.to_param, pair: {} }, valid_session
         response.should render_template("new")
       end
     end
@@ -148,7 +152,16 @@ describe PairsController do
   end
 
   describe "DELETE destroy" do
-    before { pair.should be }
+    before do
+      pair_team_membership_string = pair.team_membership_ids.sort.join(",")
+      Pusher.should_receive(:trigger).
+        with("private-test-team-#{team.id}",
+             "removePair",
+             { pairMemberString: pair_team_membership_string,
+               uuid: nil,
+               checksum: team.checksum }
+            )
+    end
 
     it "destroys the requested pair" do
       expect {

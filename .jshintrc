@@ -6,6 +6,8 @@
       "_": false,
       "timezoneJS": false,
       "Backbone": false,
+      "Pusher": false,
+      "pusher": false,
       "org": false,
       "jasmine": false,
       "describe": false,

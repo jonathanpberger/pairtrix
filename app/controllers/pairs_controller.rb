@@ -24,6 +24,14 @@ class PairsController < ApplicationController
 
     if @pair.save
       save_pair_memberships
+      Pusher.trigger(
+        "private-#{Rails.env}-team-#{@pairing_day.team_id}",
+        'addPair',
+        { pairMemberString: pair_team_membership_string,
+          pairId: @pair.id,
+          uuid: params[:uuid],
+          checksum: @pairing_day.team.checksum }
+      )
       successful_create_response
     else
       failure_create_response
@@ -40,6 +48,13 @@ class PairsController < ApplicationController
 
   def destroy
     @pair.destroy
+    Pusher.trigger(
+      "private-#{Rails.env}-team-#{@pair.pairing_day.team_id}",
+      'removePair',
+      { pairMemberString: pair_team_membership_string,
+        uuid: params[:uuid],
+        checksum: @pair.pairing_day.team.checksum }
+    )
     respond_to do |format|
       format.html { redirect_to pairing_day_url(@pair.pairing_day) }
       format.json { render json: { success: true } }
@@ -47,6 +62,10 @@ class PairsController < ApplicationController
   end
 
   private
+
+  def pair_team_membership_string
+    @pair.team_membership_ids.sort.join(",")
+  end
 
   def load_pairing_day
     if params[:pairing_day_id]

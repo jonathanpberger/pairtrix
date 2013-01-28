@@ -6,6 +6,7 @@
     %title
       = content_for?(:title) ? yield(:title) : "pairtrix"
     = stylesheet_link_tag("application")
+    %script{src: "http://js.pusher.com/1.12/pusher.min.js", type: 'text/javascript'}
     = javascript_include_tag("application")
     = render("shared/tracking") if Rails.env.production?
     = yield(:head)

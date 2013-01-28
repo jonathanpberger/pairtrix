@@ -37,6 +37,12 @@ Pairtrix::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
+  require 'pusher'
+  Pusher.logger = Rails.logger
+  Pusher.app_id = ENV['PUSHER_APP_ID']
+  Pusher.key    = ENV['PUSHER_KEY']
+  Pusher.secret = ENV['PUSHER_SECRET']
+
   config.logger = Logger.new(STDOUT)
   config.logger.level = Logger.const_get(ENV['LOG_LEVEL'] ? ENV['LOG_LEVEL'].upcase : 'DEBUG')
 end

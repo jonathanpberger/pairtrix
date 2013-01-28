@@ -1,4 +1,5 @@
 $(function () {
+  var fc;
 
   Array.prototype.shuffle = function () {
     var i = this.length, j, tempi, tempj;
@@ -45,17 +46,35 @@ $(function () {
     $("#flash-messages").html("<div class='alert alert-error'>You are not authorized to complete this action.</div>").show().delay(2000).fadeOut("fast");
   }
 
+  window.updateMatrix = function updateMatrix(clickedCell, pairId) {
+    var pairingInformation = getPairingInformation(clickedCell),
+    count,
+    modifiedMemberships;
+
+    if (pairId) {
+      clickedCell.data("pair-id", pairId);
+      count = 1;
+      modifiedMemberships = pairingInformation.pairedMembershipIds.concat(pairingInformation.pairMemberIds);
+    } else {
+      clickedCell.removeData("pair-id");
+      count = -1;
+      modifiedMemberships = removePairIds(pairingInformation.pairedMembershipIds, pairingInformation.pairMemberIds);
+    }
+    clickedCell.toggleClass("created-pair").removeClass("faded");
+    updateCellCount(clickedCell, count);
+    updatePairedMemberships(modifiedMemberships);
+  };
+
   function addPair(clickedCell) {
-    var pairMemberIds = clickedCell.data("pair-memberships").split(","),
-    teamId = $(".matrix-table").data("team-id");
-    $.post("/pairs/ajax_create", { 'pair[team_membership_ids][]': pairMemberIds, team_id: teamId, format: 'json' },
+    var pairMemberString = clickedCell.data("pair-memberships"),
+    pairMemberIds = pairMemberString.split(","),
+    teamId = $(".matrix-table").data("team-id"),
+    uuid = $(".matrix-table").data("uuid");
+
+    $.post("/pairs/ajax_create", { 'pair[team_membership_ids][]': pairMemberIds, team_id: teamId, uuid: uuid, format: 'json' },
            function (json) {
               if (json.success === true) {
-                var pairingInformation = getPairingInformation(clickedCell);
-                clickedCell.data("pair-id", json.pairId);
-                updateCellCount(clickedCell, 1);
-                clickedCell.addClass("created-pair").removeClass("faded");
-                updatePairedMemberships(pairingInformation.pairedMembershipIds.concat(pairingInformation.pairMemberIds));
+                window.updateMatrix(clickedCell, json.pairId);
               } else {
                 notAuthorized();
               }
@@ -63,15 +82,13 @@ $(function () {
   }
 
   function removePair(clickedCell) {
-    var pairId = clickedCell.data("pair-id");
-    $.post("/pairs/" + pairId, { _method: 'delete', format: 'json' },
+    var pairId = clickedCell.data("pair-id"),
+    uuid = $(".matrix-table").data("uuid");
+
+    $.post("/pairs/" + pairId, { uuid: uuid, _method: 'delete', format: 'json' },
            function (json) {
               if (json.success === true) {
-                var pairingInformation = getPairingInformation(clickedCell);
-                clickedCell.removeData("pair-id");
-                updateCellCount(clickedCell, -1);
-                clickedCell.removeClass("created-pair").removeClass("faded");
-                updatePairedMemberships(removePairIds(pairingInformation.pairedMembershipIds, pairingInformation.pairMemberIds));
+                window.updateMatrix(clickedCell, null);
               } else {
                 notAuthorized();
               }
@@ -144,7 +161,7 @@ $(function () {
     }, delay);
   }
 
-  var fc = function (cells) {
+  fc = function (cells) {
     var cell;
     cells.shuffle();
     cell = cells.pop();

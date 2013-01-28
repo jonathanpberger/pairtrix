@@ -1,6 +1,7 @@
 $(function () {
   "use strict";
 
+  window['MyPusher'].init();
 
   var page = $("body").data("page");
   if ("object" === typeof(window[page])) {

@@ -1,5 +1,6 @@
 Pairtrix::Application.routes.draw do
 
+  match "/pusher/auth", to: "pusher#auth"
   match "/auth/:provider/callback", to: "sessions#create"
   match "/auth/failure", to: "sessions#failure"
   match "/sign_out", to: "sessions#destroy", as: "sign_out"
