@@ -5,13 +5,12 @@
     %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0" }
     %title
       = content_for?(:title) ? yield(:title) : "pairtrix"
-    %script{src: "http://www.google.com/jsapi"}
     = stylesheet_link_tag("application")
     = javascript_include_tag("application")
     = render("shared/tracking") if Rails.env.production?
     = yield(:head)
     = csrf_meta_tags
-  %body
+  %body{data: {page: [controller_name.capitalize, action_name.capitalize].join, "rails-env" => Rails.env}}
     = render("shared/navigation")
     .container-fluid
       #loading

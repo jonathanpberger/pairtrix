@@ -1,12 +1,13 @@
 $(function () {
   "use strict";
 
-  $(".datepicker").datepicker({"autoclose": true});
 
-  $("input[type=checkbox][name='pair[team_membership_ids][]']").click(function () {
-    var bol = $("input[type=checkbox][name='pair[team_membership_ids][]']:checked").length >= 2;
-    $("input[type=checkbox][name='pair[team_membership_ids][]']").not(":checked").attr("disabled", bol);
-  });
+  var page = $("body").data("page");
+  if ("object" === typeof(window[page])) {
+    window[page].init();
+  }
+
+  $(".datepicker").datepicker({"autoclose": true});
 
   // display the loading graphic during ajax requests
   $("#loading").ajaxStart(function () {
@@ -17,9 +18,4 @@ $(function () {
 
   // make sure we accept javascript for ajax requests
   jQuery.ajaxSetup({'beforeSend': function (xhr) {xhr.setRequestHeader("Accept", "text/javascript"); }});
-
-  $('#user_sign_in_redirect_option').change(function () {
-    var form = $(this).closest('form');
-    $.post(form.attr('action'), form.serialize() + "&format=json");
-  });
 });
