@@ -11,7 +11,7 @@
     = render("shared/tracking") if Rails.env.production?
     = yield(:head)
     = csrf_meta_tags
-  %body{data: {page: [controller_name.capitalize, action_name.capitalize].join, "rails-env" => Rails.env}}
+  %body{data: {page: [controller_name.capitalize, action_name.capitalize].join, "rails-env" => Rails.env, "pusher-key" => Pusher.key}}
     = render("shared/navigation")
     .container-fluid
       #loading

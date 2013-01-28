@@ -1,9 +1,11 @@
 $(function () {
   "use strict";
 
-  window['MyPusher'].init();
+  var page = $("body").data("page"),
+  pusherKey =  $("body").data("pusher-key");
 
-  var page = $("body").data("page");
+  window.pusher = new Pusher(pusherKey);
+
   if ("object" === typeof(window[page])) {
     window[page].init();
   }
