@@ -23,11 +23,19 @@ gem "unicorn"
 gem 'carrierwave'
 gem "rmagick", require: false
 gem "fog"
+gem "pusher"
 
 gem "cancan"
 
 group :test do
   gem "webmock"
+end
+
+group :development do
+  gem 'better_errors'
+  gem 'meta_request'
+  gem 'binding_of_caller'
+  gem 'dotenv'
 end
 
 group :development, :test do
