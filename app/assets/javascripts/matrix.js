@@ -14,6 +14,14 @@ $(function () {
     return this;
   };
 
+  function setRandomPairButtonStatus() {
+    if (availableCellCount() === 0) {
+      $(".randomize-pairs").attr("disabled", "disabled");
+    } else {
+      $(".randomize-pairs").removeAttr("disabled");
+    }
+  }
+
   function modifyPairMemberCells() {
     var pairedMembershipIds = $(".matrix-table").data("paired-memberships"),
     outOfOfficeMembershipId = $(".matrix-table").data("out-of-office-membership-id").toString();
@@ -63,6 +71,7 @@ $(function () {
     clickedCell.toggleClass("created-pair").removeClass("faded");
     updateCellCount(clickedCell, count);
     updatePairedMemberships(modifiedMemberships);
+    setRandomPairButtonStatus();
   };
 
   function addPair(clickedCell) {
@@ -71,28 +80,30 @@ $(function () {
     teamId = $(".matrix-table").data("team-id"),
     uuid = $(".matrix-table").data("uuid");
 
-    $.post("/pairs/ajax_create", { 'pair[team_membership_ids][]': pairMemberIds, team_id: teamId, uuid: uuid, format: 'json' },
+    $.post("/pairs/ajax_create",
+           { 'pair[team_membership_ids][]': pairMemberIds, team_id: teamId, uuid: uuid, format: 'json' },
            function (json) {
-              if (json.success === true) {
-                window.updateMatrix(clickedCell, json.pairId);
-              } else {
-                notAuthorized();
-              }
-            });
+             if (json.success === true) {
+               window.updateMatrix(clickedCell, json.pairId);
+             } else {
+               notAuthorized();
+             }
+           });
   }
 
   function removePair(clickedCell) {
     var pairId = clickedCell.data("pair-id"),
     uuid = $(".matrix-table").data("uuid");
 
-    $.post("/pairs/" + pairId, { uuid: uuid, _method: 'delete', format: 'json' },
+    $.post("/pairs/" + pairId,
+           { uuid: uuid, _method: 'delete', format: 'json' },
            function (json) {
-              if (json.success === true) {
-                window.updateMatrix(clickedCell, null);
-              } else {
-                notAuthorized();
-              }
-            });
+             if (json.success === true) {
+               window.updateMatrix(clickedCell, null);
+             } else {
+               notAuthorized();
+             }
+           });
   }
 
   function updateCellCount(clickedCell, difference) {
@@ -179,11 +190,13 @@ $(function () {
     }
   }
 
-  $(".randomize-pairs").click(function () {
+  $(".randomize-pairs").bind("click", function () {
+    $(this).attr("disabled", "disabled");
     buildAvailablePair();
   });
 
   if ($(".matrix-table").length > 0) {
     modifyPairMemberCells();
+    setRandomPairButtonStatus();
   }
 });
