@@ -3,5 +3,4 @@
   #{@team.name} pairing matrix since #{2.weeks.ago.to_date}
 %br
 
-= render(partial: 'matrix', locals: { team: @team })
-
+= render(partial: 'matrix', locals: { team: @team, uuid: @uuid })

@@ -33,8 +33,10 @@ describe TeamsController do
 
   describe "GET show" do
     it "assigns the requested team as @team" do
+      SecureRandom.should_receive(:uuid).and_return("uuid")
       get :show, {id: team.to_param}, valid_session
       assigns(:team).should eq(team)
+      assigns(:uuid).should eq("uuid")
     end
   end
 

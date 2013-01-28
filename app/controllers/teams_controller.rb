@@ -9,6 +9,7 @@ class TeamsController < ApplicationController
   end
 
   def show
+    @uuid = SecureRandom.uuid
   end
 
   def new
