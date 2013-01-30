@@ -10,6 +10,21 @@ namespace "Pairtrix", (exports) ->
       channel.bind "removePair", (data) ->
         TeamsShow.updateTeamMatrix data
 
+      $(".randomize-pairs").bind "click", ->
+        $(this).attr "disabled", "disabled"
+        Pairtrix.Matrix.buildAvailablePair()
+
+      Pairtrix.Matrix.modifyPairMemberCells()
+      Pairtrix.Matrix.setRandomPairButtonStatus()
+
+      $(".paired-count").click ->
+        clickedCell = $(this)
+        unless clickedCell.hasClass("faded")
+          if clickedCell.hasClass("created-pair")
+            Pairtrix.Matrix.removePair clickedCell
+          else
+            Pairtrix.Matrix.addPair clickedCell
+
     @updateTeamMatrix: (data) ->
       uuid = $(".matrix-table").data("uuid")
       checksum = $(".matrix-table").data("checksum")
@@ -17,7 +32,7 @@ namespace "Pairtrix", (exports) ->
       if uuid isnt data.uuid
         if checksum is data.checksum
           clickedCell = $(".matrix-cell[data-pair-memberships='" + data.pairMemberString + "']")
-          window.updateMatrix clickedCell, data.pairId or null
+          Pairtrix.Matrix.updateMatrix clickedCell, data.pairId or null
         else
           TeamsShow.showAlert()
 
