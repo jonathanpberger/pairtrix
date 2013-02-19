@@ -3,7 +3,7 @@ namespace "Pairtrix", (exports) ->
     init: ->
       teamId = $(".matrix-table").data("team-id")
       railsEnv = $("body").data("rails-env")
-      channel = pusher.subscribe("private-" + railsEnv + "-team-" + teamId)
+      channel = pusher.subscribe("private-#{railsEnv}-team-#{teamId}")
       channel.bind "addPair", (data) ->
         TeamsShow.updateTeamMatrix data
 
@@ -31,7 +31,7 @@ namespace "Pairtrix", (exports) ->
       clickedCell = undefined
       if uuid isnt data.uuid
         if checksum is data.checksum
-          clickedCell = $(".matrix-cell[data-pair-memberships='" + data.pairMemberString + "']")
+          clickedCell = $(".matrix-cell[data-pair-memberships='#{data.pairMemberString}']")
           Pairtrix.Matrix.updateMatrix clickedCell, data.pairId or null
         else
           TeamsShow.showAlert()

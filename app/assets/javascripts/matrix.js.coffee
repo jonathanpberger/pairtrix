@@ -14,7 +14,7 @@ namespace "Pairtrix", (exports) ->
       $(".matrix-table .matrix-cell").removeClass "faded"
       $.each pairedMembershipIds, (index, pairMembershipId) ->
         if pairMembershipId isnt outOfOfficeMembershipId
-          $(".matrix-table").find(".member-" + pairMembershipId).each ->
+          $(".matrix-table").find(".member-#{pairMembershipId}").each ->
             $(this).addClass "faded" unless $(this).hasClass("created-pair")
 
     @removePairIds: (pairedMembershipIds, pairMemberIds) ->
@@ -48,7 +48,7 @@ namespace "Pairtrix", (exports) ->
     @removePair: (clickedCell) ->
       pairId = clickedCell.data("pair-id")
       uuid = $(".matrix-table").data("uuid")
-      $.post "/pairs/" + pairId,
+      $.post "/pairs/#{pairId}",
         uuid: uuid
         _method: "delete"
         format: "json"
@@ -75,7 +75,7 @@ namespace "Pairtrix", (exports) ->
       timesPairedCount = -1
       loop
         timesPairedCount++
-        unpairedCells = $(".paired-count:not(.no-automation):not(.faded):not(.created-pair):contains(" + timesPairedCount + ")")
+        unpairedCells = $(".paired-count:not(.no-automation):not(.faded):not(.created-pair):contains(\"#{timesPairedCount}\")")
         break unless unpairedCells.length is 0
       unpairedCells
 

@@ -3,7 +3,7 @@ $ ->
   pusherKey = $("body").data("pusher-key")
 
   window.pusher = new Pusher(pusherKey)
-  pageClass = window.stringToFunction("Pairtrix." + pageName)
+  pageClass = window.stringToFunction("Pairtrix.#{pageName}")
 
   if pageClass isnt undefined
     loader = new pageClass

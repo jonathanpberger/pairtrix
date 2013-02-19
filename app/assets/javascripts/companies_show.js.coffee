@@ -138,7 +138,7 @@ namespace "Pairtrix", (exports) ->
 
     @createAvailableEmployee: (teamMembership, availableEmployees) ->
       teamMembershipId = teamMembership.data("team-membership-id")
-      $.post("/team_memberships/" + teamMembershipId,
+      $.post("/team_memberships/#{teamMembershipId}",
         format: "json"
         _method: "delete"
       , ->
@@ -149,7 +149,7 @@ namespace "Pairtrix", (exports) ->
     @createTeamMembership: (employee, team) ->
       teamId = team.closest(".team").data("team-id")
       employeeId = CompaniesShow.getEmployeeId(employee)
-      $.post("/teams/" + teamId + "/team_memberships",
+      $.post("/teams/#{teamId}/team_memberships",
         "team_membership[employee_id]": employeeId
         format: "json"
       , (teamMembership) ->
@@ -165,7 +165,7 @@ namespace "Pairtrix", (exports) ->
         class: "heading"
       ).html($("<h5/>").html($("<a/>",
         text: team.name
-        href: "/teams/" + team.id
+        href: "/teams/#{team.id}"
       )))).append($("<ul/>",
         class: "team-memberships ui-droppable"
       ).droppable(
@@ -178,14 +178,14 @@ namespace "Pairtrix", (exports) ->
 
     @updateTeam: (team) ->
       companyId = $("h3").data("company-id")
-      $(".team[data-team-id='" + team.id + "'] h5 a").text team.name
-      $("#team_ajax").attr "action", "/companies/" + companyId + "/teams"
+      $(".team[data-team-id='#{team.id}'] h5 a").text team.name
+      $("#team_ajax").attr "action", "/companies/#{companyId}/teams"
       $("#team_ajax").find("input[name='_method']").remove()
       $("#teamLabel").text "Add Team"
       $("#team-submit").text "Add Team"
 
     @addEmployee: (employee) ->
-      fullName = employee.first_name + " " + employee.last_name
+      fullName = "#{employee.first_name} #{employee.last_name}"
       imageUrl = employee.avatar.url or "/assets/layout/avatar.png"
       employeeHtml = $("<li/>",
         class: "available-employee ui-draggable"
@@ -205,18 +205,18 @@ namespace "Pairtrix", (exports) ->
 
     @updateEmployee: (employee) ->
       companyId = $("h3").data("company-id")
-      fullName = employee.first_name + " " + employee.last_name
+      fullName = "#{employee.first_name} #{employee.last_name}"
       imageUrl = employee.avatar.url or "/assets/layout/avatar.png"
-      badge = $(".employee-badge[data-employee-id='" + employee.id + "']")
+      badge = $(".employee-badge[data-employee-id='#{employee.id}']")
       badge.find("img").attr("src", imageUrl).attr "alt", fullName
       badge.find(".employee-name").text fullName
-      $("#employee_ajax").attr "action", "/companies/" + companyId + "/employees"
+      $("#employee_ajax").attr "action", "/companies/#{companyId}/employees"
       $("#employee_ajax").find("input[name='_method']").remove()
       $("#employeeLabel").text "Add Employee"
       $("#employee-submit").text "Add Employee"
 
     @addError: (prefix, field, message) ->
-      inputField = $("#" + prefix + "_ " + field)
+      inputField = $("##{prefix}_#{field}")
       inputField.closest(".control-group").addClass "error"
       inputField.closest(".controls").append $("<span/>",
         class: "help-inline"
@@ -243,7 +243,7 @@ namespace "Pairtrix", (exports) ->
       teamId = team.data("team-id")
       if confirm("Are you sure?")
         $.ajax
-          url: "/teams/" + teamId
+          url: "/teams/#{teamId}"
           type: "POST"
           beforeSend: (xhr) ->
             xhr.setRequestHeader "Accept", "application/json"
@@ -260,7 +260,7 @@ namespace "Pairtrix", (exports) ->
       employeeId = employee.data("employee-id")
       if confirm("Are you sure?")
         $.ajax
-          url: "/employees/" + employeeId
+          url: "/employees/#{employeeId}"
           type: "POST"
           beforeSend: (xhr) ->
             xhr.setRequestHeader "Accept", "application/json"
@@ -273,12 +273,12 @@ namespace "Pairtrix", (exports) ->
       employee = options.$trigger
       employeeId = employee.data("employee-id")
       $.ajax
-        url: "/employees/" + employeeId + "/edit"
+        url: "/employees/#{employeeId}/edit"
         type: "GET"
         beforeSend: (xhr) ->
           xhr.setRequestHeader "Accept", "application/json"
         success: (employee) ->
-          $("#employee_ajax").attr "action", "/employees/" + employee.id
+          $("#employee_ajax").attr "action", "/employees/#{employee.id}"
           $("#employee_ajax").find("input[name='authenticity_token']").append $("<input/>",
             type: "hidden"
             name: "_method"
@@ -294,12 +294,12 @@ namespace "Pairtrix", (exports) ->
       team = options.$trigger.closest(".team")
       teamId = team.data("team-id")
       $.ajax
-        url: "/teams/" + teamId + "/edit"
+        url: "/teams/#{teamId}/edit"
         type: "GET"
         beforeSend: (xhr) ->
           xhr.setRequestHeader "Accept", "application/json"
         success: (team) ->
-          $("#team_ajax").attr "action", "/teams/" + team.id
+          $("#team_ajax").attr "action", "/teams/#{team.id}"
           $("#team_ajax").find("input[name='authenticity_token']").append $("<input/>",
             type: "hidden"
             name: "_method"
