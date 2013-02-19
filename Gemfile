@@ -39,7 +39,6 @@ group :development do
 end
 
 group :development, :test do
-  gem "debugger"
   gem "pry"
   gem "pry-rails"
   gem "pry-theme"
