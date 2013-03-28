@@ -1,5 +1,6 @@
 language: ruby
 bundler_args: --without development
+env: SECRET_TOKEN=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 rvm:
   - 1.9.3
 before_script:

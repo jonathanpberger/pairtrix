@@ -35,7 +35,6 @@ group :development do
   gem 'better_errors'
   gem 'meta_request'
   gem 'binding_of_caller'
-  gem 'dotenv-rails'
 end
 
 group :development, :test do
@@ -53,4 +52,5 @@ group :development, :test do
   gem "factory_girl_rails"
   gem "rest-client"
   gem "simplecov"
+  gem 'dotenv-rails'
 end
