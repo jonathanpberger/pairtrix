@@ -1,7 +1,7 @@
 == Pairtrix
 
-{<img src="https://secure.travis-ci.org/jgeiger/pg_search.png?branch=master" alt="Build Status" />}[http://travis-ci.org/jgeiger/pairtrix] 
-{<img src="https://gemnasium.com/jgeiger/pg_search.png" alt="Dependency Status" />}[https://gemnasium.com/jgeiger/pairtrix] 
+{<img src="https://secure.travis-ci.org/jgeiger/pairtrix.png?branch=master" alt="Build Status" />}[http://travis-ci.org/jgeiger/pairtrix] 
+{<img src="https://gemnasium.com/jgeiger/pairtrix.png" alt="Dependency Status" />}[https://gemnasium.com/jgeiger/pairtrix] 
 {<img src="https://codeclimate.com/github/jgeiger/pairtrix.png" />}[https://codeclimate.com/github/jgeiger/pairtrix]
 
 An application to allow companies to create teams of employess and pair them together.
