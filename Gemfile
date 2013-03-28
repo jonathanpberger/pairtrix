@@ -51,6 +51,5 @@ group :development, :test do
   gem "factory_girl"
   gem "factory_girl_rails"
   gem "rest-client"
-  gem "simplecov"
   gem 'dotenv-rails'
 end
