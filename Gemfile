@@ -27,6 +27,8 @@ gem "pusher"
 
 gem "cancan"
 
+gem "newrelic_rpm"
+
 group :test do
   gem "webmock"
 end
