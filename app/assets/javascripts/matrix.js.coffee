@@ -104,7 +104,7 @@ namespace "Pairtrix", (exports) ->
 
     @generatePair: ->
       unpairedCells = Matrix.getUnpairedCells()
-      flashCells unpairedCells, 250, 4
+      Matrix.flashCells unpairedCells, 250, 4
 
     @buildAvailablePair: ->
       Matrix.generatePair() if Matrix.availableCellCount() > 0

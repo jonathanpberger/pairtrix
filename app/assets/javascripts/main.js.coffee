@@ -20,3 +20,17 @@ $ ->
   # make sure we accept javascript for ajax requests
   jQuery.ajaxSetup beforeSend: (xhr) ->
     xhr.setRequestHeader "Accept", "text/javascript"
+
+  Array::shuffle = ->
+  i = @length
+  j = undefined
+  tempi = undefined
+  tempj = undefined
+  return false  if i is 0
+  while --i
+    j = Math.floor(Math.random() * (i + 1))
+    tempi = this[i]
+    tempj = this[j]
+    this[i] = tempj
+    this[j] = tempi
+  this
