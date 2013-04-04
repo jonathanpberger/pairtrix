@@ -56,7 +56,8 @@ module ApplicationHelper
       employee.solo_employee? ? "layout/solo.png" :
       employee.out_of_office_employee? ? "layout/out_of_office.png" : "layout/avatar.png"
 
-    image_tag(image_url, title: employee.name, alt: employee.name)
+    css_class = employee.do_not_pair ? "do-not-pair" : ""
+    image_tag(image_url, title: employee.name, alt: employee.name, class: css_class)
   end
 
   def available_teams_navigation_dropdown
@@ -123,7 +124,7 @@ module ApplicationHelper
     klasses << pairing_count_warning(times_paired(pair_group))
     klasses << "member-#{pair_group.left_membership.id}"
     klasses << "member-#{pair_group.top_membership.id}"
-    klasses << "no-automation" if pair_group.contains_default_membership?
+    klasses << "no-automation" if pair_group.contains_default_membership? || pair_group.do_not_pair?
     klasses << "created-pair" if pair_group.current_pair?
     klasses.join(" ")
   end
