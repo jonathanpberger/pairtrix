@@ -26,6 +26,10 @@ class PairGroup
     @left_membership.solo_or_out_of_office? || @top_membership.solo_or_out_of_office?
   end
 
+  def do_not_pair?
+    @left_membership.do_not_pair? && @top_membership.do_not_pair?
+  end
+
   private
 
   def current_pair

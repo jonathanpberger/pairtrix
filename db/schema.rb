@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121111000050) do
+ActiveRecord::Schema.define(:version => 20130404001048) do
 
   create_table "companies", :force => true do |t|
     t.integer  "user_id"
@@ -36,10 +36,11 @@ ActiveRecord::Schema.define(:version => 20121111000050) do
   create_table "employees", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
     t.string   "avatar"
     t.integer  "company_id"
+    t.boolean  "do_not_pair", :default => false
   end
 
   add_index "employees", ["company_id", "last_name", "first_name"], :name => "index_employees_on_company_id_and_last_name_and_first_name"

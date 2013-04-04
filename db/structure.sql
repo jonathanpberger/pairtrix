@@ -104,7 +104,8 @@ CREATE TABLE employees (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     avatar character varying(255),
-    company_id integer
+    company_id integer,
+    do_not_pair boolean DEFAULT false
 );
 
 
@@ -666,5 +667,7 @@ INSERT INTO schema_migrations (version) VALUES ('20120819024034');
 INSERT INTO schema_migrations (version) VALUES ('20121109032542');
 
 INSERT INTO schema_migrations (version) VALUES ('20121111000050');
+
+INSERT INTO schema_migrations (version) VALUES ('20130404001048');
 
 INSERT INTO schema_migrations (version) VALUES ('3');
