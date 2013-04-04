@@ -18,7 +18,7 @@ describe ApplicationHelper do
   describe "#avatar_for" do
     subject { helper.avatar_for(employee) }
 
-    let(:employee) { double(:employee, avatar?: has_avatar, avatar_url: avatar_url, name: "name", solo_employee?: solo_employee, out_of_office_employee?: out_of_office_employee) }
+    let(:employee) { double(:employee, do_not_pair: false, avatar?: has_avatar, avatar_url: avatar_url, name: "name", solo_employee?: solo_employee, out_of_office_employee?: out_of_office_employee) }
     let(:solo_employee) { false }
     let(:out_of_office_employee) { false }
 
