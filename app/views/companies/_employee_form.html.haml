@@ -9,6 +9,7 @@
     = simple_form_for [company, employee], html: {id: "employee_ajax"} do |f|
       = f.input :first_name
       = f.input :last_name
+      = f.input :do_not_pair, as: :select, label: "Pairing restricted", include_blank: false
       = f.input :avatar, as: :file
       = f.hidden_field :avatar_cache
       = f.input :remote_avatar_url, label: "Or Image URL:"

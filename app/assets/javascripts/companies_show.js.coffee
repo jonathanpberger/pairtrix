@@ -289,6 +289,7 @@ namespace "Pairtrix", (exports) ->
           $("#employee").modal "show"
           $("#employee_first_name").val employee.first_name
           $("#employee_last_name").val employee.last_name
+          $("#employee_do_not_pair").val employee.do_not_pair.toString()
 
     @editTeam: (options) ->
       team = options.$trigger.closest(".team")

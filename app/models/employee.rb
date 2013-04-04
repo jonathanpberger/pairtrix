@@ -1,7 +1,7 @@
 class Employee < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader
 
-  attr_accessible :first_name, :last_name, :company_id
+  attr_accessible :first_name, :last_name, :company_id, :do_not_pair
   attr_accessible :avatar, :remote_avatar_url, :avatar_cache, :remove_avatar
 
   validates_presence_of :first_name, :last_name
