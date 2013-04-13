@@ -55,9 +55,15 @@ module ApplicationHelper
     image_url = employee.avatar? ? employee.avatar_url :
       employee.solo_employee? ? "layout/solo.png" :
       employee.out_of_office_employee? ? "layout/out_of_office.png" : "layout/avatar.png"
+    image_tag(image_url, title: employee.name, alt: employee.name)
+  end
 
-    css_class = employee.do_not_pair ? "do-not-pair" : ""
-    image_tag(image_url, title: employee.name, alt: employee.name, class: css_class)
+  def restricted?(employee)
+    employee.do_not_pair ? "do-not-pair" : ""
+  end
+
+  def membership_data(membership)
+    { "membership-id" => membership.id, "member" => (!membership.employee.solo_or_out_of_office?).to_s }
   end
 
   def available_teams_navigation_dropdown

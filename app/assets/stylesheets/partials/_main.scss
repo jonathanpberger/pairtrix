@@ -177,5 +177,7 @@ h3 {
 }
 
 .do-not-pair {
-  border: 2px dashed $red;
+  img {
+    border: 2px dashed $red;
+  }
 }

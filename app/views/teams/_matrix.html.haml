@@ -1,6 +1,8 @@
 %p
   %button.btn.btn-primary.randomize-pairs
     Create pair
+  %button.btn.btn-warning.pair-restricted
+    Create restricted pair
   %br
 - memberships = team.team_memberships.joins(:employee).order("employees.id DESC")
 - out_of_office_membership = memberships.detect { |membership| membership.out_of_office_employee? }
@@ -8,13 +10,9 @@
   .matrix-table{data: { checksum: team.checksum, uuid: uuid, "team-id" => team.id, "paired-memberships" => currently_paired_membership_ids(team).to_json, "out-of-office-membership-id" => out_of_office_membership.id } }
     .matrix-row
       - memberships.slice(1, memberships.length-1).reverse.each do |membership|
-        .member-avatar.matrix-cell
+        .member-avatar.matrix-cell{ class: restricted?(membership.employee) }
           = avatar_for(membership.employee)
-    - memberships.slice(0, memberships.length-1).each_with_index do |left_membership, index|
-      .matrix-row
-        - memberships.slice(index+1, memberships.length-1).reverse.each do |top_membership|
-          = pair_cell(PairGroup.new(left_membership, top_membership))
-        .member-avatar.matrix-cell
-          = avatar_for(left_membership.employee)
-
-
+    = render(partial: "matrix_pair_row",
+      collection: memberships.slice(0, memberships.length-1),
+      locals: { memberships: memberships },
+      as: "left_membership")

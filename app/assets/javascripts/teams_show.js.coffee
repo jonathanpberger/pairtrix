@@ -14,8 +14,12 @@ namespace "Pairtrix", (exports) ->
         $(this).attr "disabled", "disabled"
         Pairtrix.Matrix.buildAvailablePair()
 
+      $(".pair-restricted").bind "click", ->
+        Pairtrix.Matrix.buildRestrictedPair()
+
       Pairtrix.Matrix.modifyPairMemberCells()
       Pairtrix.Matrix.setRandomPairButtonStatus()
+      Pairtrix.Matrix.hideRestrictedIfNoRestrictions()
 
       $(".paired-count").click ->
         clickedCell = $(this)

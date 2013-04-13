@@ -1,0 +1,5 @@
+.matrix-row
+  - memberships.slice(left_membership_counter+1, memberships.length-1).reverse.each do |top_membership|
+    = pair_cell(PairGroup.new(left_membership, top_membership))
+  .member-avatar.matrix-cell{ class: restricted?(left_membership.employee), data: membership_data(left_membership) }
+    = avatar_for(left_membership.employee)

@@ -2,11 +2,19 @@ namespace "Pairtrix", (exports) ->
   class exports.Matrix
     init: ->
 
+    @hideRestrictedIfNoRestrictions: ->
+      if Matrix.getRestrictedIds().length is 0
+        $(".pair-restricted").hide()
+
     @setRandomPairButtonStatus: ->
       if Matrix.availableCellCount() is 0
         $(".randomize-pairs").attr "disabled", "disabled"
+        $(".pair-restricted").attr "disabled", "disabled"
       else
         $(".randomize-pairs").removeAttr "disabled"
+        $(".pair-restricted").removeAttr "disabled"
+      if not Matrix.restrictedPairingPossible()
+        $(".pair-restricted").attr "disabled", "disabled"
 
     @modifyPairMemberCells: ->
       pairedMembershipIds = $(".matrix-table").data("paired-memberships")
@@ -28,6 +36,9 @@ namespace "Pairtrix", (exports) ->
 
     @notAuthorized:  ->
       $("#flash-messages").html("<div class='alert alert-error'>You are not authorized to complete this action.</div>").show().delay(2000).fadeOut "fast"
+
+    @noAvailablePairs:  ->
+      $("#flash-messages").html("<div class='alert alert-error'>There are no available restricted/pairable combinations.</div>").show().delay(2000).fadeOut "fast"
 
     @addPair: (clickedCell) ->
       pairMemberString = clickedCell.data("pair-memberships")
@@ -108,6 +119,53 @@ namespace "Pairtrix", (exports) ->
 
     @buildAvailablePair: ->
       Matrix.generatePair() if Matrix.availableCellCount() > 0
+
+    @getRestrictedIds: ->
+      $("*[data-member=true]").filter(".do-not-pair").map(->
+        return $(this).data("membership-id")
+      )
+
+    @getPairableIds: ->
+      $("*[data-member=true]").not(".do-not-pair").map(->
+        return $(this).data("membership-id")
+      )
+
+    @getPairedIds: ->
+      if $(".created-pair").length > 0
+        pairedIds = _.uniq($(".created-pair").map(->
+          return $(this).data("pair-memberships").split(',')
+        )).map((num)->
+          return parseInt(num)
+        )
+      else
+        pairedIds = []
+      pairedIds
+
+    @getRestrictedIdPool: ->
+      _.difference(Matrix.getRestrictedIds(), Matrix.getPairedIds())
+
+    @getPairableIdPool: ->
+      _.difference(Matrix.getPairableIds(), Matrix.getPairedIds())
+
+    @addRestrictedPair:(restrictedIdPool, pairableIdPool) ->
+      restrictedId = Matrix.returnRandom(restrictedIdPool)
+      pairableId = Matrix.returnRandom(pairableIdPool)
+      pairing = [restrictedId, pairableId].sort()
+      cellToPair = $("div[data-pair-memberships='#{pairing.toString()}']")
+      Matrix.addPair(cellToPair)
+
+    @returnRandom: (array) ->
+      array.shuffle()
+      array.pop()
+
+    @restrictedPairingPossible: ->
+      (Matrix.getPairableIdPool().length > 0) && (Matrix.getRestrictedIdPool().length > 0)
+
+    @buildRestrictedPair: ->
+      if (Matrix.restrictedPairingPossible())
+        Matrix.addRestrictedPair(Matrix.getRestrictedIdPool(), Matrix.getPairableIdPool())
+      else
+        Matrix.noAvailablePairs()
 
     @updateMatrix: (clickedCell, pairId) ->
       pairingInformation = Matrix.getPairingInformation(clickedCell)
