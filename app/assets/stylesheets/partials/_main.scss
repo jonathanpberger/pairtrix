@@ -134,6 +134,9 @@ h3 {
     display: inline;
     color: $black;
     font-size: 14px;
+    &.do-not-pair {
+      color: $red;
+    }
   }
 }
 

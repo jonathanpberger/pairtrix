@@ -1,5 +1,5 @@
 .employee-badge.badge{"data-employee-id" => employee_badge.id}
   .avatar
     = avatar_for(employee_badge)
-  .employee-name
+  .employee-name{class: restricted?(employee_badge)}
     = badge_name_for(employee_badge)
