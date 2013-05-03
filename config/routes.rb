@@ -1,14 +1,13 @@
 Pairtrix::Application.routes.draw do
+  get "/pusher/auth" => "pusher#auth"
+  get "/auth/:provider/callback" => "sessions#create"
+  get "/auth/failure" => "sessions#failure"
+  get "/sign_out" => "sessions#destroy", as: "sign_out"
+  get "/sign_in" => redirect("/auth/google_oauth2"), as: "sign_in"
+  get "/dashboard" => "users#dashboard", as: "dashboard"
 
-  match "/pusher/auth", to: "pusher#auth"
-  match "/auth/:provider/callback", to: "sessions#create"
-  match "/auth/failure", to: "sessions#failure"
-  match "/sign_out", to: "sessions#destroy", as: "sign_out"
-  match "/sign_in" => redirect("/auth/google_oauth2"), as: "sign_in"
-  match "/dashboard", to: "users#dashboard", as: "dashboard"
-
-  match "/pairs/ajax_create", to: "pairs#create"
-  match "/help", to: "pages#help", as: :help
+  post "/pairs/ajax_create" => "pairs#create"
+  get "/help" => "pages#help", as: :help
 
   resources :sessions
   resources :users
@@ -29,6 +28,5 @@ Pairtrix::Application.routes.draw do
     end
   end
 
-  root to: 'companies#index'
-
+  root 'companies#index'
 end

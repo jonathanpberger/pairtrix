@@ -1,19 +1,18 @@
 source 'https://rubygems.org'
+ruby '2.0.0'
 
-gem 'rails'
+gem 'rails', '4.0.0.rc1'
 gem 'pg'
 
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier', '>= 1.0.3'
-end
+gem 'sass-rails', '~> 4.0.0.rc1'
+gem 'coffee-rails', '~> 4.0.0'
+gem 'uglifier', '>= 1.3.0'
 
 gem 'jquery-rails'
 
 gem "haml"
 gem "bootstrap-sass"
-gem "simple_form"
+gem "simple_form", github: 'plataformatec/simple_form'
 gem "bootstrap-datepicker-rails"
 gem "omniauth"
 gem "omniauth-google-oauth2"
@@ -26,6 +25,7 @@ gem "fog"
 gem "pusher"
 
 gem "cancan"
+gem 'cancan_strong_parameters', github: 'jgeiger/cancan_strong_parameters'
 
 gem "newrelic_rpm"
 
@@ -35,7 +35,6 @@ end
 
 group :development do
   gem 'better_errors'
-  gem 'meta_request'
   gem 'binding_of_caller'
 end
 
@@ -48,7 +47,7 @@ group :development, :test do
   gem "rspec-rails"
   gem "capybara"
   gem "jasmine"
-  gem "database_cleaner"
+  gem "database_cleaner", github: "bmabey/database_cleaner"
   gem "launchy"
   gem "factory_girl"
   gem "factory_girl_rails"
