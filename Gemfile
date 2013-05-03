@@ -18,7 +18,7 @@ gem "bootstrap-datepicker-rails"
 gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "american_date"
-gem "unicorn"
+gem "puma"
 
 gem 'carrierwave'
 gem "rmagick", require: false
