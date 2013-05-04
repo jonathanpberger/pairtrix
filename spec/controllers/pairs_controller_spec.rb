@@ -73,7 +73,7 @@ describe PairsController do
 
       it "creates a new Pair" do
         expect {
-          post :create, { pairing_day_id: pairing_day.to_param, pair: valid_attributes.merge!(team_membership_ids: [team_membership.id, team_membership_1.id]) }, valid_session
+          post :create, { pairing_day_id: pairing_day.to_param, pair: { team_membership_ids: [team_membership.id, team_membership_1.id] } }, valid_session
         }.to change(Pair, :count).by(1)
         assigns(:pair).should be_persisted
         assigns(:pair).should be_a(Pair)
@@ -109,7 +109,7 @@ describe PairsController do
       end
 
       it "assigns a newly created but unsaved pair as @pair" do
-        post :create, { pairing_day_id: pairing_day.to_param, pair: {} }, valid_session
+        post :create, { pairing_day_id: pairing_day.to_param, pair: {'team_membership_ids' => ''} }, valid_session
         assigns(:pair).should be_a_new(Pair)
         response.should render_template("new")
       end
@@ -119,17 +119,9 @@ describe PairsController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested pair" do
-        Pair.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, { id: pair.to_param, pair: {'these' => 'params'} }, valid_session
-      end
-
-      it "assigns the requested pair as @pair" do
-        put :update, { id: pair.to_param, pair: valid_attributes }, valid_session
+        Pair.any_instance.should_receive(:update_attributes).with({'team_membership_ids' => ['1']}).and_return(true)
+        put :update, { id: pair.to_param, pair: {'team_membership_ids' => [1]} }, valid_session
         assigns(:pair).should eq(pair)
-      end
-
-      it "redirects to the pair" do
-        put :update, { id: pair.to_param, pair: valid_attributes }, valid_session
         response.should redirect_to(pairing_day_url(pairing_day))
       end
     end
@@ -138,14 +130,8 @@ describe PairsController do
       it "assigns the pair as @pair" do
         # Trigger the behavior that occurs when invalid params are submitted
         Pair.any_instance.stub(:save).and_return(false)
-        put :update, { id: pair.to_param, pair: {} }, valid_session
+        put :update, { id: pair.to_param, pair: {'team_membership_ids' => ''} }, valid_session
         assigns(:pair).should eq(pair)
-      end
-
-      it "re-renders the 'edit' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Pair.any_instance.stub(:save).and_return(false)
-        put :update, { id: pair.to_param, pair: {} }, valid_session
         response.should render_template("edit")
       end
     end

@@ -3,6 +3,7 @@ class CompaniesController < ApplicationController
   load_and_authorize_resource
   skip_authorize_resource only: [:index, :show]
   skip_authorization_check only: [:index, :show]
+  permit_params :name, :user_id
 
   def index
     @companies = Company.all
@@ -19,7 +20,7 @@ class CompaniesController < ApplicationController
   end
 
   def create
-    @company = current_user.companies.build(params[:company])
+    @company = current_user.companies.build(company_params)
 
     if @company.save
       @company.membership_requests.create(user_id: current_user.id, status: "Approved")
@@ -32,7 +33,7 @@ class CompaniesController < ApplicationController
   end
 
   def update
-    if @company.update_attributes(params[:company])
+    if @company.update_attributes(company_params)
       redirect_to companies_url, flash: { success: 'Company was successfully updated.' }
     else
       render action: "edit"
@@ -42,5 +43,11 @@ class CompaniesController < ApplicationController
   def destroy
     @company.destroy
     redirect_to companies_url
+  end
+
+  private
+
+  def company_params
+    params.require(:company).permit(:name, :user_id)
   end
 end

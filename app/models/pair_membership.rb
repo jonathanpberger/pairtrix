@@ -1,5 +1,4 @@
 class PairMembership < ActiveRecord::Base
-  attr_accessible :team_membership_id, :pair_id
 
   belongs_to :pair, inverse_of: :pair_memberships, dependent: :destroy
   belongs_to :team_membership
@@ -9,5 +8,4 @@ class PairMembership < ActiveRecord::Base
   def name
     team_membership.employee.name
   end
-
 end

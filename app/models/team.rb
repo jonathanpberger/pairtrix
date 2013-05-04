@@ -1,5 +1,4 @@
 class Team < ActiveRecord::Base
-  attr_accessible :name, :company_id
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -57,5 +56,4 @@ class Team < ActiveRecord::Base
       team_memberships.create!(employee_id: company.employees.out_of_office_employee.id)
     end
   end
-
 end

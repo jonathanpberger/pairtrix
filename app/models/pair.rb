@@ -1,5 +1,4 @@
 class Pair < ActiveRecord::Base
-  attr_accessible :team_membership_ids
 
   belongs_to :pairing_day
 

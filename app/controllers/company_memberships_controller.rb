@@ -2,9 +2,10 @@ class CompanyMembershipsController < ApplicationController
 
   load_and_authorize_resource :company
   load_and_authorize_resource :company_membership, through: :company, shallow: true
+  permit_params :company_id, :user_id, :role
 
   def index
-    @company_memberships = @company.company_memberships.all
+    @company_memberships = @company.company_memberships.to_a
   end
 
   def show
@@ -18,10 +19,10 @@ class CompanyMembershipsController < ApplicationController
   end
 
   def create
-    @company_membership = @company.company_memberships.new(params[:company_membership])
+    @company_membership = @company.company_memberships.new(company_membership_params)
 
     if @company_membership.save
-      if !(membership_request = @company.membership_requests.where(user_id: @company_membership.user_id).first)
+      if !@company.membership_requests.where(user_id: @company_membership.user_id).first
         @company.membership_requests.create(user_id: @company_membership.user_id, status: "Approved")
       end
 
@@ -32,7 +33,7 @@ class CompanyMembershipsController < ApplicationController
   end
 
   def update
-    if @company_membership.update_attributes(params[:company_membership])
+    if @company_membership.update_attributes(company_membership_params)
       redirect_to company_company_memberships_url(@company_membership.company), flash: { success: 'Company Membership was successfully updated.' }
     else
       render action: "edit"
@@ -42,5 +43,11 @@ class CompanyMembershipsController < ApplicationController
   def destroy
     @company_membership.destroy
     redirect_to company_company_memberships_url(@company_membership.company)
+  end
+
+  private
+
+  def company_membership_params
+    params.require(:company_membership).permit(:company_id, :user_id, :role)
   end
 end

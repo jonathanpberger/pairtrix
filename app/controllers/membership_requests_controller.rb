@@ -6,6 +6,7 @@ class MembershipRequestsController < ApplicationController
 
   load_and_authorize_resource :company
   load_and_authorize_resource through: :company, shallow: true
+  permit_params :company_id, :user_id, :status
 
   skip_authorize_resource except: :update
   skip_authorize_resource :company, except: :update
@@ -30,7 +31,7 @@ class MembershipRequestsController < ApplicationController
       create_company_membership(@membership_request)
     end
 
-    @membership_request.update_attributes(params[:membership_request])
+    @membership_request.update_attributes(membership_request_params)
     email_membership_request_response(@membership_request)
 
     redirect_to company_url(@membership_request.company), flash: { warning: 'Membership Request updated.' }
@@ -64,5 +65,11 @@ class MembershipRequestsController < ApplicationController
 
   def email_membership_request_response(membership_request)
     MembershipRequestMailer.membership_request_response_email(membership_request).deliver
+  end
+
+  private
+
+  def membership_request_params
+    params.require(:membership_request).permit(:company_id, :user_id, :status)
   end
 end

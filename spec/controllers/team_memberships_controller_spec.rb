@@ -41,9 +41,9 @@ describe TeamMembershipsController do
 
     it "destroys the requested team_membership" do
       expect {
-        delete :destroy, { id: team_membership.to_param }
+        delete :destroy, { id: team_membership.to_param, format: :json }
       }.to change(TeamMembership, :count).by(-1)
-      response.body.should == " "
+      response.body.should == ""
     end
   end
 end

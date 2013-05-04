@@ -4,9 +4,10 @@ class PairsController < ApplicationController
 
   load_and_authorize_resource :pairing_day
   load_and_authorize_resource :pair, through: :pairing_day, shallow: true
+  permit_all_params
 
   def index
-    @pairs = @pairing_day.pairs.all
+    @pairs = @pairing_day.pairs.to_a
   end
 
   def show
@@ -20,7 +21,7 @@ class PairsController < ApplicationController
   end
 
   def create
-    @pair = @pairing_day.pairs.build(params[:pair])
+    @pair = @pairing_day.pairs.build(pair_params)
 
     if @pair.save
       save_pair_memberships
@@ -39,7 +40,7 @@ class PairsController < ApplicationController
   end
 
   def update
-    if @pair.update_attributes(params[:pair])
+    if @pair.update_attributes(pair_params)
       redirect_to pairing_day_url(@pair.pairing_day), flash: { success: 'Pair was successfully updated.' }
     else
       render action: "edit"
@@ -110,5 +111,11 @@ class PairsController < ApplicationController
         render(json: { success: false })
       end
     end
+  end
+
+  private
+
+  def pair_params
+    params.require(:pair).permit(team_membership_ids: [])
   end
 end

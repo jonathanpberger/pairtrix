@@ -20,7 +20,7 @@ describe UsersController do
       it "updates the current_user" do
         User.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
         put :update, {id: user.to_param, user: {'these' => 'params'}, format: 'json'}
-        response.body.should == " "
+        response.body.should == ""
       end
     end
   end

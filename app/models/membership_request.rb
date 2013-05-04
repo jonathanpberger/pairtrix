@@ -1,7 +1,5 @@
 class MembershipRequest < ActiveRecord::Base
 
-  attr_accessible :company_id, :user_id, :status
-
   STATUSES = ["Pending", "Approved", "Denied"]
 
   belongs_to :company
@@ -38,5 +36,4 @@ class MembershipRequest < ActiveRecord::Base
   def generate_hash_key
     self.hash_key = Digest::MD5.hexdigest("#{company_id}:#{user_id}:#{Time.current.usec}")
   end
-
 end

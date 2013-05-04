@@ -69,7 +69,7 @@ describe MembershipRequestsController do
     let(:mailer) { double(:mailer, deliver: true) }
 
     def do_update
-      put :update, { id: membership_request.to_param, membership_request: {}, commit: commit_type}, valid_session
+      put :update, { id: membership_request.to_param, membership_request: {'status' => ''}, commit: commit_type}, valid_session
     end
 
     before do

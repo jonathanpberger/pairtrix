@@ -91,14 +91,14 @@ describe CompaniesController do
       it "assigns a newly created but unsaved company as @company" do
         # Trigger the behavior that occurs when invalid params are submitted
         Company.any_instance.stub(:save).and_return(false)
-        post :create, {:company => {}}, valid_session
+        post :create, {:company => {'name' => ''}}, valid_session
         assigns(:company).should be_a_new(Company)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Company.any_instance.stub(:save).and_return(false)
-        post :create, {:company => {}}, valid_session
+        post :create, {:company => {'name' => ''}}, valid_session
         response.should render_template("new")
       end
     end
@@ -111,8 +111,8 @@ describe CompaniesController do
 
     describe "with valid params" do
       it "updates the requested company" do
-        Company.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => company.to_param, :company => {'these' => 'params'}}, valid_session
+        Company.any_instance.should_receive(:update_attributes).with({'name' => 'params'})
+        put :update, {:id => company.to_param, :company => {'name' => 'params'}}, valid_session
       end
 
       it "assigns the requested company as @company" do
@@ -130,14 +130,14 @@ describe CompaniesController do
       it "assigns the company as @company" do
         # Trigger the behavior that occurs when invalid params are submitted
         Company.any_instance.stub(:save).and_return(false)
-        put :update, {:id => company.to_param, :company => {}}, valid_session
+        put :update, {:id => company.to_param, :company => {'name' => ''}}, valid_session
         assigns(:company).should eq(company)
       end
 
       it "re-renders the 'edit' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Company.any_instance.stub(:save).and_return(false)
-        put :update, {:id => company.to_param, :company => {}}, valid_session
+        put :update, {:id => company.to_param, :company => {'name' => ''}}, valid_session
         response.should render_template("edit")
       end
     end

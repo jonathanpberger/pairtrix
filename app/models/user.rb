@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  attr_accessible :admin, :email, :name, :provider, :uid, :last_viewed_url, :sign_in_redirect_option
 
   LAST_VIEWED = 'last_viewed'
   DASHBOARD = 'dashboard'

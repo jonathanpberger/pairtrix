@@ -97,14 +97,8 @@ describe CompanyMembershipsController do
       it "assigns a newly created but unsaved company_membership as @company_membership" do
         # Trigger the behavior that occurs when invalid params are submitted
         CompanyMembership.any_instance.stub(:save).and_return(false)
-        post :create, {company_id: company.to_param, company_membership: {}}, valid_session
+        post :create, {company_id: company.to_param, company_membership: {'role' => ''}}, valid_session
         assigns(:company_membership).should be_a_new(CompanyMembership)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        CompanyMembership.any_instance.stub(:save).and_return(false)
-        post :create, {company_id: company.to_param, company_membership: {}}, valid_session
         response.should render_template("new")
       end
     end
@@ -117,17 +111,9 @@ describe CompanyMembershipsController do
 
     describe "with valid params" do
       it "updates the requested company_membership" do
-        CompanyMembership.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {id: company_membership.to_param, company_membership: {'these' => 'params'}}, valid_session
-      end
-
-      it "assigns the requested company_membership as @company_membership" do
-        put :update, {id: company_membership.to_param, company_membership: valid_attributes}, valid_session
+        CompanyMembership.any_instance.should_receive(:update_attributes).with({'company_id' => '1'}).and_return(true)
+        put :update, {id: company_membership.to_param, company_membership: {'company_id' => '1'}}, valid_session
         assigns(:company_membership).should eq(company_membership)
-      end
-
-      it "redirects to the company_membership" do
-        put :update, {id: company_membership.to_param, company_membership: valid_attributes}, valid_session
         response.should redirect_to(company_company_memberships_url(company))
       end
     end
@@ -136,14 +122,8 @@ describe CompanyMembershipsController do
       it "assigns the company_membership as @company_membership" do
         # Trigger the behavior that occurs when invalid params are submitted
         CompanyMembership.any_instance.stub(:save).and_return(false)
-        put :update, {id: company_membership.to_param, company_membership: {}}, valid_session
+        put :update, {id: company_membership.to_param, company_membership: {'role' => ''}}, valid_session
         assigns(:company_membership).should eq(company_membership)
-      end
-
-      it "re-renders the 'edit' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        CompanyMembership.any_instance.stub(:save).and_return(false)
-        put :update, {id: company_membership.to_param, company_membership: {}}, valid_session
         response.should render_template("edit")
       end
     end

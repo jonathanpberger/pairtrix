@@ -82,12 +82,12 @@ describe PairingDaysController do
       end
 
       it "assigns a newly created but unsaved pairing_day as @pairing_day" do
-        post :create, { team_id: team.to_param, pairing_day: {} }, valid_session
+        post :create, { team_id: team.to_param, pairing_day: {'team_id' => ''} }, valid_session
         assigns(:pairing_day).should be_a_new(PairingDay)
       end
 
       it "re-renders the 'new' template" do
-        post :create, { team_id: team.to_param, pairing_day: {} }, valid_session
+        post :create, { team_id: team.to_param, pairing_day: {'team_id' => ''} }, valid_session
         response.should render_template("new")
       end
     end
@@ -96,8 +96,8 @@ describe PairingDaysController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested pairing_day" do
-        PairingDay.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, { id: pairing_day.to_param, pairing_day: {'these' => 'params'} }, valid_session
+        PairingDay.any_instance.should_receive(:update_attributes).with({'team_id' => 'params'})
+        put :update, { id: pairing_day.to_param, pairing_day: {'team_id' => 'params'} }, valid_session
       end
 
       it "assigns the requested pairing_day as @pairing_day" do
@@ -115,14 +115,14 @@ describe PairingDaysController do
       it "assigns the pairing_day as @pairing_day" do
         # Trigger the behavior that occurs when invalid params are submitted
         PairingDay.any_instance.stub(:save).and_return(false)
-        put :update, { id: pairing_day.to_param, pairing_day: {} }, valid_session
+        put :update, { id: pairing_day.to_param, pairing_day: {'team_id' => ''} }, valid_session
         assigns(:pairing_day).should eq(pairing_day)
       end
 
       it "re-renders the 'edit' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         PairingDay.any_instance.stub(:save).and_return(false)
-        put :update, { id: pairing_day.to_param, pairing_day: {} }, valid_session
+        put :update, { id: pairing_day.to_param, pairing_day: {'team_id' => ''} }, valid_session
         response.should render_template("edit")
       end
     end

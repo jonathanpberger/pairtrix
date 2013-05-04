@@ -77,7 +77,7 @@ describe EmployeesController do
       it "assigns a newly created but unsaved employee as @employee" do
         # Trigger the behavior that occurs when invalid params are submitted
         Employee.any_instance.stub(:save).and_return(false)
-        post :create, {company_id: company.to_param, employee: {}}, valid_session
+        post :create, {company_id: company.to_param, employee: {'first_name' => ''}}, valid_session
         assigns(:employee).should be_a_new(Employee)
       end
     end
@@ -90,8 +90,8 @@ describe EmployeesController do
 
     describe "with valid params" do
       it "updates the requested employee" do
-        Employee.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {id: employee.to_param, employee: {'these' => 'params'}}, valid_session
+        Employee.any_instance.should_receive(:update_attributes).with({'first_name' => 'params'})
+        put :update, {id: employee.to_param, employee: {'first_name' => 'params'}}, valid_session
       end
 
       it "assigns the requested employee as @employee" do
@@ -109,7 +109,7 @@ describe EmployeesController do
       it "assigns the employee as @employee" do
         # Trigger the behavior that occurs when invalid params are submitted
         Employee.any_instance.stub(:save).and_return(false)
-        put :update, {id: employee.to_param, employee: {}}, valid_session
+        put :update, {id: employee.to_param, employee: {'first_name' => ''}}, valid_session
         assigns(:employee).should eq(employee)
       end
     end

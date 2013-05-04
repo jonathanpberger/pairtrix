@@ -1,8 +1,6 @@
 class Employee < ActiveRecord::Base
-  mount_uploader :avatar, AvatarUploader
 
-  attr_accessible :first_name, :last_name, :company_id, :do_not_pair
-  attr_accessible :avatar, :remote_avatar_url, :avatar_cache, :remove_avatar
+  mount_uploader :avatar, AvatarUploader
 
   validates_presence_of :first_name, :last_name
   validates_uniqueness_of :first_name, scope: [:company_id, :last_name]
@@ -42,5 +40,4 @@ class Employee < ActiveRecord::Base
   def out_of_office_employee?
     id == company.employees.out_of_office_employee.try(:id)
   end
-
 end

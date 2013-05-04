@@ -1,4 +1,5 @@
 class PairGroup
+
   attr_reader :left_membership, :top_membership
 
   def initialize(left_membership, top_membership)
@@ -39,5 +40,4 @@ class PairGroup
       end
     end
   end
-
 end

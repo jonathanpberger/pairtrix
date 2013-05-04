@@ -79,7 +79,7 @@ describe TeamsController do
       it "assigns a newly created but unsaved team as @team" do
         # Trigger the behavior that occurs when invalid params are submitted
         Team.any_instance.stub(:save).and_return(false)
-        post :create, {company_id: company.to_param, team: {}}, valid_session
+        post :create, {company_id: company.to_param, team: {'name' => ''}}, valid_session
         assigns(:team).should be_a_new(Team)
       end
     end
@@ -92,8 +92,8 @@ describe TeamsController do
 
     describe "with valid params" do
       it "updates the requested team" do
-        Team.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {id: team.to_param, team: {'these' => 'params'}}, valid_session
+        Team.any_instance.should_receive(:update_attributes).with({'name' => 'params'})
+        put :update, {id: team.to_param, team: {'name' => 'params'}}, valid_session
       end
 
       it "assigns the requested team as @team" do
@@ -111,7 +111,7 @@ describe TeamsController do
       it "assigns the team as @team" do
         # Trigger the behavior that occurs when invalid params are submitted
         Team.any_instance.stub(:save).and_return(false)
-        put :update, {id: team.to_param, team: {}}, valid_session
+        put :update, {id: team.to_param, team: {'name' => ''}}, valid_session
         assigns(:team).should eq(team)
       end
     end

@@ -1,5 +1,4 @@
 class PairingDay < ActiveRecord::Base
-  attr_accessible :team_id, :pairing_date
 
   belongs_to :team
 
@@ -59,5 +58,4 @@ class PairingDay < ActiveRecord::Base
     ids = pairs.map(&:team_membership_ids).flatten
     ids.any? ? ids : [0]
   end
-
 end
