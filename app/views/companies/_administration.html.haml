@@ -13,7 +13,7 @@
       %h5
         Change Company Ownership
       = simple_form_for @company do |f|
-        = f.input :user_id, collection: @company.company_memberships.all.map(&:user), include_blank: false
+        = f.input :user_id, collection: @company.company_memberships.to_a.map { |m| m.user ? ["#{m.user.name} (#{m.user.email})", m.user.id] : nil }.compact, include_blank: false
         = f.button :wrapped, value: "Change Company Ownership"
 
       - if (can? :update, @company.membership_requests.build) && (@company.membership_requests.pending.any?)
