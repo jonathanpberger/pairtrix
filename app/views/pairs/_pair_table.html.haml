@@ -13,5 +13,4 @@
       %th
         Action
   %tbody
-    = render(partial: "pairs/pair_row", collection: pairing_day.pairs.all, as: 'pair')
-
+    = render(partial: "pairs/pair_row", collection: pairing_day.pairs.to_a, as: 'pair')
