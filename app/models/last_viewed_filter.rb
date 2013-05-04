@@ -1,5 +1,5 @@
 class LastViewedFilter
-  def self.filter(controller)
+  def before(controller)
     current_user = controller.send(:current_user)
     request_method = controller.request.method
 
