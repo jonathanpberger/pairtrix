@@ -31,6 +31,7 @@ gem "newrelic_rpm"
 
 group :test do
   gem "webmock"
+  gem "poltergeist"
 end
 
 group :development do

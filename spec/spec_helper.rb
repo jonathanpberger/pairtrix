@@ -6,6 +6,9 @@ require 'rspec/autorun'
 require 'capybara/rails'
 require 'capybara/rspec'
 require 'webmock/rspec'
+require 'capybara/poltergeist'
+
+Capybara.javascript_driver = :poltergeist
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -47,7 +50,7 @@ RSpec.configure do |config|
     if example.metadata[:type] == :feature
       DatabaseCleaner.strategy = :truncation
       DatabaseCleaner.start
-      Capybara.current_driver = :selenium # or equivalent javascript driver you are using
+      # Capybara.current_driver = :selenium # or equivalent javascript driver you are using
       OmniAuth.config.test_mode = true
       # the symbol passed to mock_auth is the same as the name of the provider set up in the initializer
       OmniAuth.config.add_mock(:google_oauth2,
