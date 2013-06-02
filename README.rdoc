@@ -6,3 +6,5 @@
 
 An application to allow companies to create teams of employess and pair them together.
 
+== License
+Pairtrix is released under the MIT License. http://www.opensource.org/licenses/mit-license
